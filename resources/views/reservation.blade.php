@@ -19,6 +19,20 @@
       <div class="col-sm-12 p-4 p-md-5 d-flex align-items-center justify-content-center bg-primary">
         <form action="{{ route('booking.store') }}" method="POST" class="appointment-form">
           @csrf
+          @if(session('success'))
+            <div class="alert alert-success mb-4" role="alert">
+              {{ session('success') }}
+            </div>
+          @endif
+          @if($errors->any())
+            <div class="alert alert-danger mb-4" role="alert">
+              <ul class="mb-0 pl-3">
+                @foreach($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
           <h3 class="mb-3">Book your Table</h3>
           <div class="row justify-content-center">
             <div class="col-md-4">
