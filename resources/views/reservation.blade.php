@@ -71,9 +71,9 @@
                 <div class="form-field">
                   <div class="select-wrap">
                     <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                    <select name="noofv" class="form-control">
-                      <option value="">Guest</option>
-                      <option value="1">1</option>
+                    <select name="noofv" class="form-control" required>
+                      <option value="" disabled>Guest</option>
+                      <option value="1" selected>1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
                       <option value="4">4</option>
