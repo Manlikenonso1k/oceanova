@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
@@ -10,3 +11,5 @@ Route::view('/reservation', 'reservation')->name('reservation');
 Route::view('/blog', 'blog')->name('blog');
 Route::view('/blog-single', 'blog-single')->name('blog.single');
 Route::view('/contact', 'contact')->name('contact');
+
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
