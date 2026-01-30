@@ -3,6 +3,11 @@ RewriteEngine On
 
 # Allow Installatron requests
 RewriteCond %{REQUEST_FILENAME} deleteme\.\w+\.php
-RewriteRule (.*) - [L] 
+RewriteRule (.*) - [L]
 
-RewriteRule ^ index.php [L]
+# If the app is hosted with the project root as document root,
+# rewrite requests into /public so assets load correctly.
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]
