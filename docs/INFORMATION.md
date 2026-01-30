@@ -31,5 +31,9 @@ Integrated the Taste.it Bootstrap template into the Laravel Blade system and rou
   - /contact
 - Updated the navbar in resources/views/layouts/app.blade.php to use named routes and active state.
 
+## Hosting Fixes
+- Added root-level rewrite rules in .htaccess to forward requests into /public when the project root is used as the document root.
+- Added a JS asset base (`window.TEMPLATE_ASSET_BASE`) and fixed the map marker path in public/assets/template/js/google-map.js.
+
 ## Result
 The site now renders the Taste.it template through Blade and Laravel routing, preserving the original responsive design and layout behavior.
