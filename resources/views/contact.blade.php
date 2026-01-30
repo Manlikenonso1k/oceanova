@@ -27,17 +27,17 @@
       </div>
       <div class="col-md-3 d-flex">
         <div class="dbox">
-          <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+          <p><span>Phone:</span> <a href="tel://+2347046546467">+23470-46-546-467</a></p>
         </div>
       </div>
       <div class="col-md-3 d-flex">
         <div class="dbox">
-          <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+          <p><span>Email:</span> <a href="mailto:enquiries@oceanova.com">enquiries@oceanova.com</a></p>
         </div>
       </div>
       <div class="col-md-3 d-flex">
         <div class="dbox">
-          <p><span>Website</span> <a href="#">yoursite.com</a></p>
+          <p><span>Website</span> <a href="#">oceanova.com</a></p>
         </div>
       </div>
     </div>
