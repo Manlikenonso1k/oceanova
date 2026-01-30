@@ -24,10 +24,8 @@ class BookingController extends Controller
         ]);
 
         $adminRecipients = [
-            'booking@icelandbeach.com',
+            'enquiries@oceanova.ng',
             'v.chinonso@collegeofartslagos.com',
-            'akapo@icelandbeach.com',
-            'info@icelandbeach.com',
         ];
 
         Mail::to($adminRecipients)->send(new AdminBookingNotification($validated));
