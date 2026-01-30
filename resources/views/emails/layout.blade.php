@@ -13,7 +13,7 @@
                 <tr>
                     <td style="background-image:url('{{ asset('assets/template/images/bg_1.jpg') }}');background-size:cover;background-position:center;padding:28px 32px;">
                         <div style="background:rgba(0,0,0,0.55);padding:16px;border-radius:6px;">
-                            <h1 style="margin:0;color:#ffffff;font-size:22px;letter-spacing:1px;">Taste.it</h1>
+                            <h1 style="margin:0;color:#ffffff;font-size:22px;letter-spacing:1px;">oceanova</h1>
                             <p style="margin:6px 0 0;color:#f1f1f1;font-size:14px;">Restaurant Booking</p>
                         </div>
                     </td>

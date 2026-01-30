@@ -37,3 +37,15 @@ Integrated the Taste.it Bootstrap template into the Laravel Blade system and rou
 
 ## Result
 The site now renders the Taste.it template through Blade and Laravel routing, preserving the original responsive design and layout behavior.
+
+## Email Booking Notifications
+- Added booking controller (app/Http/Controllers/BookingController.php) to handle form submissions.
+- Added mailables for admin and user notifications:
+  - app/Mail/AdminBookingNotification.php
+  - app/Mail/UserBookingConfirmation.php
+- Added shared HTML email layout and templates:
+  - resources/views/emails/layout.blade.php
+  - resources/views/emails/admin-booking.blade.php
+  - resources/views/emails/user-booking.blade.php
+- Wired booking forms to POST /booking and added success/error UI on the reservation page.
+- Updated .env.example with SMTP 465/SSL placeholders.
