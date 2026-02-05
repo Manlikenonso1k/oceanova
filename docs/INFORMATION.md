@@ -49,3 +49,23 @@ The site now renders the Taste.it template through Blade and Laravel routing, pr
   - resources/views/emails/user-booking.blade.php
 - Wired booking forms to POST /booking and added success/error UI on the reservation page.
 - Updated .env.example with SMTP 465/SSL placeholders.
+
+## Newsletter System
+- Added newsletter subscribe form in the footer and wired it to POST /newsletter/subscribe.
+- Created NewsletterSubscriber model and migration:
+  - app/Models/NewsletterSubscriber.php
+  - database/migrations/2026_02_05_000003_create_newsletter_subscribers_table.php
+- Added newsletter controller:
+  - app/Http/Controllers/NewsletterController.php
+- Added newsletter mailable and template:
+  - app/Mail/NewsletterDigest.php
+  - resources/views/emails/newsletter-digest.blade.php
+- Added Artisan command and scheduled it every 3 days:
+  - app/Console/Commands/SendNewsletterDigest.php
+  - routes/console.php
+- Registered command discovery in bootstrap/app.php.
+
+## Content & Copy Updates
+- Updated home/about/reservation “Perfect Ingredients” section with a Gordon Ramsay–inspired quote.
+- Rewrote homepage testimonials and chef bios with human, unique text and mirrored testimonials on the about page.
+- Updated footer brand description and newsletter blurb in resources/views/layouts/app.blade.php.

@@ -10,6 +10,8 @@
 - Fix 403/denied asset loading by adjusting hosting rewrites.
 - Add Laravel booking mail notifications with Hostinger SMTP.
 - Troubleshoot mailer configuration errors and form validation.
+- Replace placeholder copy (about, testimonials, chefs, footer) with real content.
+- Add newsletter subscribe + scheduled email every 3 days.
 
 ## Results
 - Assets moved into public/assets/template/.
@@ -24,12 +26,17 @@
 - Booking forms wired to POST /booking with CSRF protection.
 - Reservation page displays success and validation errors.
 - .env.example aligned with SMTP 465/SSL.
+- Perfect Ingredients copy updated across home/about/reservation.
+- Home testimonials and chef bios rewritten; about testimonials mirrored.
+- Footer brand description and newsletter blurb updated.
+- Newsletter system added (subscribe form, model, migration, mailable, command, schedule).
 
 ## Problems Encountered
 - Static assets (CSS/JS/images) returned 403/denied when the site was served from the project root.
 - Mailer error: "Mailer [smtps] is not defined."
 - SMTP authentication failed (535).
 - Validation error: "The noofv field is required."
+- Server CLI used PHP 8.1 while composer requires 8.2+.
 
 ## Fixes Applied
 - Added rewrite rules in .htaccess to forward requests into /public.
@@ -37,3 +44,4 @@
 - Changed mailer to `smtp` and used `MAIL_ENCRYPTION=ssl` for port 465.
 - Instructed quoting passwords with special characters in .env.
 - Required guest count and set a default value in reservation form.
+- Ran Artisan with Hostinger’s PHP 8.3 binary: /opt/alt/php83/usr/bin/php.
