@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <td style="padding:20px 32px;background:#111111;color:#cccccc;font-size:12px;text-align:center;">
-                        <p style="margin:0;">&copy; {{ date('Y') }} Taste.it. All rights reserved.</p>
+                        <p style="margin:0;">&copy; {{ date('Y') }} oceanova. All rights reserved.</p>
                     </td>
                 </tr>
             </table>
