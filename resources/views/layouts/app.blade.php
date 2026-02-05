@@ -6,6 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Oceanova offers an exquisite fine dining experience with a curated menu of gourmet dishes, private dinners, and happy hours in Nigeria.">
 	<link rel="canonical" href="{{ url()->current() }}">
+	<meta property="og:image" content="{{ asset('images/oceanova-restaurant.jpeg') }}">
+	<meta property="og:image:alt" content="Oceanova fine dining restaurant">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:image" content="{{ asset('images/oceanova-restaurant.jpeg') }}">
 
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,7 +33,7 @@
 			"description": "Fine dining restaurant offering private dinners and happy hours.",
 			"address": {
 				"@type": "PostalAddress",
-				"streetAddress": "Okun Ajah",
+				"streetAddress": "Plot 7/8 Okun-Ajah Community Rd",
 				"addressLocality": "Lagos",
 				"addressCountry": "NG"
 			},
