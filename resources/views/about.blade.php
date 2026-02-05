@@ -24,7 +24,7 @@
         <div class="heading-section ftco-animate mb-5">
           <span class="subheading">This is our secrets</span>
           <h2 class="mb-4">Perfect Ingredients</h2>
-          <p>Gordon Ramsay‑inspired: “Great dishes begin with great ingredients—fresh, seasonal, and treated with respect.”</p>
+          <p>“Great dishes begin with great ingredients—fresh, seasonal, and treated with respect.”</p>
           <p><a href="#" class="btn btn-primary">Learn more</a></p>
         </div>
       </div>
@@ -101,13 +101,13 @@
           <div class="item">
             <div class="testimony-wrap text-center">
               <div class="text p-3">
-                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                <p class="mb-4">The ambiance is calm and elegant, and the seafood platter was perfectly seasoned. We’ll definitely be back for another date night.</p>
                 <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
                 </div>
-                <p class="name">John Gustavo</p>
+                <p class="name">Adaeze N.</p>
                 <span class="position">Customer</span>
               </div>
             </div>
@@ -115,13 +115,13 @@
           <div class="item">
             <div class="testimony-wrap text-center">
               <div class="text p-3">
-                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                <p class="mb-4">Service was fast and friendly, and the grilled prawns were the best I’ve had in Lagos. The view and music sealed it.</p>
                 <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
                 </div>
-                <p class="name">John Gustavo</p>
+                <p class="name">Tobi A.</p>
                 <span class="position">Customer</span>
               </div>
             </div>
@@ -129,13 +129,13 @@
           <div class="item">
             <div class="testimony-wrap text-center">
               <div class="text p-3">
-                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                <p class="mb-4">Oceanova feels premium without being stiff. Every course was balanced, and the dessert tasting left us speechless.</p>
                 <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
                 </div>
-                <p class="name">John Gustavo</p>
+                <p class="name">Chinedu K.</p>
                 <span class="position">Customer</span>
               </div>
             </div>
@@ -143,13 +143,13 @@
           <div class="item">
             <div class="testimony-wrap text-center">
               <div class="text p-3">
-                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                <p class="mb-4">We booked for a family celebration and everything was on point—from the starters to the main course. Highly recommended.</p>
                 <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
                 </div>
-                <p class="name">John Gustavo</p>
+                <p class="name">Ifeoma R.</p>
                 <span class="position">Customer</span>
               </div>
             </div>
@@ -157,13 +157,13 @@
           <div class="item">
             <div class="testimony-wrap text-center">
               <div class="text p-3">
-                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                <p class="mb-4">Great flavors, clean plating, and the staff really paid attention to our preferences. Oceanova is now my go‑to.</p>
                 <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
                 </div>
-                <p class="name">John Gustavo</p>
+                <p class="name">Seyi M.</p>
                 <span class="position">Customer</span>
               </div>
             </div>
