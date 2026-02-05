@@ -715,7 +715,7 @@
 			<div class="row py-2">
 				<div class="col-md-12 text-center">
 					<h2>We Make Delicious &amp; Nutritious Food</h2>
-					<a href="#" class="btn btn-white btn-outline-white">Book A Table Now</a>
+					<a href="https://oceanova.ng/reservation" class="btn btn-white btn-outline-white">Book A Table Now</a>
 				</div>
 			</div>
 		</div>
