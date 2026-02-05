@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Taste.it - Free Bootstrap 4 Template by Colorlib</title>
+	<title>Oceanova - Enjoy Fine dining</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -44,7 +44,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="{{ route('home') }}">Taste.<span>it</span></a>
+			<a class="navbar-brand" href="{{ route('home') }}">Oceanova</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
@@ -71,7 +71,7 @@
 			<div class="row mb-5">
 				<div class="col-md-6 col-lg-3">
 					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Taste.it</h2>
+						<h2 class="ftco-heading-2">Oceanova</h2>
 						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
 						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
 							<li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
