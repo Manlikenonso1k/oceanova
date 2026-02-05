@@ -109,7 +109,7 @@
 								</div>
 							</div>
 							<div class="pl-lg-3 ml-md-5">
-								<p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+								<p>Located in Okun Ajah, Oceanova brings you a refined fine‑dining experience you have never seen before. From our international dishes crafted by professional chefs to our warm, attentive service, every visit is designed to feel special. Whether you are celebrating a milestone or enjoying a quiet evening, Oceanova blends flavor, comfort, and elegance to create an unforgettable culinary moment.</p>
 							</div>
 						</div>
 					</div>
@@ -469,13 +469,13 @@
 						<div class="item">
 							<div class="testimony-wrap text-center">
 								<div class="text p-3">
-									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+									<p class="mb-4">The ambiance is calm and elegant, and the seafood platter was perfectly seasoned. We’ll definitely be back for another date night.</p>
 									<div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
 										<span class="quote d-flex align-items-center justify-content-center">
 											<i class="fa fa-quote-left"></i>
 										</span>
 									</div>
-									<p class="name">John Gustavo</p>
+									<p class="name">Adaeze N.</p>
 									<span class="position">Customer</span>
 								</div>
 							</div>
@@ -483,13 +483,13 @@
 						<div class="item">
 							<div class="testimony-wrap text-center">
 								<div class="text p-3">
-									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+									<p class="mb-4">Service was fast and friendly, and the grilled prawns were the best I’ve had in Lagos. The view and music sealed it.</p>
 									<div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
 										<span class="quote d-flex align-items-center justify-content-center">
 											<i class="fa fa-quote-left"></i>
 										</span>
 									</div>
-									<p class="name">John Gustavo</p>
+									<p class="name">Tobi A.</p>
 									<span class="position">Customer</span>
 								</div>
 							</div>
@@ -497,13 +497,13 @@
 						<div class="item">
 							<div class="testimony-wrap text-center">
 								<div class="text p-3">
-									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+									<p class="mb-4">Oceanova feels premium without being stiff. Every course was balanced, and the dessert tasting left us speechless.</p>
 									<div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
 										<span class="quote d-flex align-items-center justify-content-center">
 											<i class="fa fa-quote-left"></i>
 										</span>
 									</div>
-									<p class="name">John Gustavo</p>
+									<p class="name">Chinedu K.</p>
 									<span class="position">Customer</span>
 								</div>
 							</div>
@@ -511,13 +511,13 @@
 						<div class="item">
 							<div class="testimony-wrap text-center">
 								<div class="text p-3">
-									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+									<p class="mb-4">We booked for a family celebration and everything was on point—from the starters to the main course. Highly recommended.</p>
 									<div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
 										<span class="quote d-flex align-items-center justify-content-center">
 											<i class="fa fa-quote-left"></i>
 										</span>
 									</div>
-									<p class="name">John Gustavo</p>
+									<p class="name">Ifeoma R.</p>
 									<span class="position">Customer</span>
 								</div>
 							</div>
@@ -525,13 +525,13 @@
 						<div class="item">
 							<div class="testimony-wrap text-center">
 								<div class="text p-3">
-									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+									<p class="mb-4">Great flavors, clean plating, and the staff really paid attention to our preferences. Oceanova is now my go‑to.</p>
 									<div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
 										<span class="quote d-flex align-items-center justify-content-center">
 											<i class="fa fa-quote-left"></i>
 										</span>
 									</div>
-									<p class="name">John Gustavo</p>
+									<p class="name">Seyi M.</p>
 									<span class="position">Customer</span>
 								</div>
 							</div>
@@ -558,7 +558,7 @@
 							<h3>John Gustavo</h3>
 							<span class="position mb-2">CEO, Co Founder</span>
 							<div class="faded">
-								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+									<p>Passionate about hospitality, John oversees the dining experience and ensures every guest feels welcomed and cared for.</p>
 								<ul class="ftco-social d-flex">
 									<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 									<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -576,7 +576,7 @@
 							<h3>Michelle Fraulen</h3>
 							<span class="position mb-2">Head Chef</span>
 							<div class="faded">
-								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+									<p>Michelle leads the kitchen with a focus on seasonal ingredients and bold flavors inspired by coastal cuisines.</p>
 								<ul class="ftco-social d-flex">
 									<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 									<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -594,7 +594,7 @@
 							<h3>Alfred Smith</h3>
 							<span class="position mb-2">Chef Cook</span>
 							<div class="faded">
-								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+									<p>Alfred specializes in modern comfort food, bringing classic dishes to life with refined techniques.</p>
 								<ul class="ftco-social d-flex">
 									<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 									<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -612,7 +612,7 @@
 							<h3>Antonio Santibanez</h3>
 							<span class="position mb-2">Chef Cook</span>
 							<div class="faded">
-								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+									<p>Antonio is known for his meticulous plating and house-made sauces that elevate every main course.</p>
 								<ul class="ftco-social d-flex">
 									<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 									<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
