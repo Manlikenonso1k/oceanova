@@ -24,7 +24,7 @@
         <div class="heading-section ftco-animate mb-5">
           <span class="subheading">This is our secrets</span>
           <h2 class="mb-4">Perfect Ingredients</h2>
-          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          <p>Gordon Ramsay‑inspired: “Great dishes begin with great ingredients—fresh, seasonal, and treated with respect.”</p>
           <p><a href="#" class="btn btn-primary">Learn more</a></p>
         </div>
       </div>
