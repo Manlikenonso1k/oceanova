@@ -20,7 +20,7 @@
         <h2 class="mb-3">#1. Creative WordPress Themes</h2>
         <p>Temporibus ad error suscipit exercitationem hic molestiae totam obcaecati rerum, eius aut, in. Exercitationem atque quidem tempora maiores ex architecto voluptatum aut officia doloremque. Error dolore voluptas, omnis molestias odio dignissimos culpa ex earum nisi consequatur quos odit quasi repellat qui officiis reiciendis incidunt hic non? Debitis commodi aut, adipisci.</p>
         <p>
-          <img src="{{ asset('assets/template/images/image_2.jpg') }}" alt="" class="img-fluid">
+          <img src="{{ asset('assets/template/images/image_2.jpg') }}" alt="Oceanova blog feature dish" class="img-fluid">
         </p>
         <p>Quisquam esse aliquam fuga distinctio, quidem delectus veritatis reiciendis. Nihil explicabo quod, est eos ipsum. Unde aut non tenetur tempore, nisi culpa voluptate maiores officiis quis vel ab consectetur suscipit veritatis nulla quos quia aspernatur perferendis, libero sint. Error, velit, porro. Deserunt minus, quibusdam iste enim veniam, modi rem maiores.</p>
         <p>Odit voluptatibus, eveniet vel nihil cum ullam dolores laborum, quo velit commodi rerum eum quidem pariatur! Quia fuga iste tenetur, ipsa vel nisi in dolorum consequatur, veritatis porro explicabo soluta commodi libero voluptatem similique id quidem? Blanditiis voluptates aperiam non magni. Reprehenderit nobis odit inventore, quia laboriosam harum excepturi ea.</p>
@@ -37,7 +37,7 @@
 
         <div class="about-author d-flex p-4 bg-light">
           <div class="bio mr-5">
-            <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Image placeholder" class="img-fluid mb-4">
+            <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Author portrait" class="img-fluid mb-4">
           </div>
           <div class="desc">
             <h3>George Washington</h3>
@@ -50,7 +50,7 @@
           <ul class="comment-list">
             <li class="comment">
               <div class="vcard bio">
-                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Image placeholder">
+                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
               </div>
               <div class="comment-body">
                 <h3>John Doe</h3>
@@ -62,7 +62,7 @@
 
             <li class="comment">
               <div class="vcard bio">
-                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Image placeholder">
+                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
               </div>
               <div class="comment-body">
                 <h3>John Doe</h3>
@@ -74,7 +74,7 @@
               <ul class="children">
                 <li class="comment">
                   <div class="vcard bio">
-                    <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Image placeholder">
+                    <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
                   </div>
                   <div class="comment-body">
                     <h3>John Doe</h3>
@@ -86,7 +86,7 @@
                   <ul class="children">
                     <li class="comment">
                       <div class="vcard bio">
-                        <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Image placeholder">
+                        <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
                       </div>
                       <div class="comment-body">
                         <h3>John Doe</h3>
@@ -98,7 +98,7 @@
                       <ul class="children">
                         <li class="comment">
                           <div class="vcard bio">
-                            <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Image placeholder">
+                            <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
                           </div>
                           <div class="comment-body">
                             <h3>John Doe</h3>
@@ -116,7 +116,7 @@
 
             <li class="comment">
               <div class="vcard bio">
-                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Image placeholder">
+                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
               </div>
               <div class="comment-body">
                 <h3>John Doe</h3>

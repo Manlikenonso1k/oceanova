@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Oceanova - Enjoy Fine dining</title>
+	<title>@yield('title', 'Oceanova - Enjoy Fine Dining')</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Oceanova offers an exquisite fine dining experience with a curated menu of gourmet dishes, private dinners, and happy hours in Nigeria.">
+	<link rel="canonical" href="{{ url()->current() }}">
 
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,6 +20,22 @@
 	<link rel="stylesheet" href="{{ asset('assets/template/css/jquery.timepicker.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/template/css/flaticon.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/template/css/style.css') }}">
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Restaurant",
+			"name": "Oceanova",
+			"url": "https://oceanova.ng",
+			"description": "Fine dining restaurant offering private dinners and happy hours.",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "Okun Ajah",
+				"addressLocality": "Lagos",
+				"addressCountry": "NG"
+			},
+			"menu": "https://oceanova.ng/menu"
+		}
+	</script>
 </head>
 <body>
 
@@ -135,7 +153,7 @@
 				<div class="col-md-12 text-center">
 
 					<p class="mb-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+						Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" rel="nofollow noopener">Colorlib</a>
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
 					</div>
 				</div>

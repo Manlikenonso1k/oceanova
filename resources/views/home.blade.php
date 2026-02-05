@@ -10,7 +10,7 @@
 						<div class="col-md-12 ftco-animate">
 							<div class="text w-100 mt-5 text-center">
 								<span class="subheading">oceanova Restaurant</h2></span>
-								<h1>Cooking Since</h1>
+								<h2>Cooking Since</h2>
 								<span class="subheading-2">1958</span>
 							</div>
 						</div>
@@ -25,7 +25,7 @@
 						<div class="col-md-12 ftco-animate">
 							<div class="text w-100 mt-5 text-center">
 								<span class="subheading">oceanova Restaurant</h2></span>
-								<h1>Best Quality</h1>
+								<h2>Best Quality</h2>
 								<span class="subheading-2 sub">Food</span>
 							</div>
 						</div>
@@ -105,7 +105,7 @@
 							<div class="heading-section mt-5 mb-4">
 								<div class="pl-lg-3 ml-md-5">
 									<span class="subheading">About</span>
-									<h2 class="mb-4">Welcome to Oceanova</h2>
+									<h1 class="mb-4">Welcome to Oceanova</h1>
 								</div>
 							</div>
 							<div class="pl-lg-3 ml-md-5">
