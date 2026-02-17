@@ -41,7 +41,7 @@
 		}
 	</script>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
 	<div class="wrap">
 		<div class="container">
