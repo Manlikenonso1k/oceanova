@@ -4,42 +4,88 @@
 @php
     use Illuminate\Support\Str;
 
-    $tiers = [
+    $sections = [
         [
-            'tier' => 'Budget',
-            'price' => '₦5,000 - ₦7,000',
-            'example' => 'Pap & Moi Moi, Sides (Fries)',
-            'tags' => ['V', 'L'],
+            'title' => 'Breakfast Selections',
+            'subtitle' => 'International & Nigerian Classics',
+            'items' => [
+                ['name' => 'English Breakfast', 'price' => '₦18,347', 'description' => 'Eggs, sausage, grilled tomato, baked beans, toast.', 'tags' => ['P']],
+                ['name' => 'French Traditional Potato Omelette', 'price' => '₦21,500', 'description' => 'Potato, bacon, herbs, and toast.', 'tags' => ['P']],
+                ['name' => 'Designed Oatmeal', 'price' => '₦8,900', 'description' => 'Creamy oatmeal, seasonal fruits, and brown sugar.', 'tags' => ['V', 'L']],
+                ['name' => 'Boiled Yam/Plantain', 'price' => '₦6,000', 'description' => 'Served with egg or fish sauce.'],
+                ['name' => 'Ewa Agoyin', 'price' => '₦9,500', 'description' => 'Served with bread or plantain.'],
+                ['name' => 'Pap & Moi Moi', 'price' => '₦5,000'],
+                ['name' => 'Pap with Akara or Okpa', 'price' => '₦6,500'],
+                ['name' => 'Congee (Zhōu)', 'price' => '₦5,300', 'description' => 'Savory rice porridge with pork and pickles.', 'tags' => ['P']],
+                ['name' => 'Youtiao & Soy Milk', 'price' => '₦5,300', 'description' => 'Deep-fried dough sticks with sweet/savory soy milk.'],
+                ['name' => 'Spicy Noodles', 'price' => '₦5,300', 'description' => 'Regional morning noodles (Dan Dan style).'],
+                ['name' => 'Chicken & Waffles', 'price' => '₦14,000', 'description' => 'Milk-fried chicken on golden waffles.', 'tags' => ['L']],
+                ['name' => 'Blueberry Pancakes', 'price' => '₦11,000', 'tags' => ['L']],
+                ['name' => 'Plain Pancakes', 'price' => '₦10,000'],
+                ['name' => 'Chocolate Pancakes', 'price' => '₦9,500'],
+                ['name' => 'Mixed Fruits & Yogurt', 'price' => '₦12,000', 'description' => 'Seasonal fruits with creamy yogurt.', 'tags' => ['L']],
+            ],
         ],
         [
-            'tier' => 'Breakfast',
-            'price' => '₦8,900 - ₦21,500',
-            'example' => 'Oatmeal to Traditional Omelette',
-            'tags' => ['V', 'L'],
+            'title' => 'Starters & Soups',
+            'subtitle' => 'Continental and National Pepper Soups',
+            'items' => [
+                ['name' => 'Laksa Soup', 'price' => '₦25,000', 'description' => 'Spicy coconut-based noodle soup.'],
+                ['name' => 'Cream of Mushroom', 'price' => '₦21,000', 'tags' => ['L']],
+                ['name' => 'Tom Yum', 'price' => '₦20,000'],
+                ['name' => 'Potato Soup', 'price' => '₦19,000'],
+                ['name' => 'Chicken Noodle Soup', 'price' => '₦17,000'],
+                ['name' => 'Chicken & Sweetcorn Velouté', 'price' => '₦14,000'],
+                ['name' => 'Snail Pepper Soup', 'price' => '₦38,163', 'tags' => ['S']],
+                ['name' => 'Prawn Pepper Soup', 'price' => '₦37,177', 'tags' => ['S']],
+                ['name' => 'Cow Tail Pepper Soup', 'price' => '₦16,000'],
+                ['name' => 'Chicken / Fish / Goat / Assorted / Native Pepper Soup', 'price' => '₦15,000'],
+                ['name' => 'Beef Pepper Soup', 'price' => '₦11,000'],
+            ],
         ],
         [
-            'tier' => 'Standard Mains',
-            'price' => '₦11,000 - ₦18,000',
-            'example' => 'Beef Pepper Soup, Seafood Fried Rice',
-            'tags' => ['P', 'S'],
+            'title' => 'Salads & Add-Ons',
+            'items' => [
+                ['name' => 'Oceanova Special Seafood Salad', 'price' => '₦17,500', 'tags' => ['S']],
+                ['name' => 'Classic Greek Salad', 'price' => '₦16,000', 'tags' => ['V', 'L']],
+                ['name' => 'Coup Salad / Vegetable Salad', 'price' => '₦15,000', 'tags' => ['V']],
+                ['name' => 'Classic Tuna Caesar', 'price' => '₦13,000'],
+                ['name' => 'Add Chicken', 'price' => '₦12,000'],
+                ['name' => 'Add Prawns', 'price' => '₦8,500', 'tags' => ['S']],
+            ],
         ],
         [
-            'tier' => 'Premium',
-            'price' => '₦19,000 - ₦25,000',
-            'example' => 'Potato Soup, Grilled Salmon, Platters',
-            'tags' => ['S'],
+            'title' => 'Main Courses',
+            'subtitle' => 'Rice, Pasta & Grill',
+            'items' => [
+                ['name' => 'Biryani Rice', 'price' => '₦25,000', 'description' => 'Slow-cooked aromatic basmati.'],
+                ['name' => 'Seafood Fried Rice', 'price' => '₦23,000', 'tags' => ['S']],
+                ['name' => 'Mongolian / Chinese Fried / Oceanova Special Jollof', 'price' => '₦18,000'],
+                ['name' => 'Chicken Alfredo', 'price' => '₦30,000', 'description' => 'Creamy Parmesan sauce.', 'tags' => ['L']],
+                ['name' => 'Stir-Fried Singaporean Noodles', 'price' => '₦25,000', 'tags' => ['S']],
+                ['name' => 'Shrimp Fettuccine / Carbonara', 'price' => '₦24,000', 'tags' => ['P']],
+                ['name' => 'Seafood Lasagna', 'price' => '₦23,000', 'tags' => ['S']],
+                ['name' => 'Penne Pesto', 'price' => '₦21,000', 'tags' => ['V']],
+                ['name' => 'Porterhouse T-Bone Steak / Jumbo Prawns / Grilled Salmon', 'price' => '₦30,000', 'tags' => ['S']],
+                ['name' => 'Turkish Chicken Kebab / Spicy Thai Shrimps / Fish & Chips', 'price' => '₦25,000', 'tags' => ['S']],
+                ['name' => 'Marinated Grilled Fish / Honey-Glazed Turkey', 'price' => '₦21,000'],
+            ],
         ],
         [
-            'tier' => 'Luxury/Specialty',
-            'price' => '₦30,000 - ₦35,000',
-            'example' => 'Chicken Alfredo, Porterhouse Steak',
-            'tags' => ['P', 'L'],
+            'title' => 'National Dishes',
+            'items' => [
+                ['name' => 'National Dish Selection', 'price' => '₦14,000 - ₦25,000', 'description' => 'Choice of protein/swallow.'],
+                ['name' => 'Available Selections', 'description' => 'Banga, Ogbono, Egusi, Afang, Edi Kai Kong, Fisherman Soup, Seafood Okro.'],
+            ],
         ],
         [
-            'tier' => 'Elite Seafood',
-            'price' => '₦37,000 - ₦38,000+',
-            'example' => 'Prawn & Snail Pepper Soups',
-            'tags' => ['S'],
+            'title' => 'Shared Platters & Sides',
+            'items' => [
+                ['name' => 'Seafood Party Platter / Oceanova Seafood Platter', 'price' => '₦30,000', 'tags' => ['S']],
+                ['name' => 'Small Chops / Big House Wings / Coastal Grill Steak', 'price' => '₦25,000'],
+                ['name' => 'South-South Platter', 'price' => '₦21,000'],
+                ['name' => 'Sides', 'price' => '₦5,000 - ₦7,000', 'description' => 'Fries (Yam, Sweet Potato, French), Plantain, Mashed Potatoes, Jollof Rice.'],
+            ],
         ],
     ];
 @endphp
@@ -71,7 +117,7 @@
         <div class="flex flex-col gap-3">
             <span class="text-xs uppercase tracking-[0.3em] text-amber-300">Oceanova Digital Menu</span>
             <div class="flex flex-wrap items-center justify-between gap-4">
-                <h2 class="text-2xl sm:text-3xl font-semibold text-white">Curated dining tiers</h2>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-white">Breakfast, soups, mains and platters</h2>
                 <div class="flex flex-wrap items-center gap-3 text-xs text-amber-100">
                     <span class="inline-flex items-center gap-2">
                         <svg class="h-4 w-4 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -112,9 +158,9 @@
     <div class="sticky top-0 z-30 border-y border-amber-300/30 bg-black/95 backdrop-blur">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex gap-3 overflow-x-auto md:overflow-visible md:flex-wrap md:justify-center py-3">
-                @foreach($tiers as $tier)
-                    <a href="#{{ Str::slug($tier['tier']) }}" class="whitespace-nowrap rounded-full border border-amber-300/40 bg-black px-4 py-2 text-sm font-medium text-amber-100 hover:border-amber-300 hover:text-amber-300 transition">
-                        {{ $tier['tier'] }}
+                @foreach($sections as $section)
+                    <a href="#{{ Str::slug($section['title']) }}" class="whitespace-nowrap rounded-full border border-amber-300/40 bg-black px-4 py-2 text-sm font-medium text-amber-100 hover:border-amber-300 hover:text-amber-300 transition">
+                        {{ $section['title'] }}
                     </a>
                 @endforeach
             </div>
@@ -122,20 +168,24 @@
     </div>
 
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex items-center justify-center pb-6">
-            <div class="h-9 w-9 rounded-full border-2 border-amber-200 border-t-amber-500 animate-spin"></div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($tiers as $tier)
-                <x-menu-item
-                    :id="Str::slug($tier['tier'])"
-                    :tier="$tier['tier']"
-                    :price-range="$tier['price']"
-                    :example="$tier['example']"
-                    :tags="$tier['tags']"
-                />
-            @endforeach
-        </div>
+        @foreach($sections as $section)
+            <div id="{{ Str::slug($section['title']) }}" class="mb-10 scroll-mt-24">
+                <h3 class="text-xl font-semibold text-amber-300 mb-1">{{ $section['title'] }}</h3>
+                @if(!empty($section['subtitle']))
+                    <p class="text-sm text-amber-100 mb-4">{{ $section['subtitle'] }}</p>
+                @endif
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($section['items'] as $item)
+                        <x-menu-item
+                            :name="$item['name']"
+                            :price="$item['price'] ?? null"
+                            :description="$item['description'] ?? null"
+                            :tags="$item['tags'] ?? []"
+                        />
+                    @endforeach
+                </div>
+            </div>
+        @endforeach
     </div>
 </section>
 @endsection
