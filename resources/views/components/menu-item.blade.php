@@ -2,6 +2,7 @@
     'name' => null,
     'price' => null,
     'description' => null,
+    'image' => null,
     'tier' => null,
     'priceRange' => null,
     'example' => null,
@@ -13,9 +14,29 @@
     $itemName = $name ?? $tier;
     $itemPrice = $price ?? $priceRange;
     $itemDescription = $description ?? $example;
+
+    $fallbackImages = [
+        'assets/template/images/breakfast-1.jpg',
+        'assets/template/images/lunch-1.jpg',
+        'assets/template/images/dinner-1.jpg',
+        'assets/template/images/dessert-1.jpg',
+        'assets/template/images/drink-1.jpg',
+        'assets/template/images/wine-1.jpg',
+    ];
+
+    $seed = abs(crc32((string) $itemName));
+    $fallback = $fallbackImages[$seed % count($fallbackImages)];
+    $itemImage = $image ?: asset($fallback);
 @endphp
 
 <div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col gap-4']) }} @if($id) id="{{ $id }}" @endif>
+    <img
+        src="{{ $itemImage }}"
+        alt="{{ $itemName }} at Oceanova"
+        class="h-40 w-full rounded-lg object-cover border border-slate-100"
+        loading="lazy"
+    >
+
     <div class="flex items-start justify-between gap-3">
         <div>
             <h3 class="text-lg font-semibold text-slate-900">{{ $itemName }}</h3>
