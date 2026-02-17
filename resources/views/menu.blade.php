@@ -1,6 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+  use Illuminate\Support\Str;
+
+  $tiers = [
+    [
+      'tier' => 'Budget',
+      'price' => '₦5,000 - ₦7,000',
+      'example' => 'Pap & Moi Moi, Sides (Fries)',
+      'tags' => ['V', 'L'],
+    ],
+    [
+      'tier' => 'Breakfast',
+      'price' => '₦8,900 - ₦21,500',
+      'example' => 'Oatmeal to Traditional Omelette',
+      'tags' => ['V', 'L'],
+    ],
+    [
+      'tier' => 'Standard Mains',
+      'price' => '₦11,000 - ₦18,000',
+      'example' => 'Beef Pepper Soup, Seafood Fried Rice',
+      'tags' => ['P', 'S'],
+    ],
+    [
+      'tier' => 'Premium',
+      'price' => '₦19,000 - ₦25,000',
+      'example' => 'Potato Soup, Grilled Salmon, Platters',
+      'tags' => ['S'],
+    ],
+    [
+      'tier' => 'Luxury/Specialty',
+      'price' => '₦30,000 - ₦35,000',
+      'example' => 'Chicken Alfredo, Porterhouse Steak',
+      'tags' => ['P', 'L'],
+    ],
+    [
+      'tier' => 'Elite Seafood',
+      'price' => '₦37,000 - ₦38,000+',
+      'example' => 'Prawn & Snail Pepper Soups',
+      'tags' => ['S'],
+    ],
+  ];
+@endphp
+
+<script>
+  window.tailwind = window.tailwind || {};
+  window.tailwind.config = {
+    corePlugins: {
+      preflight: false,
+    },
+  };
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+
 <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/template/images/bg_5.jpg') }}');" data-stellar-background-ratio="0.5">
   <div class="overlay"></div>
   <div class="container">
@@ -13,193 +66,79 @@
   </div>
 </section>
 
-<section class="ftco-section">
-  <div class="container">
-    <div class="row justify-content-center mb-5 pb-2">
-      <div class="col-md-7 text-center heading-section ftco-animate">
-        <span class="subheading">Specialties</span>
-        <h2 class="mb-4">Our Menu</h2>
+<section class="min-h-screen bg-black">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+    <div class="flex flex-col gap-3">
+      <span class="text-xs uppercase tracking-[0.3em] text-amber-300">Oceanova Digital Menu</span>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 class="text-2xl sm:text-3xl font-semibold text-white">Curated dining tiers</h2>
+        <div class="flex flex-wrap items-center gap-3 text-xs text-amber-100">
+          <span class="inline-flex items-center gap-2">
+            <svg class="h-4 w-4 text-emerald-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2c3.5 4.5 5 7 5 9a5 5 0 0 1-10 0c0-2 1.5-4.5 5-9z" />
+            </svg>
+            V Vegetarian
+          </span>
+          <span class="inline-flex items-center gap-2">
+            <svg class="h-4 w-4 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2v20" />
+              <path d="M8 6h8" />
+            </svg>
+            L Lactose
+          </span>
+          <span class="inline-flex items-center gap-2">
+            <svg class="h-4 w-4 text-rose-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 11h18" />
+              <path d="M5 7h14" />
+              <path d="M7 15h10" />
+            </svg>
+            P Pork
+          </span>
+          <span class="inline-flex items-center gap-2">
+            <svg class="h-4 w-4 text-sky-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 10c1-2 4-3 7-3 2.5 0 5 .7 5 2.5S16 13 13.5 13H10" />
+              <path d="M3 13c0 3 3 5 7 5 5 0 8-2 8-5" />
+            </svg>
+            S Seafood
+          </span>
+        </div>
+      </div>
+      <p class="text-sm text-amber-100 max-w-2xl">
+        Browse our price tiers for a sleek, mobile-first menu experience inspired by ServeWithTabul.
+      </p>
+    </div>
+  </div>
+
+  <div class="sticky top-0 z-30 border-y border-amber-300/30 bg-black/95 backdrop-blur">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex gap-3 overflow-x-auto md:overflow-visible md:flex-wrap md:justify-center py-3">
+        @foreach($tiers as $tier)
+          <a href="#{{ Str::slug($tier['tier']) }}" class="whitespace-nowrap rounded-full border border-amber-300/40 bg-black px-4 py-2 text-sm font-medium text-amber-100 hover:border-amber-300 hover:text-amber-300 transition">
+            {{ $tier['tier'] }}
+          </a>
+        @endforeach
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 col-lg-4">
-        <div class="menu-wrap">
-          <div class="heading-menu text-center ftco-animate">
-            <h3>Breakfast</h3>
-          </div>
-          @section('content')
-          @php
-              use Illuminate\Support\Str;
+  </div>
 
-              $tiers = [
-                  [
-                      'tier' => 'Budget',
-                      'price' => '₦5,000 - ₦7,000',
-                      'example' => 'Pap & Moi Moi, Sides (Fries)',
-                      'tags' => ['V', 'L'],
-                  ],
-                  [
-                      'tier' => 'Breakfast',
-                      'price' => '₦8,900 - ₦21,500',
-                      'example' => 'Oatmeal to Traditional Omelette',
-                      'tags' => ['V', 'L'],
-                  ],
-                  [
-                      'tier' => 'Standard Mains',
-                      'price' => '₦11,000 - ₦18,000',
-                      'example' => 'Beef Pepper Soup, Seafood Fried Rice',
-                      'tags' => ['P', 'S'],
-                  ],
-                  [
-                      'tier' => 'Premium',
-                      'price' => '₦19,000 - ₦25,000',
-                      'example' => 'Potato Soup, Grilled Salmon, Platters',
-                      'tags' => ['S'],
-                  ],
-                  [
-                      'tier' => 'Luxury/Specialty',
-                      'price' => '₦30,000 - ₦35,000',
-                      'example' => 'Chicken Alfredo, Porterhouse Steak',
-                      'tags' => ['P', 'L'],
-                  ],
-                  [
-                      'tier' => 'Elite Seafood',
-                      'price' => '₦37,000 - ₦38,000+',
-                      'example' => 'Prawn & Snail Pepper Soups',
-                      'tags' => ['S'],
-                  ],
-              ];
-          @endphp
-
-          <script>
-              window.tailwind = window.tailwind || {};
-              window.tailwind.config = {
-                  corePlugins: {
-                      preflight: false,
-                  },
-              };
-          </script>
-          <script src="https://cdn.tailwindcss.com"></script>
-
-          <section class="min-h-screen bg-slate-50">
-              <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-6">
-                  <div class="flex flex-col gap-3">
-                      <span class="text-xs uppercase tracking-[0.3em] text-slate-500">Oceanova Digital Menu</span>
-                      <div class="flex flex-wrap items-center justify-between gap-4">
-                          <h1 class="text-2xl sm:text-3xl font-semibold text-slate-900">Curated dining tiers</h1>
-                          <div class="flex items-center gap-3 text-xs text-slate-500">
-                              <span class="inline-flex items-center gap-2">
-                                  <svg class="h-4 w-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                      <path d="M12 2c3.5 4.5 5 7 5 9a5 5 0 0 1-10 0c0-2 1.5-4.5 5-9z" />
-                                  </svg>
-                                  V Vegetarian
-                              </span>
-                              <span class="inline-flex items-center gap-2">
-                                  <svg class="h-4 w-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                      <path d="M12 2v20" />
-                                      <path d="M8 6h8" />
-                                  </svg>
-                                  L Lactose
-                              </span>
-                              <span class="inline-flex items-center gap-2">
-                                  <svg class="h-4 w-4 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                      <path d="M3 11h18" />
-                                      <path d="M5 7h14" />
-                                      <path d="M7 15h10" />
-                                  </svg>
-                                  P Pork
-                              </span>
-                              <span class="inline-flex items-center gap-2">
-                                  <svg class="h-4 w-4 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                      <path d="M6 10c1-2 4-3 7-3 2.5 0 5 .7 5 2.5S16 13 13.5 13H10" />
-                                      <path d="M3 13c0 3 3 5 7 5 5 0 8-2 8-5" />
-                                  </svg>
-                                  S Seafood
-                              </span>
-                          </div>
-                      </div>
-                      <p class="text-sm text-slate-600 max-w-2xl">
-                          Browse our price tiers for a sleek, mobile-first menu experience inspired by ServeWithTabul.
-                      </p>
-                  </div>
-              </div>
-
-              <div class="sticky top-0 z-30 border-y border-slate-200 bg-white/95 backdrop-blur">
-                  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                      <div class="flex gap-3 overflow-x-auto md:overflow-visible md:flex-wrap md:justify-center py-3">
-                          @foreach($tiers as $tier)
-                              <a href="#{{ Str::slug($tier['tier']) }}" class="whitespace-nowrap rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-slate-900 hover:text-slate-900 transition">
-                                  {{ $tier['tier'] }}
-                              </a>
-                          @endforeach
-                      </div>
-                  </div>
-              </div>
-
-              <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-                  <div class="flex items-center justify-center pb-6">
-                      <div class="h-9 w-9 rounded-full border-2 border-slate-200 border-t-slate-900 animate-spin"></div>
-                  </div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      @foreach($tiers as $tier)
-                          <x-menu-item
-                              :id="Str::slug($tier['tier'])"
-                              :tier="$tier['tier']"
-                              :price-range="$tier['price']"
-                              :example="$tier['example']"
-                              :tags="$tier['tags']"
-                          />
-                      @endforeach
-                  </div>
-              </div>
-          </section>
-          @endsection
-              <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-            </div>
-          </div>
-          <div class="menus d-flex ftco-animate">
-            <div class="menu-img img" style="background-image: url({{ asset('assets/template/images/dessert-3.jpg') }});"></div>
-            <div class="text">
-              <div class="d-flex">
-                <div class="one-half">
-                  <h3>Beef Roast Source</h3>
-                </div>
-                <div class="one-forth">
-                  <span class="price">$29</span>
-                </div>
-              </div>
-              <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-            </div>
-          </div>
-          <div class="menus d-flex ftco-animate">
-            <div class="menu-img img" style="background-image: url({{ asset('assets/template/images/dessert-4.jpg') }});"></div>
-            <div class="text">
-              <div class="d-flex">
-                <div class="one-half">
-                  <h3>Beef Roast Source</h3>
-                </div>
-                <div class="one-forth">
-                  <span class="price">$29</span>
-                </div>
-              </div>
-              <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-            </div>
-          </div>
-          <div class="menus border-bottom-0 d-flex ftco-animate">
-            <div class="menu-img img" style="background-image: url({{ asset('assets/template/images/dessert-5.jpg') }});"></div>
-            <div class="text">
-              <div class="d-flex">
-                <div class="one-half">
-                  <h3>Beef Roast Source</h3>
-                </div>
-                <div class="one-forth">
-                  <span class="price">$29</span>
-                </div>
-              </div>
-              <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-            </div>
-          </div>
-          <span class="flat flaticon-cupcake" style="left: 0;"></span>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-center pb-6">
+      <div class="h-9 w-9 rounded-full border-2 border-amber-200 border-t-amber-500 animate-spin"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @foreach($tiers as $tier)
+        <x-menu-item
+          :id="Str::slug($tier['tier'])"
+          :tier="$tier['tier']"
+          :price-range="$tier['price']"
+          :example="$tier['example']"
+          :tags="$tier['tags']"
+        />
+      @endforeach
+    </div>
+  </div>
+</section>
+@endsection
           <span class="flat flaticon-ice-cream" style="right: 0;"></span>
         </div>
       </div>
