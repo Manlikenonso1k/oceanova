@@ -122,7 +122,10 @@
     </div>
 </section>
 
-<section class="min-h-screen bg-black">
+<section class="min-h-screen bg-black relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('{{ asset('images/Ocean-bay.png') }}'); background-repeat: repeat; background-size: 180px auto;"></div>
+
+    <div class="relative z-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-6">
         <div class="flex flex-col gap-3">
             <span class="text-xs uppercase tracking-[0.3em] text-amber-300">Oceanova Digital Menu</span>
@@ -196,6 +199,7 @@
                 </div>
             </div>
         @endforeach
+    </div>
     </div>
 </section>
 </div>
