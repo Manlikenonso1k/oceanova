@@ -29,7 +29,7 @@
     $itemImage = $image ?: asset($fallback);
 @endphp
 
-<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-slate-100 shadow-sm p-5 flex flex-col gap-4']) }} @if($id) id="{{ $id }}" @endif>
+<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-slate-100 shadow-sm p-3 sm:p-5 flex flex-col gap-3 sm:gap-4']) }} @if($id) id="{{ $id }}" @endif>
     <img
         src="{{ $itemImage }}"
         alt="{{ $itemName }} at Oceanova"

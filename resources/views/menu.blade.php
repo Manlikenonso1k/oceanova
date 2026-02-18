@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    <div class="sticky top-0 z-30 border-y border-amber-300/30 bg-black/95 backdrop-blur">
+    <div class="sticky top-16 md:top-0 z-[60] border-y border-amber-300/30 bg-black/95 backdrop-blur">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex gap-3 overflow-x-auto md:overflow-visible md:flex-wrap md:justify-center py-3">
                 @foreach($sections as $section)
