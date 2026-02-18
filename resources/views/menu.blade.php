@@ -122,7 +122,7 @@
     </div>
 </section>
 
-<section class="min-h-screen bg-black relative overflow-hidden">
+<section class="min-h-screen bg-black relative">
     <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('{{ asset('images/Ocean-bay.png') }}'); background-repeat: repeat; background-size: 180px auto;"></div>
 
     <div class="relative z-10">
@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    <div class="sticky top-16 md:top-0 z-[60] border-y border-amber-300/30 bg-black/95 backdrop-blur">
+    <div class="sticky top-14 md:top-0 z-[70] border-y border-amber-300/30 bg-black/95 backdrop-blur" style="position: sticky;">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex gap-3 overflow-x-auto md:overflow-visible md:flex-wrap md:justify-center py-3">
                 @foreach($sections as $section)
