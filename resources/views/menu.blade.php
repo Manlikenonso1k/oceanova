@@ -106,6 +106,32 @@
     #ftco-nav.collapsing {
         visibility: visible !important;
     }
+
+    /* Menu page only: gold navbar when scrolled/awake */
+    #ftco-navbar.ftco-navbar-light.scrolled.awake {
+        background: #c9a227 !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    #ftco-navbar.ftco-navbar-light.scrolled.awake .nav-link,
+    #ftco-navbar.ftco-navbar-light.scrolled.awake .navbar-brand {
+        color: #111 !important;
+    }
+
+    #ftco-navbar.ftco-navbar-light.scrolled.awake .nav-item.active > .nav-link {
+        color: #fff !important;
+    }
+
+    /* Mobile only: keep main nav from covering menu content */
+    @media (max-width: 991.98px) {
+        #ftco-navbar.ftco-navbar-light.scrolled.awake {
+            z-index: 40 !important;
+        }
+
+        #tw-menu {
+            padding-top: 8px;
+        }
+    }
 </style>
 
 <div id="tw-menu">
@@ -168,7 +194,7 @@
         </div>
     </div>
 
-    <div class="sticky top-14 md:top-0 z-[70] border-y border-amber-300/30 bg-black/95 backdrop-blur" style="position: sticky;">
+    <div class="sticky top-20 md:top-0 z-[70] border-y border-amber-300/30 bg-black/95 backdrop-blur" style="position: sticky;">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex gap-3 overflow-x-auto md:overflow-visible md:flex-wrap md:justify-center py-3">
                 @foreach($sections as $section)
