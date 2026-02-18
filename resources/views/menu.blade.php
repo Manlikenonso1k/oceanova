@@ -122,14 +122,18 @@
         color: #fff !important;
     }
 
-    /* Mobile only: keep main nav from covering menu content */
+    /* Mobile only: old nav slides away, category sticky takes top */
     @media (max-width: 991.98px) {
         #ftco-navbar.ftco-navbar-light.scrolled.awake {
             z-index: 40 !important;
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        #tw-menu {
-            padding-top: 8px;
+        #tw-menu .menu-sticky-mobile {
+            top: 0 !important;
         }
     }
 </style>
@@ -194,7 +198,7 @@
         </div>
     </div>
 
-    <div class="sticky top-20 md:top-0 z-[70] border-y border-amber-300/30 bg-black/95 backdrop-blur" style="position: sticky;">
+    <div class="menu-sticky-mobile sticky top-0 z-[70] border-y border-amber-300/30 bg-black/95 backdrop-blur" style="position: sticky;">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex gap-3 overflow-x-auto md:overflow-visible md:flex-wrap md:justify-center py-3">
                 @foreach($sections as $section)
