@@ -96,10 +96,17 @@
         important: '#tw-menu',
         corePlugins: {
             preflight: false,
+            collapse: false,
         },
     };
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    #ftco-nav.collapse,
+    #ftco-nav.collapsing {
+        visibility: visible !important;
+    }
+</style>
 
 <div id="tw-menu">
 
