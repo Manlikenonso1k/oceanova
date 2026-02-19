@@ -27,6 +27,10 @@ class SendNewsletterDigest extends Command
             ->orderBy('id')
             ->chunkById(200, function ($subscribers) use (&$sent) {
                 foreach ($subscribers as $subscriber) {
+                    if (! $subscriber instanceof NewsletterSubscriber) {
+                        continue;
+                    }
+
                     try {
                         Mail::to($subscriber->email)->send(new NewsletterDigest());
                         $subscriber->forceFill(['last_sent_at' => now()])->save();

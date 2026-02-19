@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\RedirectController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
@@ -15,3 +16,4 @@ Route::view('/contact', 'contact')->name('contact');
 
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
+Route::get('/track-redirect', RedirectController::class)->name('track.redirect');
