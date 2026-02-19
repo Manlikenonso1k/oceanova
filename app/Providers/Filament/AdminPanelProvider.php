@@ -12,7 +12,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -35,20 +34,6 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->renderHook(
-                PanelsRenderHook::BODY_START,
-                fn (): string => <<<'HTML'
-                    <script>
-                        (function () {
-                            try {
-                                if (window.matchMedia('(max-width: 1024px)').matches) {
-                                    localStorage.setItem('isOpen', 'false');
-                                }
-                            } catch (e) {}
-                        })();
-                    </script>
-                HTML,
-            )
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
