@@ -99,7 +99,7 @@
 						</div>
 					</form>
 				</div>
-				<div class="col-sm-8 wrap-about py-5 ftco-animate img" style="background-image: url({{ asset('assets/template/images/about.jpg') }});">
+				<div class="col-sm-8 wrap-about py-5 ftco-animate img" style="background-image: url({{ asset('assets/template/images/chef-silver.png') }});">
 					<div class="row pb-5 pb-md-0">
 						<div class="col-md-12 col-lg-7">
 							<div class="heading-section mt-5 mb-4">
