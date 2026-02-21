@@ -74,8 +74,13 @@
         [
             'title' => 'National Dishes',
             'items' => [
-                ['name' => 'National Dish Selection', 'price' => '₦14,000 - ₦25,000', 'description' => 'Choice of protein/swallow.'],
-                ['name' => 'Available Selections', 'description' => 'Banga, Ogbono, Egusi, Afang, Edi Kai Kong, Fisherman Soup, Seafood Okro.'],
+                ['name' => 'Egusi Soup', 'price' => '₦17,000', 'description' => 'Melon-seed based soup, hearty and well-seasoned.'],
+                ['name' => 'Banga Soup', 'price' => '₦17,000', 'description' => 'Rich palm-fruit based soup with choice of protein.'],
+                ['name' => 'Ofe Nsala Soup', 'price' => '₦16,000', 'description' => 'Light, fragrant white soup traditionally served with fish.'],
+                ['name' => 'Fisherman Soup', 'price' => '₦35,000', 'description' => 'Hearty fish stew with market-fresh catches.'],
+                ['name' => 'Edikang Ikong Soup', 'price' => '₦16,000', 'description' => 'Traditional regional vegetable soup prepared to chef’s specification.'],
+                ['name' => 'Ogbono Soup', 'price' => '₦14,000', 'description' => 'Thick, comforting ogbono soup served with swallow or rice.'],
+                ['name' => 'Seafood Okro Soup', 'price' => '₦25,000', 'description' => 'Okro soup prepared with assorted seafood.'],
             ],
         ],
         [
@@ -87,6 +92,114 @@
                 ['name' => 'Sides', 'price' => '₦5,000 - ₦7,000', 'description' => 'Fries (Yam, Sweet Potato, French), Plantain, Mashed Potatoes, Jollof Rice.'],
             ],
         ],
+        [
+            'title' => 'Red Wine',
+            'items' => [
+                ['name' => 'Declan', 'price' => '₦20,000', 'description' => 'Smooth and easy-drinking red wine.'],
+                ['name' => 'Four Cousins (Dry)', 'price' => '₦20,000', 'description' => 'Medium-bodied dry red with soft tannins and fruity notes.'],
+                ['name' => 'Carlo Rossi', 'price' => '₦25,000', 'description' => 'Well-balanced red wine with rich berry flavors.'],
+                ['name' => 'Apothic', 'price' => '₦27,000', 'description' => 'Bold red blend with hints of dark fruit and vanilla.'],
+                ['name' => '4th Street', 'price' => '₦18,000', 'description' => 'Light-bodied red wine with a smooth finish.'],
+                ['name' => 'Asconi Agor', 'price' => '₦27,000', 'description' => 'Structured red wine with balanced acidity and fruit tones.'],
+                ['name' => 'Massimo (Merlot / Cabernet Sauvignon)', 'price' => '₦45,000', 'description' => 'Premium red with rich character and layered flavors.'],
+                ['name' => 'Escudo Rojo', 'price' => '₦40,000', 'description' => 'Full-bodied Chilean red with intense fruit and oak notes.'],
+                ['name' => 'Nederburg (Cabernet Sauvignon)', 'price' => '₦35,000', 'description' => 'Classic Cabernet Sauvignon with deep berry and spice notes.'],
+            ],
+        ],
+        [
+            'title' => 'White Wine',
+            'items' => [
+                ['name' => 'Four Cousins (Dry)', 'price' => '₦18,000', 'description' => 'Fresh and fruity dry white wine with a smooth finish.'],
+                ['name' => '4th Street', 'price' => '₦20,000', 'description' => 'Light-bodied white wine with crisp fruit notes.'],
+                ['name' => 'Castillo Grande', 'price' => '₦27,000', 'description' => 'Well-balanced white wine with soft fruit aromas and a clean finish.'],
+                ['name' => 'Nederburg (Sauvignon Blanc)', 'price' => '₦35,000', 'description' => 'Vibrant Sauvignon Blanc with citrus and tropical flavors.'],
+                ['name' => 'Massimo', 'price' => '₦40,000', 'description' => 'Premium structured wine with refined character and smooth body.'],
+                ['name' => 'Escudo Rojo', 'price' => '₦45,000', 'description' => 'Elegant, full-flavored wine with rich fruit expression.'],
+                ['name' => 'Nederburg', 'price' => '₦35,000', 'description' => 'Classic, well-balanced wine with fresh acidity and layered fruit notes.'],
+                ['name' => 'Clarendelle Bordeaux', 'price' => '₦50,000', 'description' => 'Elegant Bordeaux blend with refined acidity and balanced fruit character.'],
+            ],
+        ],
+        [
+            'title' => 'Liqueur',
+            'items' => [
+                ['name' => 'Baileys Irish Cream', 'price' => '₦35,000', 'description' => 'Creamy liqueur combining Irish whiskey and chocolate flavors.'],
+                ['name' => 'Jägermeister', 'price' => '₦30,000', 'description' => 'Herbal liqueur with bold spices and a smooth finish.'],
+                ['name' => 'Ivory Cream', 'price' => '₦27,000', 'description' => 'Sweet cream-based liqueur with a rich, smooth texture.'],
+            ],
+        ],
+        [
+            'title' => 'Tequila',
+            'items' => [
+                ['name' => 'Olmeca Tequila', 'price' => '₦45,000', 'description' => 'Smooth agave flavor with a lively and slightly peppery finish.'],
+                ['name' => 'Sierra Tequila', 'price' => '₦37,000', 'description' => 'Fresh and vibrant tequila with light fruity notes.'],
+            ],
+        ],
+        [
+            'title' => 'Cognac',
+            'items' => [
+                ['name' => 'Martell VS', 'price' => '₦75,000', 'description' => 'A youthful cognac with fruity notes and a smooth oak finish.'],
+                ['name' => 'Martell Blue Swift', 'price' => '₦140,000', 'description' => 'Modern cognac finished in bourbon casks with hints of vanilla and spice.'],
+                ['name' => 'Hennessy VS', 'price' => '₦90,000', 'description' => 'Bold and vibrant cognac with toasted oak and fruit flavors.'],
+                ['name' => 'Hennessy VSOP', 'price' => '₦150,000', 'description' => 'Mature, balanced cognac offering smooth spice and rich character.'],
+            ],
+        ],
+        [
+            'title' => 'Vodka',
+            'items' => [
+                ['name' => 'Sky Vodka', 'price' => '₦27,000', 'description' => 'Smooth and light with a clean finish, perfect for mixed drinks.'],
+                ['name' => 'Absolut Vodka', 'price' => '₦30,000', 'description' => 'Premium Swedish vodka known for purity and balanced flavor.'],
+                ['name' => 'Flirt Vodka', 'price' => '₦17,000', 'description' => 'Easy-drinking vodka with a soft, neutral profile.'],
+            ],
+        ],
+        [
+            'title' => 'Gin',
+            'items' => [
+                ['name' => 'Gordon’s Gin', 'price' => '₦30,000', 'description' => 'Classic London dry gin with juniper-forward notes.'],
+                ['name' => 'Bombay Sapphire', 'price' => '₦40,000', 'description' => 'Smooth premium gin with floral and citrus botanicals.'],
+            ],
+        ],
+        [
+            'title' => 'Whiskey',
+            'items' => [
+                ['name' => 'Glenfiddich (12 Years)', 'price' => '₦90,000', 'description' => 'Single malt Scotch with pear, oak, and subtle sweetness.'],
+                ['name' => 'Jameson', 'price' => '₦45,000', 'description' => 'Smooth Irish whiskey with vanilla and toasted wood notes.'],
+                ['name' => 'Jameson Black Barrel', 'price' => '₦70,000', 'description' => 'Rich and intense whiskey with deeper spice and caramel tones.'],
+                ['name' => 'Jack Daniel’s', 'price' => '₦50,000', 'description' => 'Classic Tennessee whiskey with sweet oak and smoky finish.'],
+            ],
+        ],
+        [
+            'title' => 'Cocktails',
+            'items' => [
+                ['name' => 'Margarita', 'price' => '₦12,900', 'description' => 'Tequila, Triple Sec, Lemon Juice, Simple Syrup'],
+                ['name' => 'Blue Lagoon', 'price' => '₦10,750', 'description' => 'Vodka, Blue Curacao, Lime Juice, Simple Syrup'],
+                ['name' => 'Mojito', 'price' => '₦10,750', 'description' => 'Rum, Sugar, Mint, Lime, Soda Water'],
+                ['name' => 'Daiquiri', 'price' => '₦10,750', 'description' => 'Rum, Lemon Juice, Simple Syrup'],
+                ['name' => 'Cosmopolitan', 'price' => '₦10,750', 'description' => 'Vodka, Triple Sec, Cranberry Juice, Lemon Juice'],
+                ['name' => 'Tequila Sunrise', 'price' => '₦10,750', 'description' => 'Tequila, Orange Juice, Grenadine'],
+                ['name' => 'Long Island Iced Tea', 'price' => '₦10,750', 'description' => 'Gin, Rum, Vodka, Tequila, Triple Sec, Lime Juice, Coke'],
+                ['name' => 'Martini', 'price' => '₦10,750', 'description' => 'Gin or Vodka (classic preparation)'],
+                ['name' => 'Sex on the Beach', 'price' => '₦10,750', 'description' => 'Vodka, Cranberry Juice, Orange Juice, Peach Schnapps'],
+                ['name' => 'Piña Colada', 'price' => '₦10,750', 'description' => 'Rum, Coconut Cream, Pineapple Juice'],
+                ['name' => 'Whiskey Sour', 'price' => '₦10,750', 'description' => 'Whiskey, Lemon Juice, Simple Syrup, Egg White'],
+            ],
+        ],
+         [
+            'title' => 'Mocktails',
+            'items' => [
+                ['name' => 'Shirley Temple', 'price' => '₦6,450.00', 'description' => 'Grenadine, Lemon Juice, Sprite'],
+                ['name' => 'Virgin Bellini', 'price' => '₦8,600.00', 'description' => 'Flavoured Syrup, Lemon Syrup, Soda Water'],
+                ['name' => 'Rainbow Paradise', 'price' => '₦8,600.00', 'description' => 'Grenadine, Orange Juice, Orange Soda, Citrus Soda, Bitters'],
+                ['name' => 'Blue Ocean', 'price' => '₦7,525.00', 'description' => 'Blue Curacao, Lemon Juice, Simple Syrup, Sprite'],
+                ['name' => 'Virgin Mojito', 'price' => '₦5,300.74', 'description' => 'Mint, Sugar, Lime, Soda'],
+                ['name' => 'Iced Tea', 'price' => '₦8,600.00', 'description' => 'Simple Syrup, Lemon Juice, Tea Bag'],
+                ['name' => 'Chapman', 'price' => '₦6,450.00', 'description' => 'Grenadine, Lemon Juice, Citrus Soda'],
+                ['name' => 'Apple Cooler', 'price' => '₦8,600.00', 'description' => 'Apple Juice, Honey, Lemon Juice, Sprite'],
+                ['name' => 'Citrus-Ginger Fritz', 'price' => '₦8,600.00', 'description' => 'Ginger Juice, Lemon Syrup, Honey, Sprite'],
+                ['name' => 'Virgin Colada', 'price' => '₦5,300.74', 'description' => 'Coconut Blend, Pineapple Juice, Cream'],
+                ['name' => 'Lemonade', 'price' => '₦7,525.00', 'description' => 'Lemon Juice, Simple Syrup, Soda'],
+            ],
+        ],
+        
     ];
 @endphp
 
