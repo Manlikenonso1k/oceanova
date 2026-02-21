@@ -26,13 +26,13 @@
 	<link rel="stylesheet" href="{{ asset('assets/template/css/style.css') }}">
 	<script type="application/ld+json">
 		{
-			"@context": "https://schema.org",
-			"@type": "Restaurant",
+			"@@context": "https://schema.org",
+			"@@type": "Restaurant",
 			"name": "Oceanova",
 			"url": "https://oceanova.ng",
 			"description": "Fine dining restaurant offering private dinners and happy hours.",
 			"address": {
-				"@type": "PostalAddress",
+				"@@type": "PostalAddress",
 				"streetAddress": "Plot 7/8 Okun-Ajah Community Rd",
 				"addressLocality": "Lagos",
 				"addressCountry": "NG"
