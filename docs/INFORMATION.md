@@ -38,6 +38,14 @@ Integrated the Taste.it Bootstrap template into the Laravel Blade system and rou
 ## Result
 The site now renders the Taste.it template through Blade and Laravel routing, preserving the original responsive design and layout behavior.
 
+## Production Incident Fix (Feb 2026)
+- Error seen: `ParseError ... unexpected end of file, expecting "elseif" or "else" or "endif"` reported near `resources/views/layouts/app.blade.php` end.
+- Root cause: JSON-LD keys `@context` and `@type` in Blade were interpreted as directives.
+- Code fix: escaped those keys to `@@context` and `@@type` in `resources/views/layouts/app.blade.php`.
+- Operational fix after deploy:
+  - `php artisan optimize:clear`
+  - `php artisan view:cache`
+
 ## Email Booking Notifications
 - Added booking controller (app/Http/Controllers/BookingController.php) to handle form submissions.
 - Added mailables for admin and user notifications:
@@ -83,6 +91,14 @@ The site now renders the Taste.it template through Blade and Laravel routing, pr
 - Added Google site verification file in public/google6f74536275d2d25b.html.
 - Updated schema address to: Plot 7/8 Okun-Ajah Community Rd.
 
+## Server CLI PHP 8.3 Profile Fix
+- Composer initially failed because server default CLI PHP resolved to 8.1 while project requires `>= 8.3`.
+- Resolved by forcing PHP 8.3 in shell profile and aliasing composer through that PHP binary:
+  - `export PATH=/opt/alt/php83/usr/bin:$PATH`
+  - `alias php='/opt/alt/php83/usr/bin/php'`
+  - `alias composer='php /usr/local/bin/composer'`
+- Reload profile with `source ~/.bash_profile` (or `~/.bashrc` on shells that ignore `.bash_profile`).
+
 ## Digital Menu Rebuild (Blade Component + Tailwind)
 - Created reusable Blade component:
   - resources/views/components/menu-item.blade.php
@@ -96,3 +112,12 @@ The site now renders the Taste.it template through Blade and Laravel routing, pr
   - `x-menu-item` now accepts `image`
   - deterministic fallback images are used when no image is provided
 - Fixed Blade rendering/syntax issues caused by mixed old/new menu markup.
+
+## Menu Watermark Visibility Fix
+- Issue: menu-page watermark was present but too faint on the black background.
+- Verification: image assets existed in `public/images`, but visual contrast/opacity settings prevented clear display.
+- Fix applied in `resources/views/menu.blade.php`:
+  - watermark source set to `asset('images/oceanova.png')`
+  - opacity increased to `opacity-20`
+  - blend mode set to `mix-blend-screen`
+  - tile size increased to `background-size: 260px auto`

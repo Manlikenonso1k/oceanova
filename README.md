@@ -62,3 +62,25 @@ MAIL_FROM_NAME="Oceanova"
 
 ## Notes
 - If the app is hosted with the project root as the document root, .htaccess routes traffic into public/ so assets load correctly.
+
+## Troubleshooting (Production)
+- Blade parse error near layout end (`expecting elseif/else/endif`) was caused by JSON-LD keys using `@context`/`@type` directly in Blade.
+- Fix applied in `resources/views/layouts/app.blade.php`: escaped JSON-LD keys as `@@context` and `@@type` so Blade outputs valid `@...` keys instead of parsing directives.
+- After deploy, clear/rebuild view cache:
+	- `php artisan optimize:clear`
+	- `php artisan view:cache`
+
+### Server PHP Profile Override (SSH)
+When host default CLI PHP is older than project requirements, force PHP 8.3 in shell profile:
+
+```bash
+echo 'export PATH=/opt/alt/php83/usr/bin:$PATH' >> ~/.bash_profile
+echo 'alias php="/opt/alt/php83/usr/bin/php"' >> ~/.bash_profile
+echo 'alias composer="php /usr/local/bin/composer"' >> ~/.bash_profile
+source ~/.bash_profile
+hash -r
+php -v
+composer install --no-dev -o
+```
+
+If `~/.bash_profile` is not loaded by the host shell, add the same lines to `~/.bashrc`.

@@ -153,7 +153,7 @@
 </section>
 
 <section class="min-h-screen bg-black relative">
-    <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('{{ asset('images/Ocean-bay.png') }}'); background-repeat: repeat; background-size: 180px auto;"></div>
+    <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-screen" style="background-image: url('{{ asset('images/oceanova.png') }}'); background-repeat: repeat; background-size: 260px auto; background-position: center top;"></div>
 
     <div class="relative z-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-6">

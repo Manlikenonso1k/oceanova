@@ -15,6 +15,7 @@
 - Improve SEO metadata, heading hierarchy, canonical, robots/sitemap, and JSON-LD.
 - Rebuild menu page into a premium mobile-first digital menu UI using Tailwind and a reusable Blade component.
 - Add image support to each menu card with fallback behavior.
+- Troubleshoot menu-page watermark image not visible on black background.
 
 ## Results
 - Assets moved into public/assets/template/.
@@ -45,9 +46,17 @@
 - Mailer error: "Mailer [smtps] is not defined."
 - SMTP authentication failed (535).
 - Validation error: "The noofv field is required."
-- Server CLI used PHP 8.1 while composer requires 8.2+.
+- Server CLI used PHP 8.1.32 while composer requires PHP >= 8.3.0.
 - Menu Blade file became corrupted from mixed legacy and new markup.
 - Blade parse errors encountered (unexpected token, raw directives shown in output).
+- Menu watermark image configured but not visibly rendering on the black menu section.
+
+## PHP Error Prompts & Fixes
+- Prompt: `Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.3.0". You are running 8.1.32.`
+	- Fix: switched shell/runtime to PHP 8.3 via profile PATH + alias and ran composer with that binary.
+- Prompt: `ParseError ... resources/views/layouts/app.blade.php:188 ... expecting "elseif" or "else" or "endif"`
+	- Fix: escaped JSON-LD keys in layout Blade (`@context`/`@type` to `@@context`/`@@type`) so Blade no longer parses them as directives.
+	- Post-fix ops: cleared and rebuilt compiled views (`php artisan optimize:clear`, `php artisan view:cache`).
 
 ## Fixes Applied
 - Added rewrite rules in .htaccess to forward requests into /public.
@@ -58,3 +67,16 @@
 - Ran Artisan with Hostinger’s PHP 8.3 binary: /opt/alt/php83/usr/bin/php.
 - Replaced corrupted menu view content with clean Blade structure and corrected loop directives.
 - Standardized menu rendering through a reusable component (`resources/views/components/menu-item.blade.php`).
+- Fixed Blade parse error on homepage layout by escaping JSON-LD keys in `resources/views/layouts/app.blade.php`:
+	- `"@context"` → `"@@context"`
+	- `"@type"` → `"@@type"`
+- Cleared and rebuilt compiled views after deploy (`php artisan optimize:clear`, `php artisan view:cache`).
+- Added shell-profile PHP override for servers where `php` defaults below project requirement:
+	- `export PATH=/opt/alt/php83/usr/bin:$PATH`
+	- `alias php='/opt/alt/php83/usr/bin/php'`
+	- `alias composer='php /usr/local/bin/composer'`
+- Updated menu watermark layer in `resources/views/menu.blade.php` for dark-background visibility:
+	- switched image source to `asset('images/oceanova.png')`
+	- increased watermark opacity (`opacity-20`)
+	- applied blend mode (`mix-blend-screen`)
+	- increased tile size (`background-size: 260px auto`)
