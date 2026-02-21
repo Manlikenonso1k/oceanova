@@ -4,6 +4,7 @@
 @php
     use Illuminate\Support\Str;
 
+    if (empty($sections ?? null)) {
     $sections = [
         [
             'title' => 'Full English Breakfast',
@@ -269,6 +270,7 @@
         ],
         
     ];
+    }
 @endphp
 
 <script>

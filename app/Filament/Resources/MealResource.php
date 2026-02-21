@@ -23,8 +23,13 @@ class MealResource extends Resource
         return $form->schema([
             Forms\Components\TextInput::make('name')
                 ->required()
-                ->maxLength(255)
-                ->unique(ignoreRecord: true),
+                ->maxLength(255),
+
+            Forms\Components\Select::make('menu_section_id')
+                ->label('Menu Section')
+                ->relationship('menuSection', 'title')
+                ->searchable()
+                ->preload(),
 
             Forms\Components\TextInput::make('price')
                 ->required()
@@ -32,8 +37,21 @@ class MealResource extends Resource
                 ->prefix('₦')
                 ->minValue(0),
 
+            Forms\Components\Textarea::make('description')
+                ->rows(3),
+
+            Forms\Components\TagsInput::make('tags')
+                ->placeholder('Add tags like V, L, P, S'),
+
             Forms\Components\TextInput::make('category')
                 ->maxLength(255),
+
+            Forms\Components\TextInput::make('sort_order')
+                ->numeric()
+                ->default(0),
+
+            Forms\Components\Toggle::make('is_active')
+                ->default(true),
 
             Forms\Components\FileUpload::make('image')
                 ->image()
@@ -52,6 +70,11 @@ class MealResource extends Resource
                     ->square(),
 
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('menuSection.title')
+                    ->label('Section')
                     ->searchable()
                     ->sortable(),
 

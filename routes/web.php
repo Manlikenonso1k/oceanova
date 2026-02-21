@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\RedirectController;
 use Illuminate\Support\Facades\Route;
@@ -8,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'home')->name('home');
 Route::view('/about', 'about')->name('about');
 Route::view('/chef', 'chef')->name('chef');
-Route::view('/menu', 'menu')->name('menu');
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::view('/reservation', 'reservation')->name('reservation');
 Route::view('/blog', 'blog')->name('blog');
 Route::view('/blog-single', 'blog-single')->name('blog.single');
