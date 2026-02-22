@@ -40,6 +40,32 @@
 			"menu": "https://oceanova.ng/menu"
 		}
 	</script>
+	<style>
+		.whatsapp-float {
+			position: fixed;
+			right: 20px;
+			bottom: 20px;
+			width: 56px;
+			height: 56px;
+			border-radius: 9999px;
+			background: #25D366;
+			color: #fff;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 30px;
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+			z-index: 9999;
+			text-decoration: none;
+		}
+
+		.whatsapp-float:hover,
+		.whatsapp-float:focus {
+			color: #fff;
+			text-decoration: none;
+			opacity: 0.95;
+		}
+	</style>
 </head>
 <body class="overflow-x-hidden">
 
@@ -74,12 +100,9 @@
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}"><a href="{{ route('home') }}" class="nav-link">Home</a></li>
-					<li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}" class="nav-link">About</a></li>
-					<li class="nav-item {{ request()->routeIs('chef') ? 'active' : '' }}"><a href="{{ route('chef') }}" class="nav-link">Chef</a></li>
 					<li class="nav-item {{ request()->routeIs('menu') ? 'active' : '' }}"><a href="{{ route('menu') }}" class="nav-link">Menu</a></li>
+					<li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}" class="nav-link">About</a></li>
 					<li class="nav-item {{ request()->routeIs('reservation') ? 'active' : '' }}"><a href="{{ route('reservation') }}" class="nav-link">Reservation</a></li>
-					<li class="nav-item {{ request()->routeIs('blog') ? 'active' : '' }}"><a href="{{ route('blog') }}" class="nav-link">Blog</a></li>
-					<li class="nav-item {{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
 				</ul>
 			</div>
 		</div>
@@ -87,6 +110,10 @@
 	<!-- END nav -->
 
 	@yield('content')
+
+	<a href="https://wa.me/2347082820267" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact Oceanova on WhatsApp">
+		<span class="fa fa-whatsapp" aria-hidden="true"></span>
+	</a>
 
 	<footer class="ftco-footer ftco-no-pb ftco-section">
 		<div class="container">
