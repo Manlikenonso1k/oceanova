@@ -11,6 +11,9 @@
 ])
 
 @php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+
     $itemName = $name ?? $tier;
     $itemPrice = $price ?? $priceRange;
     $itemDescription = $description ?? $example;
@@ -26,7 +29,17 @@
 
     $seed = abs(crc32((string) $itemName));
     $fallback = $fallbackImages[$seed % count($fallbackImages)];
-    $itemImage = $image ?: asset($fallback);
+    $itemImage = asset($fallback);
+
+    if (!empty($image)) {
+        if (Str::startsWith($image, ['http://', 'https://', '/'])) {
+            $itemImage = $image;
+        } elseif (Str::startsWith($image, ['assets/', 'images/', 'storage/'])) {
+            $itemImage = asset($image);
+        } else {
+            $itemImage = Storage::disk('public')->url($image);
+        }
+    }
 @endphp
 
 <div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-slate-100 shadow-sm p-3 sm:p-5 flex flex-col gap-3 sm:gap-4']) }} @if($id) id="{{ $id }}" @endif>

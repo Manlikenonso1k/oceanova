@@ -406,7 +406,7 @@
                             :name="$item['name']"
                             :price="$item['price'] ?? null"
                             :description="$item['description'] ?? null"
-                            :image="isset($item['image']) ? asset($item['image']) : null"
+                            :image="$item['image'] ?? null"
                             :tags="$item['tags'] ?? []"
                         />
                     @endforeach
