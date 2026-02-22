@@ -43,12 +43,14 @@
 @endphp
 
 <div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-slate-100 shadow-sm p-3 sm:p-5 flex flex-col gap-3 sm:gap-4']) }} @if($id) id="{{ $id }}" @endif>
-    <img
-        src="{{ $itemImage }}"
-        alt="{{ $itemName }} at Oceanova"
-        class="h-40 w-full rounded-lg object-cover border border-slate-100"
-        loading="lazy"
-    >
+    <div class="relative w-full overflow-hidden rounded-lg border border-slate-100 aspect-[4/3]">
+        <img
+            src="{{ $itemImage }}"
+            alt="{{ $itemName }} at Oceanova"
+            class="h-full w-full object-cover object-center"
+            loading="lazy"
+        >
+    </div>
 
     <div class="flex items-start justify-between gap-3">
         <div>
