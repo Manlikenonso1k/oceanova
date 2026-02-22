@@ -9022,7 +9022,7 @@ h1, h2, h3, h4, h5,
   padding: 3em 1.5em .5em 1.5em;
   border: 1.5px dashed #e6e6e6;
   position: relative;
-  background: #fcfcfc;
+  background: #211f1f;
   -moz-transition: all 0.6s ease;
   -o-transition: all 0.6s ease;
   -webkit-transition: all 0.6s ease;
@@ -9998,3 +9998,54 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+/* Luxury theme override */
+:root {
+  --luxury-black: #211f1f;
+  --luxury-gold: #c9a227;
+}
+
+.text-white,
+.text-light {
+  color: var(--luxury-black) !important;
+}
+
+.bg-white,
+.bg-light {
+  background-color: var(--luxury-black) !important;
+}
+
+.text-primary,
+.text-danger,
+a,
+a:hover,
+a:focus {
+  color: var(--luxury-gold) !important;
+}
+
+.bg-primary,
+.bg-danger {
+  background-color: var(--luxury-gold) !important;
+}
+
+.bg-secondary,
+.btn-secondary {
+  background-color: var(--luxury-black) !important;
+  border-color: var(--luxury-black) !important;
+  color: var(--luxury-gold) !important;
+}
+
+.btn-primary,
+.btn-danger {
+  background-color: var(--luxury-gold) !important;
+  border-color: var(--luxury-gold) !important;
+  color: var(--luxury-black) !important;
+}
+
+.btn-white,
+.btn-light,
+.btn-outline-white {
+  background-color: var(--luxury-black) !important;
+  border-color: var(--luxury-black) !important;
+  color: var(--luxury-gold) !important;
+}
