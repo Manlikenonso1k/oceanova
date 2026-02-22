@@ -37,7 +37,7 @@
 
         <div class="about-author d-flex p-4 bg-light">
           <div class="bio mr-5">
-            <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Author portrait" class="img-fluid mb-4">
+            <img src="{{ asset('assets/template/images/oceanova-testimony.png') }}" alt="Author portrait" class="img-fluid mb-4">
           </div>
           <div class="desc">
             <h3>George Washington</h3>
@@ -50,7 +50,7 @@
           <ul class="comment-list">
             <li class="comment">
               <div class="vcard bio">
-                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
+                <img src="{{ asset('assets/template/images/oceanova-testimony.png') }}" alt="Commenter avatar">
               </div>
               <div class="comment-body">
                 <h3>John Doe</h3>
@@ -62,7 +62,7 @@
 
             <li class="comment">
               <div class="vcard bio">
-                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
+                <img src="{{ asset('assets/template/images/oceanova-testimony.png') }}" alt="Commenter avatar">
               </div>
               <div class="comment-body">
                 <h3>John Doe</h3>
@@ -74,7 +74,7 @@
               <ul class="children">
                 <li class="comment">
                   <div class="vcard bio">
-                    <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
+                    <img src="{{ asset('assets/template/images/oceanova-testimony.png') }}" alt="Commenter avatar">
                   </div>
                   <div class="comment-body">
                     <h3>John Doe</h3>
@@ -86,7 +86,7 @@
                   <ul class="children">
                     <li class="comment">
                       <div class="vcard bio">
-                        <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
+                        <img src="{{ asset('assets/template/images/oceanova-testimony.png') }}" alt="Commenter avatar">
                       </div>
                       <div class="comment-body">
                         <h3>John Doe</h3>
@@ -98,7 +98,7 @@
                       <ul class="children">
                         <li class="comment">
                           <div class="vcard bio">
-                            <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
+                            <img src="{{ asset('assets/template/images/oceanova-testimony.png') }}" alt="Commenter avatar">
                           </div>
                           <div class="comment-body">
                             <h3>John Doe</h3>
@@ -116,7 +116,7 @@
 
             <li class="comment">
               <div class="vcard bio">
-                <img src="{{ asset('assets/template/images/person_1.jpg') }}" alt="Commenter avatar">
+                <img src="{{ asset('assets/template/images/oceanova-testimony.png') }}" alt="Commenter avatar">
               </div>
               <div class="comment-body">
                 <h3>John Doe</h3>

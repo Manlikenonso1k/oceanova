@@ -102,7 +102,7 @@
             <div class="testimony-wrap text-center">
               <div class="text p-3">
                 <p class="mb-4">The ambiance is calm and elegant, and the seafood platter was perfectly seasoned. We’ll definitely be back for another date night.</p>
-                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
+                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/oceanova-testimony.png') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
@@ -116,7 +116,7 @@
             <div class="testimony-wrap text-center">
               <div class="text p-3">
                 <p class="mb-4">Service was fast and friendly, and the grilled prawns were the best I’ve had in Lagos. The view and music sealed it.</p>
-                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
+                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/oceanova-testimony.png') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
@@ -130,7 +130,7 @@
             <div class="testimony-wrap text-center">
               <div class="text p-3">
                 <p class="mb-4">Oceanova feels premium without being stiff. Every course was balanced, and the dessert tasting left us speechless.</p>
-                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
+                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/oceanova-testimony.png') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
@@ -144,7 +144,7 @@
             <div class="testimony-wrap text-center">
               <div class="text p-3">
                 <p class="mb-4">We booked for a family celebration and everything was on point—from the starters to the main course. Highly recommended.</p>
-                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
+                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/oceanova-testimony.png') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
@@ -158,7 +158,7 @@
             <div class="testimony-wrap text-center">
               <div class="text p-3">
                 <p class="mb-4">Great flavors, clean plating, and the staff really paid attention to our preferences. Oceanova is now my go‑to.</p>
-                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/person_1.jpg') }});">
+                <div class="user-img mb-4" style="background-image: url({{ asset('assets/template/images/oceanova-testimony.png') }});">
                   <span class="quote d-flex align-items-center justify-content-center">
                     <i class="fa fa-quote-left"></i>
                   </span>
