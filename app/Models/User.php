@@ -12,7 +12,10 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles {
+        HasRoles::hasRole as private spatieHasRole;
+        HasRoles::hasAnyRole as private spatieHasAnyRole;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -54,13 +57,42 @@ class User extends Authenticatable
         return $this->hasMany(InventoryLog::class);
     }
 
-    public function hasRole(string $role): bool
+    public function hasRole($role, ?string $guard = null): bool
     {
-        return $this->role === $role;
+        $normalizedRole = strtolower(trim((string) $role));
+        $storedRole = strtolower(trim((string) $this->role));
+
+        if ($storedRole !== '' && $storedRole === $normalizedRole) {
+            return true;
+        }
+
+        return $this->spatieHasRole($normalizedRole, $guard)
+            || $this->spatieHasRole($role, $guard);
     }
 
-    public function hasAnyRole(array $roles): bool
+    public function hasAnyRole(...$roles): bool
     {
-        return in_array($this->role, $roles, true);
+        $flattenedRoles = collect($roles)
+            ->flatten()
+            ->map(fn ($value): string => trim((string) $value))
+            ->filter(fn (string $value): bool => $value !== '')
+            ->values();
+
+        if ($flattenedRoles->isEmpty()) {
+            return false;
+        }
+
+        $normalizedRoles = $flattenedRoles
+            ->map(fn (string $value): string => strtolower($value))
+            ->values()
+            ->all();
+
+        $storedRole = strtolower(trim((string) $this->role));
+        if ($storedRole !== '' && in_array($storedRole, $normalizedRoles, true)) {
+            return true;
+        }
+
+        return $this->spatieHasAnyRole(...$flattenedRoles->all())
+            || $this->spatieHasAnyRole(...$normalizedRoles);
     }
 }

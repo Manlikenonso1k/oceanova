@@ -144,12 +144,12 @@ class IngredientResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['kitchen_manager', 'admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['kitchen_manager', 'procurement_officer', 'admin', 'super_admin']);
     }
 
     public static function canCreate(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['procurement_officer', 'admin', 'super_admin']);
     }
 
     public static function canEdit($record): bool
