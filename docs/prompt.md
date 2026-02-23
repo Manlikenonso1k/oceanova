@@ -80,3 +80,44 @@
 	- increased watermark opacity (`opacity-20`)
 	- applied blend mode (`mix-blend-screen`)
 	- increased tile size (`background-size: 260px auto`)
+
+## Inventory & Procurement ERP Prompt
+
+### Prompt Used
+- Build a robust Inventory and Procurement module for Restaurant Admin with three roles:
+	- Procurement Officer
+	- Kitchen Manager
+	- General Order Person
+- Include:
+	- Migrations with FK constraints
+	- Eloquent relationships
+	- Stock-out logic using Recipe table on order placement
+	- Seeder from provided ingredient list
+
+### Results
+- Added migrations for users role, ingredients, procurements, recipes, and inventory_logs.
+- Added models and relationships:
+	- Ingredient, Procurement, Recipe, InventoryLog
+	- Meal and User extended with needed relations/helpers
+- Added InventoryService for all stock mutation flows:
+	- stock-in
+	- waste
+	- stock-out on order create
+	- stock adjustment on order edit
+- Added role middleware and registered alias in bootstrap app config.
+- Added role-protected procurement and inventory routes.
+- Added ProcurementController and KitchenInventoryController.
+- Integrated inventory deductions into Filament order create/edit pages.
+- Added IngredientSeeder with provided inventory list cleanup and defaults.
+- Updated DatabaseSeeder to call IngredientSeeder and create role users.
+
+### Problems Encountered
+- Local terminal environment lacked PHP binary (`php: command not found`), so runtime Artisan verification could not be executed in-agent.
+- Existing app had no role middleware or role column in users table, requiring foundational role scaffolding before route protection.
+
+### Fixes Applied
+- Added users role migration with default value and role helper methods in User model.
+- Added EnsureUserRole middleware and registered alias (`role`) in bootstrap/app.php.
+- Used transactional stock operations and row locking to avoid race conditions.
+- Added defensive stock checks to prevent negative inventory.
+- Added inventory logs for complete movement auditability.

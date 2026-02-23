@@ -5,8 +5,11 @@ namespace App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource;
 use App\Models\Meal;
 use App\Models\Order;
+use App\Services\InventoryService;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class EditOrder extends EditRecord
 {
@@ -29,9 +32,24 @@ class EditOrder extends EditRecord
         return $data;
     }
 
-    protected function afterSave(): void
+    protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        $this->syncOrderItems($this->record);
+        return DB::transaction(function () use ($record, $data): Model {
+            $oldItems = $record->items ?? [];
+
+            $record->update($data);
+
+            $this->syncOrderItems($record);
+
+            app(InventoryService::class)->processOrderStockAdjustment(
+                $record,
+                $oldItems,
+                $record->items ?? [],
+                auth()->id()
+            );
+
+            return $record;
+        });
     }
 
     /** @return array{0: array<int, array<string, mixed>>, 1: float} */

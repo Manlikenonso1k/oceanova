@@ -121,3 +121,168 @@ The site now renders the Taste.it template through Blade and Laravel routing, pr
   - opacity increased to `opacity-20`
   - blend mode set to `mix-blend-screen`
   - tile size increased to `background-size: 260px auto`
+
+## Inventory & Procurement Module (Feb 2026)
+
+### Objective
+Implemented a robust backend module for inventory and procurement operations with role-specific behavior for:
+
+- Procurement Officer
+- Kitchen Manager
+- General Order Person
+
+### Database Additions
+
+#### New/Updated Migrations
+- `database/migrations/2026_02_23_000010_add_role_to_users_table.php`
+  - Adds `role` field to users with default `general_order_person`.
+- `database/migrations/2026_02_23_000011_create_ingredients_table.php`
+  - `name`, `unit`, `current_stock`, `min_stock_alert_level`.
+- `database/migrations/2026_02_23_000012_create_procurements_table.php`
+  - Links procurements to ingredients.
+- `database/migrations/2026_02_23_000013_create_recipes_table.php`
+  - Links meals (`menu_item_id`) to ingredients and required quantity.
+- `database/migrations/2026_02_23_000014_create_inventory_logs_table.php`
+  - Full movement audit trail (`in`, `out`, `waste`) with actor reference.
+
+#### Constraint Strategy
+- All domain tables use foreign key constraints.
+- Ingredient-linked records cascade on ingredient deletion.
+- `inventory_logs.user_id` is nullable and uses `nullOnDelete()`.
+- Recipe enforces uniqueness per `(menu_item_id, ingredient_id)`.
+
+### Domain Models
+
+#### New Models
+- `app/Models/Ingredient.php`
+- `app/Models/Procurement.php`
+- `app/Models/Recipe.php`
+- `app/Models/InventoryLog.php`
+
+#### Updated Models
+- `app/Models/Meal.php`
+  - Added `recipes()` relation.
+- `app/Models/User.php`
+  - Added `role` fillable, `inventoryLogs()` relation, and role helper methods:
+    - `hasRole()`
+    - `hasAnyRole()`
+
+### Business Logic Service
+
+#### File
+- `app/Services/InventoryService.php`
+
+#### Implemented Flows
+- `stockIn(...)`
+  - Creates procurement record
+  - Increments ingredient stock
+  - Writes inventory log type `in`
+
+- `logWaste(...)`
+  - Validates positive quantity
+  - Ensures enough stock exists
+  - Decrements stock
+  - Writes inventory log type `waste`
+
+- `processOrderStockOut(...)`
+  - Reads order item quantities
+  - Resolves recipes by meal
+  - Aggregates required ingredients
+  - Decrements stock and logs type `out`
+
+- `processOrderStockAdjustment(...)`
+  - On order edit, computes old-vs-new ingredient requirements
+  - Applies delta:
+    - positive delta => stock out
+    - negative delta => restock (log type `in`)
+
+### Transaction and Concurrency Guarantees
+- All stock mutations run inside DB transactions.
+- Ingredient rows are locked with `lockForUpdate()` during mutation.
+- Any stock validation failure aborts and rolls back the transaction.
+
+### Role Enforcement
+
+#### Middleware
+- `app/Http/Middleware/EnsureUserRole.php`
+  - Enforces role access using user role helpers.
+
+#### Registration
+- `bootstrap/app.php`
+  - Middleware alias registered as `role`.
+
+### Controllers Added
+- `app/Http/Controllers/ProcurementController.php`
+  - Procurement listing and stock-in endpoint.
+- `app/Http/Controllers/KitchenInventoryController.php`
+  - Stock levels, low-stock alerts, and waste logging.
+
+### Routes Added
+
+#### Procurement Officer
+- `GET /admin/procurements`
+- `POST /admin/procurements`
+
+#### Kitchen Manager
+- `GET /admin/inventory/stock-levels`
+- `GET /admin/inventory/low-stock`
+- `POST /admin/inventory/waste`
+
+All above are protected by `auth` + `role:*` middleware in `routes/web.php`.
+
+### Order Flow Integration
+
+#### Order Create
+- `app/Filament/Resources/OrderResource/Pages/CreateOrder.php`
+  - Overridden `handleRecordCreation()` executes:
+    - create order
+    - sync orderItems table
+    - run inventory stock-out
+
+#### Order Edit
+- `app/Filament/Resources/OrderResource/Pages/EditOrder.php`
+  - Overridden `handleRecordUpdate()` executes:
+    - capture old items
+    - update order
+    - sync orderItems table
+    - run inventory delta adjustment
+
+#### General Order Person Access
+- `OrderResource` now restricts visibility and create/edit to:
+  - `general_order_person`
+
+### Seeder Added
+
+#### Ingredient Seeder
+- `database/seeders/IngredientSeeder.php`
+  - Includes the provided ingredient catalog.
+  - Cleans input list:
+    - trims values
+    - skips empty values
+    - removes placeholder value `Item Name`
+    - de-duplicates case-insensitively
+  - Sets defaults for seeded rows:
+    - `unit` = `pcs`
+    - `current_stock` = `0`
+    - `min_stock_alert_level` = `10`
+
+#### DatabaseSeeder Update
+- `database/seeders/DatabaseSeeder.php`
+  - Calls `IngredientSeeder`.
+  - Creates default role users for testing:
+    - procurement@example.com
+    - kitchen@example.com
+    - test@example.com
+
+### Runbook
+After pulling changes:
+
+- `composer install`
+- `composer dump-autoload`
+- `php artisan migrate`
+- `php artisan db:seed`
+- `php artisan route:list --path=admin`
+
+If needed after deploy:
+
+- `php artisan optimize:clear`

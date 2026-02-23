@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class OrderResource extends Resource
 {
@@ -122,5 +123,25 @@ class OrderResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->with(['orderItems.meal']);
+    }
+
+    public static function canViewAny(): bool
+    {
+        return Auth::check() && Auth::user()->hasRole('general_order_person');
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::check() && Auth::user()->hasRole('general_order_person');
+    }
+
+    public static function canEdit($record): bool
+    {
+        return Auth::check() && Auth::user()->hasRole('general_order_person');
+    }
+
+    public static function canDelete($record): bool
+    {
+        return Auth::check() && Auth::user()->hasRole('general_order_person');
     }
 }

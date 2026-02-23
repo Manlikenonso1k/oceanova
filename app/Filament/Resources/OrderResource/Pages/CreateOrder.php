@@ -5,7 +5,10 @@ namespace App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource;
 use App\Models\Meal;
 use App\Models\Order;
+use App\Services\InventoryService;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class CreateOrder extends CreateRecord
 {
@@ -21,9 +24,17 @@ class CreateOrder extends CreateRecord
         return $data;
     }
 
-    protected function afterCreate(): void
+    protected function handleRecordCreation(array $data): Model
     {
-        $this->syncOrderItems($this->record);
+        return DB::transaction(function () use ($data): Model {
+            $record = static::getModel()::create($data);
+
+            $this->syncOrderItems($record);
+
+            app(InventoryService::class)->processOrderStockOut($record, auth()->id());
+
+            return $record;
+        });
     }
 
     /** @return array{0: array<int, array<string, mixed>>, 1: float} */

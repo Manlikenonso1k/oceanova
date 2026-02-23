@@ -14,12 +14,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(MenuCatalogSeeder::class);
+        $this->call(IngredientSeeder::class);
 
         // User::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'role' => 'general_order_person',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Procurement Officer',
+            'email' => 'procurement@example.com',
+            'role' => 'procurement_officer',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Kitchen Manager',
+            'email' => 'kitchen@example.com',
+            'role' => 'kitchen_manager',
         ]);
     }
 }

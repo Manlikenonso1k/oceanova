@@ -63,6 +63,143 @@ MAIL_FROM_NAME="Oceanova"
 ## Notes
 - If the app is hosted with the project root as the document root, .htaccess routes traffic into public/ so assets load correctly.
 
+## Inventory & Procurement Module (ERP Foundation)
+
+This project now includes an inventory and procurement backend module designed for restaurant operations with three role personas:
+
+- Procurement Officer
+- Kitchen Manager
+- General Order Person
+
+### New Data Model
+
+The following tables were added:
+
+- users (added role column)
+	- role values:
+		- procurement_officer
+		- kitchen_manager
+		- general_order_person
+- ingredients
+	- id, name, unit (kg|gram|pcs|liter), current_stock, min_stock_alert_level
+- procurements
+	- id, ingredient_id, quantity_received, unit_cost, supplier_name, received_at
+- recipes
+	- id, menu_item_id (meals.id), ingredient_id, quantity_required
+- inventory_logs
+	- id, ingredient_id, user_id, type (in|out|waste), quantity, reason
+
+### Role Logic Implemented
+
+- Procurement Officer:
+	- Can access procurement stock-in endpoints only.
+	- Stock-in increases ingredients.current_stock.
+	- Stock-in writes inventory_logs type=in.
+
+- Kitchen Manager:
+	- Can fetch stock levels.
+	- Can fetch low-stock list (current_stock <= min_stock_alert_level).
+	- Can log waste; waste decrements stock and writes inventory_logs type=waste.
+
+- General Order Person:
+	- Order creation/editing triggers automatic ingredient deduction from recipes.
+	- All deductions are transactional and logged as inventory_logs type=out.
+	- On order edit, stock is adjusted by delta (extra outflow or restock).
+
+### Core Backend Files Added
+
+- Models:
+	- app/Models/Ingredient.php
+	- app/Models/Procurement.php
+	- app/Models/Recipe.php
+	- app/Models/InventoryLog.php
+- Service:
+	- app/Services/InventoryService.php
+- Controllers:
+	- app/Http/Controllers/ProcurementController.php
+	- app/Http/Controllers/KitchenInventoryController.php
+- Middleware:
+	- app/Http/Middleware/EnsureUserRole.php
+
+### Existing Files Extended
+
+- app/Models/User.php
+	- role fillable + role helpers + inventoryLogs relationship
+- app/Models/Meal.php
+	- recipes relationship
+- routes/web.php
+	- role-protected inventory/procurement routes
+- bootstrap/app.php
+	- middleware alias: role
+- app/Filament/Resources/OrderResource/Pages/CreateOrder.php
+	- stock-out integration during order creation
+- app/Filament/Resources/OrderResource/Pages/EditOrder.php
+	- stock adjustment integration during order updates
+
+### Seeder Added
+
+- database/seeders/IngredientSeeder.php
+	- Seeds the full provided ingredient list
+	- Removes empty entries and duplicate names
+	- Defaults unit to pcs and min_stock_alert_level to 10
+
+### Seeder Registration
+
+- database/seeders/DatabaseSeeder.php now calls:
+	- MenuCatalogSeeder
+	- IngredientSeeder
+
+It also creates role-specific default users:
+
+- test@example.com (general_order_person)
+- procurement@example.com (procurement_officer)
+- kitchen@example.com (kitchen_manager)
+
+### Inventory Endpoints
+
+All endpoints are currently in web routes and protected by auth + role middleware.
+
+- Procurement Officer routes:
+	- GET /admin/procurements
+	- POST /admin/procurements
+
+- Kitchen Manager routes:
+	- GET /admin/inventory/stock-levels
+	- GET /admin/inventory/low-stock
+	- POST /admin/inventory/waste
+
+### Operational Commands
+
+Run these after pulling latest changes:
+
+1) Install/update dependencies
+- composer install
+
+2) Refresh autoload files
+- composer dump-autoload
+
+3) Run migrations
+- php artisan migrate
+
+4) Seed base data (menu + ingredients + role users)
+- php artisan db:seed
+
+5) Confirm route registration
+- php artisan route:list --path=admin
+
+6) Optional cache clear during deployment/debug
+- php artisan optimize:clear
+
+### Important Runtime Behavior
+
+- Inventory calculations are wrapped in DB transactions.
+- Ingredient rows are lockForUpdate during stock mutation to prevent race conditions.
+- Insufficient stock throws a RuntimeException and the transaction rolls back.
+
+### Recommended Next Step
+
+For production ergonomics, add dedicated Filament resources for Ingredient, Procurement, Recipe, and InventoryLog so each role can operate via UI instead of JSON endpoints.
+
 ## Troubleshooting (Production)
 - Blade parse error near layout end (`expecting elseif/else/endif`) was caused by JSON-LD keys using `@context`/`@type` directly in Blade.
 - Fix applied in `resources/views/layouts/app.blade.php`: escaped JSON-LD keys as `@@context` and `@@type` so Blade outputs valid `@...` keys instead of parsing directives.
