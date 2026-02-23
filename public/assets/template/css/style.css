@@ -9020,14 +9020,19 @@ h1, h2, h3, h4, h5,
 .menu-wrap {
   margin-bottom: 3em;
   padding: 3em 1.5em .5em 1.5em;
-  border: 1.5px dashed #e6e6e6;
+  border: 1.5px dashed var(--luxury-gold);
   position: relative;
   background: #211f1f;
+  color: #fff;
   -moz-transition: all 0.6s ease;
   -o-transition: all 0.6s ease;
   -webkit-transition: all 0.6s ease;
   -ms-transition: all 0.6s ease;
   transition: all 0.6s ease; }
+  .menu-wrap h3,
+  .menu-wrap p,
+  .menu-wrap span {
+    color: #fff; }
   .menu-wrap .flat {
     position: absolute;
     top: 0;
@@ -9035,7 +9040,7 @@ h1, h2, h3, h4, h5,
     line-height: 1;
     color: #e6e6e6; }
   .menu-wrap:hover {
-    border-color: #e52b34; }
+    border-color: var(--luxury-gold); }
 
 .heading-menu h3 {
   font-size: 22px;
@@ -9084,7 +9089,7 @@ h1, h2, h3, h4, h5,
         transition: all 0.3s ease; }
     .menus .text p {
       margin-bottom: 0;
-      color: rgba(0, 0, 0, 0.8); }
+      color: #fff; }
   .menus .menu-img {
     width: 80px;
     height: 80px;
