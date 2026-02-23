@@ -10090,3 +10090,8 @@ a:focus {
 .whatsapp-float .fa-whatsapp {
   color: #fff !important;
 }
+
+.oceanova-menu-item-title,
+.oceanova-menu-item-price {
+  color: #fff !important;
+}

@@ -54,13 +54,13 @@
 
     <div class="flex items-start justify-between gap-3">
         <div>
-            <h3 class="text-lg font-semibold text-white">{{ $itemName }}</h3>
+            <h3 class="text-lg font-semibold text-white oceanova-menu-item-title">{{ $itemName }}</h3>
             @if($itemDescription)
                 <p class="text-sm text-slate-200">{{ $itemDescription }}</p>
             @endif
         </div>
         @if($itemPrice)
-            <span class="shrink-0 rounded-full bg-slate-900 text-white text-xs font-semibold px-3 py-1">
+            <span class="shrink-0 rounded-full bg-slate-900 text-white text-xs font-semibold px-3 py-1 oceanova-menu-item-price">
                 {{ $itemPrice }}
             </span>
         @endif
