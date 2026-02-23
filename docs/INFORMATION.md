@@ -286,3 +286,82 @@ After pulling changes:
 If needed after deploy:
 
 - `php artisan optimize:clear`
+
+## Frontend (Filament) Role Workflows
+
+### Goal
+Provide practical, UI-driven role workflows so operations can be executed from `/admin` without external API tools.
+
+### Screens and Intended Users
+
+#### Ingredients Screen
+- Primary users: Kitchen Manager, Admin
+- Main use cases:
+  - Monitor stock balances
+  - Identify low-stock items using built-in filter
+  - Log waste with reason directly on each ingredient row
+
+#### Procurements Screen
+- Primary users: Procurement Officer, Admin
+- Main use cases:
+  - Stock in ingredients via create form
+  - Track supplier deliveries and received timestamps
+
+#### Recipes Screen
+- Primary users: Admin
+- Main use cases:
+  - Configure per-menu-item ingredient consumption
+  - Keep stock deduction mapping accurate for order operations
+
+#### Inventory Logs Screen (Read-Only)
+- Primary users: Kitchen Manager, Admin
+- Main use cases:
+  - Audit every stock movement in one place
+  - Filter by movement type, date range, and actor
+  - Verify traceability of stock in/out/waste actions
+
+### Movement Auditing Logic
+
+All frontend-driven inventory operations are logged to `inventory_logs` with actor (`user_id`) and reason:
+
+- Stock in from Procurement screen → `type = in`
+- Waste logged from Ingredients screen → `type = waste`
+- Order-based consumption from order create/edit → `type = out` (and `in` for restock adjustments on quantity reductions)
+
+Managers can review these records directly from the Inventory Logs screen without edit/delete permissions.
+
+### Permission Boundaries in UI
+
+- Procurement Officer:
+  - Can use procurement frontend
+  - Cannot manage recipes
+  - Cannot edit ingredient master unless admin
+
+- Kitchen Manager:
+  - Can view ingredients and low-stock states
+  - Can log waste
+  - Cannot create procurements unless admin
+
+- General Order Person:
+  - Uses order screens
+  - Triggers stock deduction automatically through recipes
+
+- Admin:
+  - Can supervise and access all role-gated flows
+
+### Frontend Operational Sequence (Recommended)
+
+1. Admin seeds/maintains ingredients and recipes.
+2. Procurement Officer performs stock in for incoming deliveries.
+3. Kitchen Manager monitors low stock and logs waste.
+4. General Order Person creates/updates orders.
+5. System auto-adjusts inventory and writes audit logs.
+
+### Production Verification Steps
+
+1. Login as procurement officer and create procurement.
+2. Confirm ingredient `current_stock` increased.
+3. Login as kitchen manager and log waste for same ingredient.
+4. Confirm `current_stock` reduced correctly.
+5. Create an order with recipe-linked menu items.
+6. Confirm ingredient deductions and log entries are present.

@@ -121,3 +121,26 @@
 - Used transactional stock operations and row locking to avoid race conditions.
 - Added defensive stock checks to prevent negative inventory.
 - Added inventory logs for complete movement auditability.
+
+## Filament Frontend Management Prompt
+
+### Prompt Used
+- "Add real frontend access for manager and procurement so they can manage inventory from the admin panel."
+
+### Results
+- Added frontend Filament resources for:
+	- Ingredients (stock view + low-stock filter + waste action)
+	- Procurements (stock-in form + history)
+	- Recipes (admin configuration for stock-out mapping)
+- Added role gating at UI level so screens show only to intended roles.
+- Kept stock mutation logic centralized in InventoryService to avoid duplicated business rules.
+
+### Problems Encountered
+- Initial implementation relied on JSON endpoints only; non-technical users could not execute workflows easily.
+- Need for role-aware UI controls while preserving admin supervision access.
+
+### Fixes Applied
+- Introduced Filament resources under "Inventory & Procurement" navigation group.
+- Added per-resource access methods (`canViewAny`, `canCreate`, `canEdit`, `canDelete`) using role helpers.
+- Wired procurement create flow to InventoryService `stockIn()`.
+- Wired ingredients waste action to InventoryService `logWaste()`.

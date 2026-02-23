@@ -200,6 +200,135 @@ Run these after pulling latest changes:
 
 For production ergonomics, add dedicated Filament resources for Ingredient, Procurement, Recipe, and InventoryLog so each role can operate via UI instead of JSON endpoints.
 
+## Filament Frontend Operations
+
+The admin panel now supports role-based frontend operations for inventory and procurement through Filament resources.
+
+### Admin URL
+
+- /admin
+
+### Navigation Group
+
+- Inventory & Procurement
+
+### Frontend Screens
+
+#### 1) Ingredients (Kitchen Manager/Admin)
+
+Purpose:
+- View live stock levels
+- View low-stock alerts
+- Log waste operations from UI
+
+Capabilities:
+- Table columns: ingredient name, unit, current stock, min alert, low-stock status
+- Filter: Low Stock Alerts
+- Row action: Log Waste
+	- Inputs: quantity, reason
+	- Effect: decrements stock and writes inventory_logs(type=waste)
+
+Access:
+- kitchen_manager
+- admin
+- super_admin
+
+#### 2) Procurements (Procurement Officer/Admin)
+
+Purpose:
+- Perform Stock In from frontend form
+- Review procurement history
+
+Capabilities:
+- Create form fields:
+	- ingredient
+	- quantity_received
+	- unit_cost
+	- supplier_name
+	- received_at
+- Effect on save:
+	- creates procurement record
+	- increments ingredient stock
+	- writes inventory_logs(type=in)
+
+Access:
+- procurement_officer
+- admin
+- super_admin
+
+#### 3) Recipes (Admin)
+
+Purpose:
+- Define ingredient consumption per menu item
+- Drive automatic stock deduction when orders are created/edited
+
+Capabilities:
+- CRUD for menu_item + ingredient + quantity_required
+
+Access:
+- admin
+- super_admin
+
+#### 4) Inventory Logs (Kitchen Manager/Admin, Read-Only)
+
+Purpose:
+- Audit every inventory movement from the frontend
+
+Capabilities:
+- Read-only table of all movements
+- Filters:
+	- movement type (`in`, `out`, `waste`)
+	- date range (`from_date`, `until_date`)
+	- user/actor (`user_id`)
+- Useful columns:
+	- ingredient
+	- type badge
+	- quantity
+	- actor
+	- reason
+	- logged timestamp
+
+Access:
+- kitchen_manager
+- admin
+- super_admin
+
+### Automatic Stock Out Behavior in Frontend Order Processing
+
+When orders are created or updated from Filament Order pages:
+
+- Create:
+	- order + order items saved in transaction
+	- ingredients deducted based on recipes
+	- inventory_logs(type=out) created
+
+- Edit:
+	- old/new recipe requirements compared
+	- additional usage deducted OR excess restocked
+	- inventory logs written for each movement
+
+### Admin Override Behavior
+
+- Admin/super_admin can pass role middleware checks.
+- Admin can access role-restricted operations for supervision.
+
+### Frontend Role Assignment Example
+
+Use tinker to assign a specific account role:
+
+- `php artisan tinker`
+- `App\\Models\\User::where('email','victorynonso9@gmail.com')->update(['role' => 'admin']);`
+
+### Frontend Availability Checklist
+
+After deployment:
+
+- `php artisan migrate`
+- `php artisan db:seed`
+- `php artisan optimize:clear`
+- login to `/admin`
+- verify Inventory & Procurement navigation group appears for authorized users
+
 ## Troubleshooting (Production)
 - Blade parse error near layout end (`expecting elseif/else/endif`) was caused by JSON-LD keys using `@context`/`@type` directly in Blade.
 - Fix applied in `resources/views/layouts/app.blade.php`: escaped JSON-LD keys as `@@context` and `@@type` so Blade outputs valid `@...` keys instead of parsing directives.
