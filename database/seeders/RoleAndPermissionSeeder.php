@@ -14,6 +14,15 @@ class RoleAndPermissionSeeder extends Seeder
             return;
         }
 
-        $roleClass::findOrCreate('barman');
+        foreach ([
+            'super_admin',
+            'admin',
+            'procurement_officer',
+            'kitchen_manager',
+            'general_order_person',
+            'barman',
+        ] as $role) {
+            $roleClass::findOrCreate($role);
+        }
     }
 }

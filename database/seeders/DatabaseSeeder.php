@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(10)->create();
 
-        User::query()->updateOrCreate(
+        $generalOrderUser = User::query()->updateOrCreate(
             ['email' => 'test@example.com'],
             [
                 'name' => 'Test User',
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::query()->updateOrCreate(
+        $procurementOfficer = User::query()->updateOrCreate(
             ['email' => 'procurement@example.com'],
             [
                 'name' => 'Procurement Officer',
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::query()->updateOrCreate(
+        $kitchenManager = User::query()->updateOrCreate(
             ['email' => 'kitchen@example.com'],
             [
                 'name' => 'Kitchen Manager',
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::query()->updateOrCreate(
+        $barman = User::query()->updateOrCreate(
             ['email' => 'barman@example.com'],
             [
                 'name' => 'Barman',
@@ -55,5 +55,23 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('password'),
             ]
         );
+
+        $this->syncSpatieRole($generalOrderUser, 'general_order_person');
+        $this->syncSpatieRole($procurementOfficer, 'procurement_officer');
+        $this->syncSpatieRole($kitchenManager, 'kitchen_manager');
+        $this->syncSpatieRole($barman, 'barman');
+    }
+
+    private function syncSpatieRole(User $user, string $role): void
+    {
+        if (! class_exists('\\Spatie\\Permission\\Models\\Role')) {
+            return;
+        }
+
+        if (! method_exists($user, 'assignRole')) {
+            return;
+        }
+
+        $user->syncRoles([$role]);
     }
 }
