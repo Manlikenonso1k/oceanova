@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Widgets\ClickTrendChart;
+use App\Filament\Widgets\LowStockAlertsTable;
 use App\Filament\Widgets\MealPopularityChart;
 use App\Filament\Widgets\OrderStatusChart;
 use Filament\Http\Middleware\Authenticate;
@@ -38,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                LowStockAlertsTable::class,
                 MealPopularityChart::class,
                 OrderStatusChart::class,
                 ClickTrendChart::class,
