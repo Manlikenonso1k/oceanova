@@ -59,7 +59,19 @@ class User extends Authenticatable
 
     public function hasRole($role, ?string $guard = null): bool
     {
-        $normalizedRole = strtolower(trim((string) $role));
+        if (is_array($role)) {
+            return $this->hasAnyRole($role);
+        }
+
+        if ($role instanceof \Traversable) {
+            return $this->hasAnyRole(iterator_to_array($role));
+        }
+
+        $normalizedRole = $this->normalizeRoleName($role);
+        if ($normalizedRole === null) {
+            return $this->spatieHasRole($role, $guard);
+        }
+
         $storedRole = strtolower(trim((string) $this->role));
 
         if ($storedRole !== '' && $storedRole === $normalizedRole) {
@@ -72,27 +84,40 @@ class User extends Authenticatable
 
     public function hasAnyRole(...$roles): bool
     {
-        $flattenedRoles = collect($roles)
+        $normalizedRoles = collect($roles)
             ->flatten()
-            ->map(fn ($value): string => trim((string) $value))
-            ->filter(fn (string $value): bool => $value !== '')
-            ->values();
-
-        if ($flattenedRoles->isEmpty()) {
-            return false;
-        }
-
-        $normalizedRoles = $flattenedRoles
-            ->map(fn (string $value): string => strtolower($value))
+            ->map(fn ($value): ?string => $this->normalizeRoleName($value))
+            ->filter(fn (?string $value): bool => $value !== null)
             ->values()
             ->all();
+
+        if ($normalizedRoles === []) {
+            return $this->spatieHasAnyRole(...$roles);
+        }
 
         $storedRole = strtolower(trim((string) $this->role));
         if ($storedRole !== '' && in_array($storedRole, $normalizedRoles, true)) {
             return true;
         }
 
-        return $this->spatieHasAnyRole(...$flattenedRoles->all())
+        return $this->spatieHasAnyRole(...$roles)
             || $this->spatieHasAnyRole(...$normalizedRoles);
+    }
+
+    private function normalizeRoleName(mixed $role): ?string
+    {
+        if ($role instanceof \BackedEnum) {
+            $role = $role->value;
+        } elseif (is_object($role) && isset($role->name)) {
+            $role = $role->name;
+        }
+
+        if (!is_scalar($role) && !(is_object($role) && method_exists($role, '__toString'))) {
+            return null;
+        }
+
+        $normalized = strtolower(trim((string) $role));
+
+        return $normalized === '' ? null : $normalized;
     }
 }
