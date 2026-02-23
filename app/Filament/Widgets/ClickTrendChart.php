@@ -5,10 +5,16 @@ namespace App\Filament\Widgets;
 use App\Models\Click;
 use Carbon\CarbonPeriod;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class ClickTrendChart extends ChartWidget
 {
     protected static ?string $heading = 'Click Activity (14 days)';
+
+    public static function canView(): bool
+    {
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+    }
 
     protected function getData(): array
     {

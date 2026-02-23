@@ -19,7 +19,7 @@ class LowStockAlertsTable extends BaseWidget
 
     public static function canView(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['kitchen_manager', 'admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
     }
 
     public function table(Table $table): Table

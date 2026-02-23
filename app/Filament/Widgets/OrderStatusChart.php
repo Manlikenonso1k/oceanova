@@ -4,10 +4,16 @@ namespace App\Filament\Widgets;
 
 use App\Models\Order;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class OrderStatusChart extends ChartWidget
 {
     protected static ?string $heading = 'Order Status Distribution';
+
+    public static function canView(): bool
+    {
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+    }
 
     protected function getData(): array
     {

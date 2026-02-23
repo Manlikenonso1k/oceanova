@@ -4,10 +4,16 @@ namespace App\Filament\Widgets;
 
 use App\Models\OrderItem;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Auth;
 
 class MealPopularityChart extends ChartWidget
 {
     protected static ?string $heading = 'Top 10 Most Ordered Meals';
+
+    public static function canView(): bool
+    {
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+    }
 
     protected function getData(): array
     {
