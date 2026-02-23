@@ -21,6 +21,7 @@ class CreateProcurement extends CreateRecord
             (float) $data['unit_cost'],
             (string) $data['supplier_name'],
             (string) $data['received_at'],
+            $data['receipt_attachment'] ?? null,
             auth()->id(),
         );
 

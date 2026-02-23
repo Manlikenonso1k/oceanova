@@ -15,6 +15,7 @@ class Procurement extends Model
         'quantity_received',
         'unit_cost',
         'supplier_name',
+        'receipt_attachment',
         'received_at',
     ];
 
