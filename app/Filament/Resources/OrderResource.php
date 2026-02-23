@@ -127,21 +127,21 @@ class OrderResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->hasRole('general_order_person');
+        return Auth::check() && Auth::user()->hasAnyRole(['general_order_person', 'admin', 'super_admin']);
     }
 
     public static function canCreate(): bool
     {
-        return Auth::check() && Auth::user()->hasRole('general_order_person');
+        return Auth::check() && Auth::user()->hasAnyRole(['general_order_person', 'admin', 'super_admin']);
     }
 
     public static function canEdit($record): bool
     {
-        return Auth::check() && Auth::user()->hasRole('general_order_person');
+        return Auth::check() && Auth::user()->hasAnyRole(['general_order_person', 'admin', 'super_admin']);
     }
 
     public static function canDelete($record): bool
     {
-        return Auth::check() && Auth::user()->hasRole('general_order_person');
+        return Auth::check() && Auth::user()->hasAnyRole(['general_order_person', 'admin', 'super_admin']);
     }
 }

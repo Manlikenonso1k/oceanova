@@ -12,7 +12,15 @@ class EnsureUserRole
     {
         $user = $request->user();
 
-        if (!$user || !$user->hasAnyRole($roles)) {
+        if (!$user) {
+            abort(403, 'You do not have permission to access this resource.');
+        }
+
+        if ($user->hasAnyRole(['admin', 'super_admin'])) {
+            return $next($request);
+        }
+
+        if (!$user->hasAnyRole($roles)) {
             abort(403, 'You do not have permission to access this resource.');
         }
 
