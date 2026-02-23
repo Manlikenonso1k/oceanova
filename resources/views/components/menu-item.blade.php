@@ -60,7 +60,7 @@
             @endif
         </div>
         @if($itemPrice)
-            <span class="shrink-0 rounded-full bg-yellow-400 text-slate-900 text-xs font-semibold px-3 py-1">
+            <span class="shrink-0 rounded-full bg-slate-900 text-white text-xs font-semibold px-3 py-1">
                 {{ $itemPrice }}
             </span>
         @endif
