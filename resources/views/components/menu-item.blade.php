@@ -54,9 +54,9 @@
 
     <div class="flex items-start justify-between gap-3">
         <div>
-            <h3 class="text-lg font-semibold text-white">{{ $itemName }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{ $itemName }}</h3>
             @if($itemDescription)
-                <p class="text-sm text-slate-200">{{ $itemDescription }}</p>
+                <p class="text-sm text-slate-500">{{ $itemDescription }}</p>
             @endif
         </div>
         @if($itemPrice)
