@@ -20,28 +20,40 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'role' => 'general_order_person',
-        ]);
+        User::query()->updateOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'role' => 'general_order_person',
+                'password' => bcrypt('password'),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Procurement Officer',
-            'email' => 'procurement@example.com',
-            'role' => 'procurement_officer',
-        ]);
+        User::query()->updateOrCreate(
+            ['email' => 'procurement@example.com'],
+            [
+                'name' => 'Procurement Officer',
+                'role' => 'procurement_officer',
+                'password' => bcrypt('password'),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Kitchen Manager',
-            'email' => 'kitchen@example.com',
-            'role' => 'kitchen_manager',
-        ]);
+        User::query()->updateOrCreate(
+            ['email' => 'kitchen@example.com'],
+            [
+                'name' => 'Kitchen Manager',
+                'role' => 'kitchen_manager',
+                'password' => bcrypt('password'),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Barman',
-            'email' => 'barman@example.com',
-            'role' => 'barman',
-        ]);
+        User::query()->updateOrCreate(
+            ['email' => 'barman@example.com'],
+            [
+                'name' => 'Barman',
+                'role' => 'barman',
+                'password' => bcrypt('password'),
+            ]
+        );
     }
 }
