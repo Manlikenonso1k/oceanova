@@ -320,6 +320,14 @@ Provide practical, UI-driven role workflows so operations can be executed from `
   - Filter by movement type, date range, and actor
   - Verify traceability of stock in/out/waste actions
 
+#### Users Screen (Admin Control)
+- Primary users: Admin, Super Admin
+- Main use cases:
+  - Assign roles (`procurement_officer`, `kitchen_manager`, `general_order_person`)
+  - Manage user identity data (name/email)
+  - Reset/update passwords in admin panel
+  - Create and remove user accounts
+
 ### Movement Auditing Logic
 
 All frontend-driven inventory operations are logged to `inventory_logs` with actor (`user_id`) and reason:
@@ -329,6 +337,21 @@ All frontend-driven inventory operations are logged to `inventory_logs` with act
 - Order-based consumption from order create/edit → `type = out` (and `in` for restock adjustments on quantity reductions)
 
 Managers can review these records directly from the Inventory Logs screen without edit/delete permissions.
+
+### Inventory Audit Export
+- Inventory Logs screen includes `Export CSV` header action.
+- Export respects currently applied filters:
+  - movement type
+  - date range
+  - user/actor
+
+### Dashboard Operational Visibility
+- Added `Low Stock Alerts` dashboard table widget to `/admin`.
+- Visibility:
+  - kitchen_manager
+  - admin
+  - super_admin
+- Shows only low-stock ingredients, including computed shortfall.
 
 ### Permission Boundaries in UI
 
@@ -365,3 +388,5 @@ Managers can review these records directly from the Inventory Logs screen withou
 4. Confirm `current_stock` reduced correctly.
 5. Create an order with recipe-linked menu items.
 6. Confirm ingredient deductions and log entries are present.
+7. Open Inventory Logs and export filtered CSV.
+8. Open Users screen as admin and confirm role updates persist.

@@ -294,6 +294,42 @@ Access:
 - admin
 - super_admin
 
+#### 5) Users (Admin/Super Admin)
+
+Purpose:
+- Manage user accounts and assign operational roles from frontend
+
+Capabilities:
+- View user list
+- Create users
+- Edit user role and profile details
+- Update user password
+- Delete users (admin-level only)
+
+Supported roles:
+- admin
+- super_admin
+- procurement_officer
+- kitchen_manager
+- general_order_person
+
+Access:
+- admin
+- super_admin
+
+### Dashboard Widget
+
+`Low Stock Alerts` widget is now available on `/admin` dashboard for:
+
+- kitchen_manager
+- admin
+- super_admin
+
+Widget highlights:
+- Shows only low-stock ingredients
+- Displays current stock, minimum threshold, and shortfall
+- Prioritizes largest shortfall first
+
 ### Automatic Stock Out Behavior in Frontend Order Processing
 
 When orders are created or updated from Filament Order pages:
@@ -329,6 +365,8 @@ After deployment:
 - `php artisan optimize:clear`
 - login to `/admin`
 - verify Inventory & Procurement navigation group appears for authorized users
+- verify Administration > Users appears for admin/super_admin
+- verify dashboard shows Low Stock Alerts widget for manager/admin roles
 
 ## Troubleshooting (Production)
 - Blade parse error near layout end (`expecting elseif/else/endif`) was caused by JSON-LD keys using `@context`/`@type` directly in Blade.

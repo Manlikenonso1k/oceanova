@@ -144,3 +144,25 @@
 - Added per-resource access methods (`canViewAny`, `canCreate`, `canEdit`, `canDelete`) using role helpers.
 - Wired procurement create flow to InventoryService `stockIn()`.
 - Wired ingredients waste action to InventoryService `logWaste()`.
+
+## Admin Role Management + Audit UX Prompt
+
+### Prompt Used
+- "Allow admin to change users role details and improve audit visibility from the frontend."
+
+### Results
+- Added admin-only `UserResource` for role and account management.
+- Added read-only `InventoryLogResource` with filters by:
+	- movement type
+	- date range
+	- user/actor
+- Added CSV export for Inventory Logs using current filter set.
+- Added `LowStockAlertsTable` dashboard widget for manager/admin operational monitoring.
+
+### Problems Encountered
+- Filament route collision under `/admin/*` after introducing non-Filament web routes with same prefix.
+
+### Fixes Applied
+- Removed conflicting `/admin/procurements` and `/admin/inventory` web routes.
+- Let Filament resource routes own the `/admin` namespace completely.
+- Cleared route/config/view caches to refresh route registration.
