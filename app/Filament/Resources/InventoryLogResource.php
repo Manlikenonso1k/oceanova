@@ -89,6 +89,44 @@ class InventoryLogResource extends Resource
                             ->when($data['until_date'] ?? null, fn (Builder $q, $date): Builder => $q->whereDate('created_at', '<=', $date));
                     }),
             ])
+            ->headerActions([
+                Tables\Actions\Action::make('export_csv')
+                    ->label('Export CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(function ($livewire) {
+                        $query = method_exists($livewire, 'getFilteredTableQuery')
+                            ? $livewire->getFilteredTableQuery()
+                            : InventoryLog::query();
+
+                        $rows = $query
+                            ->with(['ingredient:id,name', 'user:id,email'])
+                            ->orderByDesc('created_at')
+                            ->get();
+
+                        $filename = 'inventory-logs-' . now()->format('Y-m-d-His') . '.csv';
+
+                        return response()->streamDownload(function () use ($rows): void {
+                            $stream = fopen('php://output', 'w');
+
+                            fputcsv($stream, ['ingredient', 'type', 'quantity', 'user', 'reason', 'logged_at']);
+
+                            foreach ($rows as $row) {
+                                fputcsv($stream, [
+                                    $row->ingredient?->name,
+                                    $row->type,
+                                    $row->quantity,
+                                    $row->user?->email ?? 'system',
+                                    $row->reason,
+                                    optional($row->created_at)->toDateTimeString(),
+                                ]);
+                            }
+
+                            fclose($stream);
+                        }, $filename, [
+                            'Content-Type' => 'text/csv',
+                        ]);
+                    }),
+            ])
             ->actions([])
             ->bulkActions([])
             ->defaultSort('created_at', 'desc');

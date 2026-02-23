@@ -280,6 +280,7 @@ Capabilities:
 	- movement type (`in`, `out`, `waste`)
 	- date range (`from_date`, `until_date`)
 	- user/actor (`user_id`)
+- Header action: `Export CSV` (exports the currently filtered result set)
 - Useful columns:
 	- ingredient
 	- type badge
