@@ -551,3 +551,29 @@ Optional Spatie enablement:
 - Verify receipt link is visible on listing.
 - Verify stock increment and log entry.
 - Confirm procurement scope remains beverage-only for barman.
+
+## Resolved Incident: Procurement User Login Loop
+
+### What happened
+- Procurement user login repeatedly redirected/spun after credential submit.
+
+### What logs showed
+- `Array to string conversion` from `app/Models/User.php` during Filament navigation resolution.
+- Stack trace passed through Spatie HasRoles checks while evaluating resource visibility.
+
+### Why it happened
+- Custom `hasRole` / `hasAnyRole` bridge mixed legacy `users.role` and Spatie checks, but one path passed non-scalar role payloads unsafely.
+
+### Fix delivered
+- Refactored role bridge logic in `app/Models/User.php`:
+  - robust role normalization,
+  - array/traversable-safe flattening,
+  - only valid normalized role names passed to Spatie checks.
+- Retained `canAccessPanel()` role whitelist for operational users including `procurement_officer`.
+
+### Validation completed
+- `php artisan optimize:clear`
+- Tinker check:
+  - procurement account exists and role is `procurement_officer`
+  - `hasAnyRole(['procurement_officer','admin'])` returns `true`
+- Procurement login confirmed working.

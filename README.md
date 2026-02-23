@@ -641,3 +641,35 @@ If enabling Spatie now:
 - No unrelated UI modules were added.
 - Existing inventory and procurement flows remain intact for procurement/admin roles.
 - Bar module remains additive and isolated via category scoping.
+
+## Incident Fix: Procurement Login Loop (Resolved)
+
+### Issue Observed
+- `procurement_officer` account could authenticate but `/admin` kept spinning/redirecting without dashboard load.
+
+### Root Cause
+- Role bridge methods in `app/Models/User.php` (`hasRole`, `hasAnyRole`) were handling some Filament/Spatie role payloads unsafely.
+- During navigation/resource visibility checks, an array payload path triggered:
+	- `Array to string conversion` in `User.php`.
+
+### Code Fix Implemented
+- Hardened role normalization and flattening logic in `User` model:
+	- safe handling for arrays and traversables,
+	- removed unsafe fallback calls that passed invalid payloads to Spatie,
+	- preserved compatibility with both `users.role` and Spatie role checks.
+- Kept explicit panel access mapping in `canAccessPanel()` to allow operational roles.
+
+### Server Validation Done
+- Cleared caches successfully:
+	- `php artisan optimize:clear`
+- Confirmed procurement account exists:
+	- `procurement@oceanova.ng` with role `procurement_officer`
+- Confirmed role bridge check in Tinker:
+	- `hasAnyRole(['procurement_officer','admin'])` returned `true`
+- Confirmed procurement login now works.
+
+### Runbook Note
+- Run PHP expressions in `php artisan tinker`, not bash shell.
+- If role mismatch appears after imports/manual edits:
+	- `php artisan roles:backfill-spatie --dry-run`
+	- `php artisan roles:backfill-spatie`
