@@ -35,7 +35,7 @@
 		</div>
 	</section>
 
-	<section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt" style="background-color: #211f1f;">
+	<section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt oceanova-about-section">
 		<div class="container">
 			<div class="row no-gutters">
 				<div class="col-sm-4 p-4 p-md-5 d-flex align-items-center justify-content-center bg-primary">
@@ -105,11 +105,11 @@
 							<div class="heading-section mt-5 mb-4">
 								<div class="pl-lg-3 ml-md-5">
 									<span class="subheading">About</span>
-									<h1 class="mb-4" style="color: #fff;">Welcome to Oceanova</h1>
+									<h1 class="mb-4 oceanova-about-title">Welcome to Oceanova</h1>
 								</div>
 							</div>
 							<div class="pl-lg-3 ml-md-5">
-								<p style="color: #fff;">Located in Okun Ajah, Oceanova brings you a refined fine‑dining experience you have never seen before. From our international dishes crafted by professional chefs to our warm, attentive service, every visit is designed to feel special. Whether you are celebrating a milestone or enjoying a quiet evening, Oceanova blends flavor, comfort, and elegance to create an unforgettable culinary moment.</p>
+								<p class="oceanova-about-copy">Located in Okun Ajah, Oceanova brings you a refined fine‑dining experience you have never seen before. From our international dishes crafted by professional chefs to our warm, attentive service, every visit is designed to feel special. Whether you are celebrating a milestone or enjoying a quiet evening, Oceanova blends flavor, comfort, and elegance to create an unforgettable culinary moment.</p>
 							</div>
 						</div>
 					</div>
@@ -130,7 +130,7 @@
 		</div>
 	</section>
 
-	<section class="ftco-section" style="background-color: #211f1f;">
+	<section class="ftco-section oceanova-menu-section">
 		<div class="container">
 			<div class="row justify-content-center mb-5 pb-2">
 				<div class="col-md-7 text-center heading-section ftco-animate">

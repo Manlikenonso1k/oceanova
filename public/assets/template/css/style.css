@@ -10049,3 +10049,13 @@ a:focus {
   border-color: var(--luxury-black) !important;
   color: var(--luxury-gold) !important;
 }
+
+.oceanova-about-section,
+.oceanova-menu-section {
+  background-color: var(--luxury-black) !important;
+}
+
+.oceanova-about-title,
+.oceanova-about-copy {
+  color: #fff !important;
+}
