@@ -166,3 +166,92 @@
 - Removed conflicting `/admin/procurements` and `/admin/inventory` web routes.
 - Let Filament resource routes own the `/admin` namespace completely.
 - Cleared route/config/view caches to refresh route registration.
+
+## Bar Management Module Prompt (Barman)
+
+### Prompt Used
+- Create a dedicated Bar Management module for the existing Restaurant Admin Panel.
+- Scope it for the barman role so bar inventory is separate from kitchen inventory.
+- Extend inventory tracking with stock-sheet fields:
+	- opening_stock
+	- added_stock
+	- trans_in
+	- trans_out
+	- sales
+	- closing_stock
+- Implement stock formulas:
+	- total stock
+	- expected closing
+	- variance
+- Seed beverage catalog under category Beverage with sub-categories and prices.
+- Add a dedicated BarmanResource in Filament with beverage-only data visibility.
+
+### Results
+
+#### Database
+- Added ingredients extensions migration:
+	- category
+	- sub_category
+	- price
+- Added bar_stock_sheets migration with full period tracking and variance columns.
+
+#### Models
+- Added BarStockSheet model.
+- Extended Ingredient model with:
+	- category/sub_category/price fillables
+	- price cast
+	- barStockSheets relation
+
+#### Service Layer
+- Added InventoryService methods:
+	- calculateBarStockMetrics(...)
+	- createBarStockSheet(...)
+- Implemented formulas exactly as requested.
+
+#### Admin Resources
+- Added Filament resource:
+	- app/Filament/Resources/BarmanResource.php
+	- plus list/create/edit pages
+- Enforced beverage-only scope at query level.
+- Auto-forced category to Beverage on create/update.
+
+#### Data Seeding
+- Added BarInventorySeeder with full requested bar categories and item list.
+- Added Naira price mapping per seeded item.
+- Wired BarInventorySeeder into DatabaseSeeder.
+
+#### Roles
+- Added barman to UserResource role options.
+- Added RoleAndPermissionSeeder with safe Spatie-conditional role creation.
+
+### Follow-up Prompt Used
+- “the barman should be able to upload reciepts”
+
+### Follow-up Results
+- Updated ProcurementResource permissions to include barman.
+- Scoped barman procurement list to Beverage ingredients only.
+- Scoped ingredient dropdown to Beverage items for barman.
+- Receipt upload feature became usable by barman through procurement create flow.
+
+### Problems Encountered
+- Local coding terminal lacked composer/php runtime, so package installation could not run from local agent shell.
+- Project currently uses users.role authorization, while request referenced Spatie permissions.
+
+### Fixes Applied
+- Implemented all role checks in existing users.role system for immediate functionality.
+- Added Spatie-compatible seeder hook so migration path to package is smooth when installed on server.
+- Provided server-side commands for Spatie install and publish/migrate steps.
+
+### Commands Provided for Server
+- composer require spatie/laravel-permission
+- php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+- php artisan migrate
+- php artisan db:seed
+- php artisan optimize:clear
+
+### Validation Targets
+- Barman sees only Beverage data in Bar Inventory.
+- Barman can create procurement for Beverage only.
+- Barman can upload and view procurement receipts.
+- Stock increments and logs are generated correctly.
+- Kitchen inventory remains unaffected by bar-only scoping.

@@ -3,12 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProcurementResource\Pages;
+use App\Models\Ingredient;
 use App\Models\Procurement;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,7 +27,15 @@ class ProcurementResource extends Resource
         return $form->schema([
             Forms\Components\Select::make('ingredient_id')
                 ->label('Ingredient')
-                ->relationship('ingredient', 'name')
+                ->options(function (): array {
+                    $query = Ingredient::query()->orderBy('name');
+
+                    if (Auth::check() && Auth::user()->hasRole('barman')) {
+                        $query->where('category', 'Beverage');
+                    }
+
+                    return $query->pluck('name', 'id')->all();
+                })
                 ->searchable()
                 ->preload()
                 ->required(),
@@ -117,14 +127,25 @@ class ProcurementResource extends Resource
         ];
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        if (Auth::check() && Auth::user()->hasRole('barman')) {
+            $query->whereHas('ingredient', fn (Builder $ingredientQuery): Builder => $ingredientQuery->where('category', 'Beverage'));
+        }
+
+        return $query;
+    }
+
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['procurement_officer', 'admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['barman', 'procurement_officer', 'admin', 'super_admin']);
     }
 
     public static function canCreate(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['procurement_officer', 'admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['barman', 'procurement_officer', 'admin', 'super_admin']);
     }
 
     public static function canEdit($record): bool

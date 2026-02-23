@@ -13,14 +13,18 @@ class Ingredient extends Model
 
     protected $fillable = [
         'name',
+        'category',
+        'sub_category',
         'unit',
         'current_stock',
         'min_stock_alert_level',
+        'price',
     ];
 
     protected $casts = [
         'current_stock' => 'decimal:3',
         'min_stock_alert_level' => 'decimal:3',
+        'price' => 'decimal:2',
     ];
 
     public function procurements(): HasMany
@@ -36,6 +40,11 @@ class Ingredient extends Model
     public function inventoryLogs(): HasMany
     {
         return $this->hasMany(InventoryLog::class);
+    }
+
+    public function barStockSheets(): HasMany
+    {
+        return $this->hasMany(BarStockSheet::class);
     }
 
     public function scopeLowStock(Builder $query): Builder

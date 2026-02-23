@@ -2,17 +2,101 @@
 
 namespace App\Services;
 
+use App\Models\BarStockSheet;
 use App\Models\Ingredient;
 use App\Models\InventoryLog;
 use App\Models\Order;
 use App\Models\Procurement;
 use App\Models\Recipe;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
 class InventoryService
 {
+    public function calculateBarStockMetrics(
+        float $openingStock,
+        float $addedStock,
+        float $transIn,
+        float $transOut,
+        float $sales,
+        float $physicalClosing
+    ): array {
+        $totalStock = ($openingStock + $addedStock + $transIn) - $transOut;
+        $expectedClosing = $totalStock - $sales;
+        $variance = $physicalClosing - $expectedClosing;
+
+        return [
+            'total_stock' => round($totalStock, 3),
+            'expected_closing' => round($expectedClosing, 3),
+            'variance' => round($variance, 3),
+        ];
+    }
+
+    public function createBarStockSheet(
+        int $ingredientId,
+        CarbonInterface $periodStart,
+        CarbonInterface $periodEnd,
+        float $openingStock,
+        float $closingStock,
+        ?int $recordedBy = null
+    ): BarStockSheet {
+        /** @var Ingredient $ingredient */
+        $ingredient = Ingredient::query()->findOrFail($ingredientId);
+
+        $addedStock = (float) Procurement::query()
+            ->where('ingredient_id', $ingredientId)
+            ->whereBetween('received_at', [$periodStart, $periodEnd])
+            ->sum('quantity_received');
+
+        $transIn = (float) InventoryLog::query()
+            ->where('ingredient_id', $ingredientId)
+            ->where('type', 'in')
+            ->whereBetween('created_at', [$periodStart, $periodEnd])
+            ->where('reason', 'like', 'Transfer In:%')
+            ->sum('quantity');
+
+        $transOut = (float) InventoryLog::query()
+            ->where('ingredient_id', $ingredientId)
+            ->where('type', 'out')
+            ->whereBetween('created_at', [$periodStart, $periodEnd])
+            ->where('reason', 'like', 'Transfer Out:%')
+            ->sum('quantity');
+
+        $sales = (float) InventoryLog::query()
+            ->where('ingredient_id', $ingredientId)
+            ->where('type', 'out')
+            ->whereBetween('created_at', [$periodStart, $periodEnd])
+            ->where('reason', 'like', 'Order #%')
+            ->sum('quantity');
+
+        $metrics = $this->calculateBarStockMetrics(
+            $openingStock,
+            $addedStock,
+            $transIn,
+            $transOut,
+            $sales,
+            $closingStock,
+        );
+
+        return BarStockSheet::query()->create([
+            'ingredient_id' => $ingredient->id,
+            'period_start' => $periodStart->toDateString(),
+            'period_end' => $periodEnd->toDateString(),
+            'opening_stock' => $openingStock,
+            'added_stock' => $addedStock,
+            'trans_in' => $transIn,
+            'trans_out' => $transOut,
+            'sales' => $sales,
+            'total_stock' => $metrics['total_stock'],
+            'expected_closing' => $metrics['expected_closing'],
+            'closing_stock' => $closingStock,
+            'variance' => $metrics['variance'],
+            'recorded_by' => $recordedBy,
+        ]);
+    }
+
     public function stockIn(
         int $ingredientId,
         float $quantityReceived,

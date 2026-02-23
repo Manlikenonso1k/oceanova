@@ -13,8 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(RoleAndPermissionSeeder::class);
         $this->call(MenuCatalogSeeder::class);
         $this->call(IngredientSeeder::class);
+        $this->call(BarInventorySeeder::class);
 
         // User::factory(10)->create();
 
@@ -34,6 +36,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Kitchen Manager',
             'email' => 'kitchen@example.com',
             'role' => 'kitchen_manager',
+        ]);
+
+        User::factory()->create([
+            'name' => 'Barman',
+            'email' => 'barman@example.com',
+            'role' => 'barman',
         ]);
     }
 }

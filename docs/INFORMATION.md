@@ -390,3 +390,164 @@ Managers can review these records directly from the Inventory Logs screen withou
 6. Confirm ingredient deductions and log entries are present.
 7. Open Inventory Logs and export filtered CSV.
 8. Open Users screen as admin and confirm role updates persist.
+
+## Bar Management Module (Detailed Implementation)
+
+### Business Goal
+- Create a dedicated beverage inventory lane for barman operations.
+- Keep bar inventory control independent from kitchen stock handling.
+- Track period-based stock accountability with variance analysis.
+- Enable barman procurement with receipt evidence upload.
+
+### Schema Work Completed
+
+#### Ingredient Extensions
+Migration: database/migrations/2026_02_23_000016_add_category_sub_category_price_to_ingredients_table.php
+
+Added to ingredients table:
+- category (string, default Kitchen)
+- sub_category (nullable string)
+- price (decimal 12,2, default 0)
+- category/sub_category index
+
+#### Bar Stock Sheet Table
+Migration: database/migrations/2026_02_23_000017_create_bar_stock_sheets_table.php
+
+Created table: bar_stock_sheets
+
+Columns:
+- ingredient_id
+- period_start, period_end
+- opening_stock, added_stock
+- trans_in, trans_out
+- sales
+- total_stock
+- expected_closing
+- closing_stock
+- variance
+- recorded_by
+
+### Model Layer
+
+#### New Model
+app/Models/BarStockSheet.php
+
+Includes:
+- fillable for all stock-sheet fields
+- decimal/date casts
+- relations: ingredient(), recorder()
+
+#### Updated Model
+app/Models/Ingredient.php
+
+Updated with:
+- fillable: category, sub_category, price
+- cast: price
+- relation: barStockSheets()
+
+### Inventory Service Logic
+
+Updated file: app/Services/InventoryService.php
+
+Added methods:
+
+1) calculateBarStockMetrics(...)
+- Total Stock = (Opening + Added + Trans In) - Trans Out
+- Expected Closing = Total Stock - Sales
+- Variance = Physical Closing - Expected Closing
+
+2) createBarStockSheet(...)
+- Pulls Added Stock from procurements in date range.
+- Pulls Transfer In/Out from inventory_logs reason patterns.
+- Pulls Sales from order-linked out logs.
+- Stores calculated totals + variance in bar_stock_sheets.
+
+### Barman UI Resource
+
+Added:
+- app/Filament/Resources/BarmanResource.php
+- app/Filament/Resources/BarmanResource/Pages/ListBarmen.php
+- app/Filament/Resources/BarmanResource/Pages/CreateBarman.php
+- app/Filament/Resources/BarmanResource/Pages/EditBarman.php
+
+Capabilities:
+- Manage only beverage ingredients.
+- Manage name, sub-category, unit, price, stock, alert level.
+- Filter and sort by beverage categories.
+
+Hard Scope:
+- Query constrained to category = Beverage.
+- Create/Edit mutate category to Beverage.
+
+Access:
+- barman, admin, super_admin
+
+### Receipt Upload Enablement for Barman
+
+Updated:
+- app/Filament/Resources/ProcurementResource.php
+
+Enhancements:
+- barman granted view/create procurement access.
+- barman ingredient selection limited to Beverage category.
+- barman procurement list limited to records whose ingredient category is Beverage.
+
+Receipt support:
+- Uses existing procurement receipt upload field.
+- Accepts PDF/JPG/PNG/WEBP.
+- Mobile camera capture available via device/browser picker.
+
+### Role Handling
+
+Current runtime role system remains users.role-based.
+
+Updated:
+- app/Filament/Resources/UserResource.php
+  - added barman as assignable role option.
+
+Compatibility addition:
+- database/seeders/RoleAndPermissionSeeder.php
+  - safely creates barman role only if Spatie package is installed.
+
+### Seeding
+
+Added:
+- database/seeders/BarInventorySeeder.php
+
+Seed coverage:
+- Cognac, Whiskey, Red Wine, White Wine, Sweet Wine Red, Sweet Wine White,
+  Tequila, Vodka/Gin, Liqueur, Spark/Soft.
+
+All seeded rows include:
+- category = Beverage
+- mapped sub_category
+- Naira price mapping
+- unit = pcs
+- stock defaults for startup operations
+
+DatabaseSeeder updates:
+- calls RoleAndPermissionSeeder
+- calls BarInventorySeeder
+- creates a default barman user account
+
+### Deployment Steps
+
+Required:
+- php artisan migrate
+- php artisan db:seed
+- php artisan optimize:clear
+
+Optional Spatie enablement:
+- composer require spatie/laravel-permission
+- php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+- php artisan migrate
+- php artisan db:seed
+
+### QA Checklist
+- Login as barman and verify Bar Management navigation appears.
+- Confirm bar inventory list contains only Beverage items.
+- Confirm kitchen-only ingredients are not visible.
+- Create procurement as barman and upload receipt.
+- Verify receipt link is visible on listing.
+- Verify stock increment and log entry.
+- Confirm procurement scope remains beverage-only for barman.

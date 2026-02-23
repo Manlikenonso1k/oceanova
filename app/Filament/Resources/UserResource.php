@@ -37,6 +37,7 @@ class UserResource extends Resource
                 ->options([
                     'admin' => 'Admin',
                     'super_admin' => 'Super Admin',
+                    'barman' => 'Barman',
                     'procurement_officer' => 'Procurement Officer',
                     'kitchen_manager' => 'Kitchen Manager',
                     'general_order_person' => 'General Order Person',

@@ -389,3 +389,255 @@ composer install --no-dev -o
 ```
 
 If `~/.bash_profile` is not loaded by the host shell, add the same lines to `~/.bashrc`.
+
+## Bar Management Module (Barman Scope) — Feb 2026
+
+This release introduces a dedicated Bar Management module for beverage operations, separated from kitchen inventory workflows.
+
+### Scope and Objective
+
+- Introduce a barman-focused inventory experience.
+- Keep beverage stock operationally separate from kitchen ingredients.
+- Add a daily/weekly bar stock sheet structure for accountability.
+- Support receipt uploads for beverage procurements.
+- Preserve compatibility with the existing role-column authorization while preparing for Spatie role migration.
+
+### Database Changes
+
+#### 1) Ingredient Classification + Pricing
+
+Migration added:
+
+- database/migrations/2026_02_23_000016_add_category_sub_category_price_to_ingredients_table.php
+
+Fields introduced on ingredients:
+
+- category (string, default Kitchen)
+- sub_category (string, nullable)
+- price (decimal 12,2, default 0)
+- index on (category, sub_category)
+
+Purpose:
+
+- category separates beverage from kitchen items.
+- sub_category enables bar families like Cognac, Whiskey, Red Wine, etc.
+- price stores bar item reference pricing in Naira.
+
+#### 2) Bar Stock Sheet Tracking Table
+
+Migration added:
+
+- database/migrations/2026_02_23_000017_create_bar_stock_sheets_table.php
+
+Table: bar_stock_sheets
+
+Columns:
+
+- ingredient_id
+- period_start
+- period_end
+- opening_stock
+- added_stock
+- trans_in
+- trans_out
+- sales
+- total_stock
+- expected_closing
+- closing_stock
+- variance
+- recorded_by
+
+This table supports daily/weekly reconciliation and variance analysis for bar operations.
+
+### Models and Relationships
+
+#### New model
+
+- app/Models/BarStockSheet.php
+
+Provides:
+
+- relation to ingredient
+- relation to recorder user
+- casts for period dates and numeric stock fields
+
+#### Updated model
+
+- app/Models/Ingredient.php
+
+Added:
+
+- fillable: category, sub_category, price
+- cast: price decimal(2)
+- relation: barStockSheets()
+
+### Service Layer Enhancements
+
+Updated:
+
+- app/Services/InventoryService.php
+
+Added methods:
+
+1. calculateBarStockMetrics(opening, added, transIn, transOut, sales, physicalClosing)
+2. createBarStockSheet(ingredientId, periodStart, periodEnd, openingStock, closingStock, recordedBy)
+
+Implemented formulas:
+
+- Total Stock = (Opening + Added + Trans In) - Trans Out
+- Expected Closing = Total Stock - Sales
+- Variance = Physical Closing - Expected Closing
+
+Sales source in implementation:
+
+- Derived from inventory_logs type=out entries with order-derived reason patterns.
+
+Transfer source in implementation:
+
+- Transfer In/Out calculated from inventory_logs reason patterns:
+	- Transfer In:%
+	- Transfer Out:%
+
+### Filament UI — Barman Resource
+
+New resource:
+
+- app/Filament/Resources/BarmanResource.php
+
+New pages:
+
+- app/Filament/Resources/BarmanResource/Pages/ListBarmen.php
+- app/Filament/Resources/BarmanResource/Pages/CreateBarman.php
+- app/Filament/Resources/BarmanResource/Pages/EditBarman.php
+
+Behavior:
+
+- Resource model: Ingredient
+- Navigation group: Bar Management
+- Eloquent query hard-scoped to category = Beverage
+- Create/Edit mutators force category to Beverage
+- Sub-category selector includes all required bar groups
+
+Role access:
+
+- barman
+- admin
+- super_admin
+
+This ensures barman users only manage beverage items from this screen.
+
+### Procurement + Receipt Upload for Barman
+
+Updated:
+
+- app/Filament/Resources/ProcurementResource.php
+
+What changed:
+
+- barman role added to canViewAny and canCreate.
+- ingredient picker is role-scoped:
+	- barman sees only Beverage ingredients.
+- procurement listing query is role-scoped:
+	- barman sees only records linked to Beverage ingredients.
+
+Receipt workflow:
+
+- Existing receipt upload control (PDF/JPG/PNG/WEBP) is now available to barman via procurement create access.
+- Mobile camera capture remains supported by browser/file picker on compatible devices.
+
+### Role System Notes (Current + Spatie Path)
+
+Current live auth model:
+
+- Uses users.role column and helper methods hasRole/hasAnyRole.
+
+Added compatibility seeder:
+
+- database/seeders/RoleAndPermissionSeeder.php
+
+Behavior:
+
+- If Spatie Role class exists, it creates barman role.
+- If Spatie is not installed, it exits safely (no failure).
+
+### Bar Inventory Data Seeding
+
+Seeder added:
+
+- database/seeders/BarInventorySeeder.php
+
+Contains all requested beverage families and items:
+
+- Cognac
+- Whiskey
+- Red Wine
+- White Wine
+- Sweet Wine Red
+- Sweet Wine White
+- Tequila
+- Vodka/Gin
+- Liqueur
+- Spark/Soft
+
+Each seeded row includes:
+
+- category = Beverage
+- mapped sub_category
+- unit = pcs
+- price in Naira
+- current_stock = 0
+- min_stock_alert_level = 5
+
+DatabaseSeeder wiring updated:
+
+- Calls RoleAndPermissionSeeder
+- Calls BarInventorySeeder
+- Creates default barman user (barman@example.com)
+
+### User Role Management Update
+
+Updated:
+
+- app/Filament/Resources/UserResource.php
+
+Added role option:
+
+- barman
+
+Admins can now assign users into the barman workflow directly from the admin panel.
+
+### Operational Runbook (Server)
+
+1) Pull latest code.
+2) Run migrations:
+	 - php artisan migrate
+3) Seed data:
+	 - php artisan db:seed
+4) Clear caches:
+	 - php artisan optimize:clear
+
+If enabling Spatie now:
+
+1) composer require spatie/laravel-permission
+2) php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+3) php artisan migrate
+4) php artisan db:seed
+
+### Validation Checklist (Post-Deploy)
+
+1) Login as barman.
+2) Confirm Bar Management > Bar Inventory is visible.
+3) Confirm only Beverage items appear.
+4) Open Procurements > Create.
+5) Confirm ingredient dropdown contains only Beverage items.
+6) Upload receipt file (PDF/JPG/PNG/WEBP) and save.
+7) Confirm procurement row shows receipt link.
+8) Confirm ingredient stock incremented.
+9) Confirm inventory_logs contains type=in movement.
+
+### Design Intent Preserved
+
+- No changes were made to kitchen recipe deduction logic.
+- No unrelated UI modules were added.
+- Existing inventory and procurement flows remain intact for procurement/admin roles.
+- Bar module remains additive and isolated via category scoping.
