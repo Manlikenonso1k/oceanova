@@ -25,16 +25,13 @@ class ListProcurements extends ListRecords
             Actions\Action::make('openTemplate')
                 ->label('Open Live Template')
                 ->icon('heroicon-o-document-text')
-                ->action(function (): void {
-                    Notification::make()
-                        ->title('Use Download CSV Template')
-                        ->body('Template now uses live ingredients from your database to avoid stale rows (e.g. unrelated items).')
-                        ->info()
-                        ->send();
-                }),
+                ->color('primary')
+                ->tooltip('Template now uses live ingredients from your database to avoid stale rows (e.g. unrelated items).')
+                ->action(fn (): StreamedResponse => $this->downloadCsvTemplate()),
             Actions\Action::make('downloadCsvTemplate')
                 ->label('Download CSV Template')
                 ->icon('heroicon-o-arrow-down-tray')
+                ->tooltip('Use Download CSV Template. Template now uses live ingredients from your database to avoid stale rows (e.g. unrelated items).')
                 ->action(fn (): StreamedResponse => $this->downloadCsvTemplate()),
             Actions\Action::make('importCsv')
                 ->label('Import CSV')
