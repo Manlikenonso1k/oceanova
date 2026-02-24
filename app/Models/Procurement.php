@@ -13,6 +13,7 @@ class Procurement extends Model
     protected $fillable = [
         'ingredient_id',
         'quantity_received',
+        'unit_price',
         'unit_cost',
         'supplier_name',
         'status',
@@ -22,6 +23,7 @@ class Procurement extends Model
 
     protected $casts = [
         'quantity_received' => 'decimal:3',
+        'unit_price' => 'decimal:2',
         'unit_cost' => 'decimal:2',
         'received_at' => 'datetime',
     ];

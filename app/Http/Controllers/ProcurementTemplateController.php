@@ -57,16 +57,19 @@ class ProcurementTemplateController extends Controller
                 $ingredientName = (string) ($ingredientLookup[$ingredientId] ?? ('Ingredient #' . $ingredientId));
 
                 $quantityRaw = trim((string) ($row['quantity_received'] ?? ''));
-                $unitCostRaw = trim((string) ($row['unit_cost'] ?? ''));
+                $unitPriceRaw = trim((string) ($row['unit_price'] ?? ''));
+                $amountTotalRaw = trim((string) ($row['amount_total'] ?? ($row['unit_cost'] ?? '')));
                 $supplierName = trim((string) ($row['supplier_name'] ?? ''));
                 $status = trim((string) ($row['status'] ?? 'completed'));
                 $receivedAtRaw = trim((string) ($row['received_at'] ?? ''));
 
                 $quantity = $quantityRaw === '' ? 0.0 : (float) $quantityRaw;
-                $unitCost = $unitCostRaw === '' ? 0.0 : (float) $unitCostRaw;
+                $unitPrice = $unitPriceRaw === '' ? null : (float) $unitPriceRaw;
+                $amountTotal = $amountTotalRaw === '' ? 0.0 : (float) $amountTotalRaw;
 
                 $isBlank = $quantityRaw === ''
-                    && $unitCostRaw === ''
+                    && $unitPriceRaw === ''
+                    && $amountTotalRaw === ''
                     && $supplierName === ''
                     && $receivedAtRaw === '';
 
@@ -87,12 +90,16 @@ class ProcurementTemplateController extends Controller
                     throw new \RuntimeException('Quantity must be greater than zero.');
                 }
 
-                if ($unitCostRaw === '') {
-                    throw new \RuntimeException('Unit cost is required.');
+                if ($unitPrice !== null && $unitPrice <= 0) {
+                    throw new \RuntimeException('Unit price must be greater than zero when provided.');
                 }
 
-                if ($unitCost < 0) {
-                    throw new \RuntimeException('Unit cost cannot be negative.');
+                if ($amountTotal <= 0 && $unitPrice !== null && $unitPrice > 0) {
+                    $amountTotal = $quantity * $unitPrice;
+                }
+
+                if ($amountTotal <= 0) {
+                    throw new \RuntimeException('Amount (total) is required, or provide a valid unit price.');
                 }
 
                 if ($supplierName === '') {
@@ -109,10 +116,11 @@ class ProcurementTemplateController extends Controller
                 $inventoryService->stockIn(
                     $ingredientId,
                     $quantity,
-                    $unitCost,
+                    $amountTotal,
                     $supplierName,
                     $receivedAt,
                     $status,
+                    $unitPrice,
                     null,
                     $request->user()?->id,
                 );

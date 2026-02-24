@@ -40,7 +40,7 @@
                             <th class="px-3 py-2 text-left font-medium text-gray-600">Date</th>
                             <th class="px-3 py-2 text-left font-medium text-gray-600">Ingredient</th>
                             <th class="px-3 py-2 text-right font-medium text-gray-600">Qty</th>
-                            <th class="px-3 py-2 text-right font-medium text-gray-600">Unit Cost</th>
+                            <th class="px-3 py-2 text-right font-medium text-gray-600">Amount (Total)</th>
                             <th class="px-3 py-2 text-right font-medium text-gray-600">Line Total</th>
                             <th class="px-3 py-2 text-left font-medium text-gray-600">Status</th>
                         </tr>

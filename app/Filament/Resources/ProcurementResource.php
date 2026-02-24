@@ -45,11 +45,19 @@ class ProcurementResource extends Resource
                 ->numeric()
                 ->minValue(0.001),
 
-            Forms\Components\TextInput::make('unit_cost')
-                ->required()
+            Forms\Components\TextInput::make('unit_price')
+                ->label('Unit Price (Optional)')
                 ->numeric()
                 ->prefix('₦')
-                ->minValue(0),
+                ->minValue(0)
+                ->helperText('If provided and Amount is empty, Amount is auto-calculated as quantity × unit price.'),
+
+            Forms\Components\TextInput::make('unit_cost')
+                ->label('Amount (Total)')
+                ->numeric()
+                ->prefix('₦')
+                ->minValue(0)
+                ->helperText('Enter total row amount. Example: 2 chickens for ₦12,000 => Amount = 12000.'),
 
             Forms\Components\TextInput::make('supplier_name')
                 ->required()
@@ -101,6 +109,7 @@ class ProcurementResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('unit_cost')
+                    ->label('Amount')
                     ->money('NGN')
                     ->sortable(),
 

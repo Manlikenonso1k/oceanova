@@ -65,7 +65,7 @@ class ListProcurements extends ListRecords
                 return;
             }
 
-            fputcsv($stream, ['ingredient_id', 'ingredient_name', 'category', 'unit', 'quantity_received', 'unit_cost', 'supplier_name', 'status', 'received_at']);
+            fputcsv($stream, ['ingredient_id', 'ingredient_name', 'category', 'unit', 'quantity_received', 'unit_price', 'amount_total', 'supplier_name', 'status', 'received_at']);
 
             foreach ($ingredients as $ingredient) {
                 fputcsv($stream, [
@@ -73,6 +73,7 @@ class ListProcurements extends ListRecords
                     $ingredient->name,
                     $ingredient->category,
                     $ingredient->unit,
+                    '',
                     '',
                     '',
                     '',
@@ -105,13 +106,19 @@ class ListProcurements extends ListRecords
         $header = fgetcsv($handle) ?: [];
         $header = array_map(fn (?string $value): string => strtolower(trim((string) $value)), $header);
 
-        $required = ['quantity_received', 'unit_cost', 'supplier_name', 'received_at'];
+        $required = ['quantity_received', 'supplier_name', 'received_at'];
         foreach ($required as $column) {
             if (!in_array($column, $header, true)) {
                 fclose($handle);
                 Notification::make()->title("Missing required column: {$column}")->danger()->send();
                 return;
             }
+        }
+
+        if (!in_array('amount_total', $header, true) && !in_array('unit_cost', $header, true) && !in_array('unit_price', $header, true)) {
+            fclose($handle);
+            Notification::make()->title('Missing amount column: provide amount_total, unit_cost, or unit_price')->danger()->send();
+            return;
         }
 
         if (!in_array('ingredient_id', $header, true) && !in_array('ingredient_name', $header, true)) {
@@ -137,19 +144,36 @@ class ListProcurements extends ListRecords
             try {
                 $ingredientIdRaw = trim((string) ($row[$index['ingredient_id']] ?? ''));
                 $ingredientName = trim((string) ($row[$index['ingredient_name']] ?? ''));
-                $quantity = (float) trim((string) ($row[$index['quantity_received']] ?? '0'));
-                $unitCost = (float) trim((string) ($row[$index['unit_cost']] ?? '0'));
+                $quantityRaw = trim((string) ($row[$index['quantity_received']] ?? ''));
+                $unitPriceRaw = trim((string) ($row[$index['unit_price']] ?? ''));
+                $amountTotalRaw = trim((string) ($row[$index['amount_total']] ?? ($row[$index['unit_cost']] ?? '')));
                 $supplierName = trim((string) ($row[$index['supplier_name']] ?? ''));
                 $receivedAtRaw = trim((string) ($row[$index['received_at']] ?? ''));
                 $status = trim((string) ($row[$index['status']] ?? 'completed'));
 
-                if ($ingredientName === '' && $quantity === 0.0 && $unitCost === 0.0 && $supplierName === '' && $receivedAtRaw === '') {
+                $quantity = $quantityRaw === '' ? 0.0 : (float) $quantityRaw;
+                $unitPrice = $unitPriceRaw === '' ? null : (float) $unitPriceRaw;
+                $amountTotal = $amountTotalRaw === '' ? 0.0 : (float) $amountTotalRaw;
+
+                if ($ingredientName === '' && $quantityRaw === '' && $unitPriceRaw === '' && $amountTotalRaw === '' && $supplierName === '' && $receivedAtRaw === '') {
                     $skipped++;
                     continue;
                 }
 
-                if ($ingredientName === '' || $quantity <= 0 || $unitCost < 0 || $supplierName === '' || $receivedAtRaw === '') {
+                if ($ingredientName === '' || $quantity <= 0 || $supplierName === '' || $receivedAtRaw === '') {
                     throw new \RuntimeException('Invalid required values in row.');
+                }
+
+                if ($unitPrice !== null && $unitPrice <= 0) {
+                    throw new \RuntimeException('Unit price must be greater than zero when provided.');
+                }
+
+                if ($amountTotal <= 0 && $unitPrice !== null && $unitPrice > 0) {
+                    $amountTotal = $quantity * $unitPrice;
+                }
+
+                if ($amountTotal <= 0) {
+                    throw new \RuntimeException('Provide amount_total (or unit_cost) or a valid unit_price.');
                 }
 
                 $ingredientId = null;
@@ -171,10 +195,11 @@ class ListProcurements extends ListRecords
                 app(InventoryService::class)->stockIn(
                     (int) $ingredientId,
                     $quantity,
-                    $unitCost,
+                    $amountTotal,
                     $supplierName,
                     $receivedAt,
                     $status,
+                    $unitPrice,
                     null,
                     auth()->id(),
                 );

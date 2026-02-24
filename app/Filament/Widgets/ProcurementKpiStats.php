@@ -38,12 +38,12 @@ class ProcurementKpiStats extends StatsOverviewWidget
         $currentQuery = $this->baseProcurementQuery();
 
         $currentSpend = (float) (clone $currentQuery)
-            ->selectRaw('COALESCE(SUM(quantity_received * unit_cost), 0) as total_spend')
+            ->selectRaw('COALESCE(SUM(unit_cost), 0) as total_spend')
             ->value('total_spend');
 
         $previousSpend = (float) Procurement::query()
             ->whereBetween('received_at', [$previousStart->startOfDay(), $previousEnd->endOfDay()])
-            ->selectRaw('COALESCE(SUM(quantity_received * unit_cost), 0) as total_spend')
+            ->selectRaw('COALESCE(SUM(unit_cost), 0) as total_spend')
             ->value('total_spend');
 
         $currentOrders = (int) (clone $currentQuery)->count();
@@ -60,7 +60,7 @@ class ProcurementKpiStats extends StatsOverviewWidget
         $costSavings = max(0, $previousSpend - $currentSpend);
         $costSavingsPrevious = max(0, $previousSpend - ((float) Procurement::query()
             ->whereBetween('received_at', [$previousStart->copy()->subDays($days)->startOfDay(), $previousStart->copy()->subDay()->endOfDay()])
-            ->selectRaw('COALESCE(SUM(quantity_received * unit_cost), 0) as total_spend')
+            ->selectRaw('COALESCE(SUM(unit_cost), 0) as total_spend')
             ->value('total_spend')));
 
         return [

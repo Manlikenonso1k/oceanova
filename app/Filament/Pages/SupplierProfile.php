@@ -51,7 +51,7 @@ class SupplierProfile extends Page
                 'ingredient' => (string) ($row->ingredient?->name ?? '-'),
                 'quantity_received' => (float) $row->quantity_received,
                 'unit_cost' => (float) $row->unit_cost,
-                'line_total' => (float) $row->quantity_received * (float) $row->unit_cost,
+                'line_total' => (float) $row->unit_cost,
                 'status' => (string) ($row->status ?? 'completed'),
             ])
             ->all();
@@ -62,7 +62,7 @@ class SupplierProfile extends Page
             $this->supplier = $resolvedSupplier;
         }
 
-        $totalSpend = (float) (clone $query)->selectRaw('COALESCE(SUM(quantity_received * unit_cost), 0) as total')->value('total');
+        $totalSpend = (float) (clone $query)->selectRaw('COALESCE(SUM(unit_cost), 0) as total')->value('total');
         $purchaseOrders = (int) (clone $query)->count();
         $onTimeRate = (float) (clone $query)->selectRaw('COALESCE(AVG(CASE WHEN status = "completed" THEN 100 ELSE 0 END), 0) as rate')->value('rate');
         $avgLeadTime = (float) (clone $query)->selectRaw('COALESCE(AVG(TIMESTAMPDIFF(DAY, created_at, received_at)), 0) as avg_days')->value('avg_days');

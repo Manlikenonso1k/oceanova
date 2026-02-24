@@ -21,7 +21,7 @@
 </head>
 <body>
     <h1>Procurement Live Template</h1>
-    <p>This template is generated from your current ingredients database. Fill rows and click <strong>Save to Database</strong> to post entries directly.</p>
+    <p>This template is generated from your current ingredients database. Fill rows and click <strong>Save to Database</strong> to post entries directly. Enter <strong>Amount</strong> as the total for that row (not quantity × price).</p>
 
     @if (session('success'))
         <div style="margin: 0 0 16px; padding: 10px 12px; border-radius: 8px; background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;">
@@ -51,7 +51,8 @@
                         <th>category</th>
                         <th>unit</th>
                         <th>quantity_received</th>
-                        <th>unit_cost</th>
+                        <th>unit_price</th>
+                        <th>amount_total</th>
                         <th>supplier_name</th>
                         <th>status</th>
                         <th>received_at</th>
@@ -68,7 +69,8 @@
                             <td>{{ $ingredient->category }}</td>
                             <td>{{ $ingredient->unit }}</td>
                             <td><input type="text" name="rows[{{ $loop->index }}][quantity_received]" placeholder="e.g. 5"></td>
-                            <td><input type="text" name="rows[{{ $loop->index }}][unit_cost]" placeholder="e.g. 2500"></td>
+                            <td><input type="text" name="rows[{{ $loop->index }}][unit_price]" placeholder="e.g. 6000"></td>
+                            <td><input type="text" name="rows[{{ $loop->index }}][amount_total]" placeholder="e.g. 12000"></td>
                             <td><input type="text" name="rows[{{ $loop->index }}][supplier_name]" placeholder="Supplier"></td>
                             <td><input type="text" name="rows[{{ $loop->index }}][status]" value="completed"></td>
                             <td><input type="text" name="rows[{{ $loop->index }}][received_at]" value="{{ $today }}"></td>

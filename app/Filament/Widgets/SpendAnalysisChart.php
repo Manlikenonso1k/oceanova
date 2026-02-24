@@ -42,7 +42,7 @@ class SpendAnalysisChart extends ChartWidget
 
         if ($mode === 'supplier') {
             $rows = $query
-                ->selectRaw('supplier_name as grouping, SUM(quantity_received * unit_cost) as total')
+                ->selectRaw('supplier_name as grouping, SUM(unit_cost) as total')
                 ->groupBy('supplier_name')
                 ->orderByDesc('total')
                 ->get();
@@ -53,7 +53,7 @@ class SpendAnalysisChart extends ChartWidget
         } else {
             $rows = $query
                 ->join('ingredients', 'ingredients.id', '=', 'procurements.ingredient_id')
-                ->selectRaw('ingredients.category as grouping, SUM(procurements.quantity_received * procurements.unit_cost) as total')
+                ->selectRaw('ingredients.category as grouping, SUM(procurements.unit_cost) as total')
                 ->groupBy('ingredients.category')
                 ->orderByDesc('total')
                 ->get();

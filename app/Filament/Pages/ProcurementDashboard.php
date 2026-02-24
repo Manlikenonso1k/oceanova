@@ -201,7 +201,7 @@ class ProcurementDashboard extends Page
                 return;
             }
 
-            fputcsv($stream, ['PO ID', 'Ingredient', 'Category', 'Supplier', 'Quantity', 'Unit Cost', 'Total', 'Status', 'Received At']);
+            fputcsv($stream, ['PO ID', 'Ingredient', 'Category', 'Supplier', 'Quantity', 'Amount', 'Total', 'Status', 'Received At']);
 
             foreach ($rows as $row) {
                 fputcsv($stream, [
@@ -211,7 +211,7 @@ class ProcurementDashboard extends Page
                     $row->supplier_name,
                     $row->quantity_received,
                     $row->unit_cost,
-                    (float) $row->quantity_received * (float) $row->unit_cost,
+                    (float) $row->unit_cost,
                     $row->status,
                     optional($row->received_at)->format('Y-m-d H:i:s'),
                 ]);
@@ -228,7 +228,7 @@ class ProcurementDashboard extends Page
 
         return response()->streamDownload(function () use ($rows): void {
             echo "<table border='1'>";
-            echo '<tr><th>PO ID</th><th>Ingredient</th><th>Category</th><th>Supplier</th><th>Quantity</th><th>Unit Cost</th><th>Total</th><th>Status</th><th>Received At</th></tr>';
+            echo '<tr><th>PO ID</th><th>Ingredient</th><th>Category</th><th>Supplier</th><th>Quantity</th><th>Amount</th><th>Total</th><th>Status</th><th>Received At</th></tr>';
 
             foreach ($rows as $row) {
                 echo '<tr>';
@@ -238,7 +238,7 @@ class ProcurementDashboard extends Page
                 echo '<td>' . e((string) $row->supplier_name) . '</td>';
                 echo '<td>' . e((string) $row->quantity_received) . '</td>';
                 echo '<td>' . e((string) $row->unit_cost) . '</td>';
-                echo '<td>' . e((string) ((float) $row->quantity_received * (float) $row->unit_cost)) . '</td>';
+                echo '<td>' . e((string) ((float) $row->unit_cost)) . '</td>';
                 echo '<td>' . e((string) ($row->status ?? '')) . '</td>';
                 echo '<td>' . e((string) optional($row->received_at)->format('Y-m-d H:i:s')) . '</td>';
                 echo '</tr>';
