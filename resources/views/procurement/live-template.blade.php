@@ -21,44 +21,66 @@
 </head>
 <body>
     <h1>Procurement Live Template</h1>
-    <p>This template is generated from your current ingredients database. Fill in quantity, unit cost, supplier, status, and received date; then use Download CSV Template in the procurement page for import.</p>
+    <p>This template is generated from your current ingredients database. Fill rows and click <strong>Save to Database</strong> to post entries directly.</p>
+
+    @if (session('success'))
+        <div style="margin: 0 0 16px; padding: 10px 12px; border-radius: 8px; background: #dcfce7; color: #166534; border: 1px solid #bbf7d0;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div style="margin: 0 0 16px; padding: 10px 12px; border-radius: 8px; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="actions">
         <button class="btn" onclick="window.print()">Print / Save as PDF</button>
-        <button class="btn btn-primary" onclick="window.close()">Close Tab</button>
+        <a class="btn" href="{{ route('filament.admin.resources.procurements.index') }}" target="_blank">Open Procurements</a>
     </div>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>ingredient_id</th>
-                    <th>ingredient_name</th>
-                    <th>category</th>
-                    <th>unit</th>
-                    <th>quantity_received</th>
-                    <th>unit_cost</th>
-                    <th>supplier_name</th>
-                    <th>status</th>
-                    <th>received_at</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($ingredients as $ingredient)
+    <form method="POST" action="{{ route('procurements.live-template.store') }}">
+        @csrf
+        <div class="table-wrap">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ $ingredient->id }}</td>
-                        <td>{{ $ingredient->name }}</td>
-                        <td>{{ $ingredient->category }}</td>
-                        <td>{{ $ingredient->unit }}</td>
-                        <td><input type="text" placeholder="e.g. 5"></td>
-                        <td><input type="text" placeholder="e.g. 2500"></td>
-                        <td><input type="text" placeholder="Supplier"></td>
-                        <td><input type="text" value="completed"></td>
-                        <td><input type="text" value="{{ $today }}"></td>
+                        <th>ingredient_id</th>
+                        <th>ingredient_name</th>
+                        <th>category</th>
+                        <th>unit</th>
+                        <th>quantity_received</th>
+                        <th>unit_cost</th>
+                        <th>supplier_name</th>
+                        <th>status</th>
+                        <th>received_at</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach ($ingredients as $ingredient)
+                        <tr>
+                            <td>
+                                {{ $ingredient->id }}
+                                <input type="hidden" name="rows[{{ $loop->index }}][ingredient_id]" value="{{ $ingredient->id }}">
+                            </td>
+                            <td>{{ $ingredient->name }}</td>
+                            <td>{{ $ingredient->category }}</td>
+                            <td>{{ $ingredient->unit }}</td>
+                            <td><input type="text" name="rows[{{ $loop->index }}][quantity_received]" placeholder="e.g. 5"></td>
+                            <td><input type="text" name="rows[{{ $loop->index }}][unit_cost]" placeholder="e.g. 2500"></td>
+                            <td><input type="text" name="rows[{{ $loop->index }}][supplier_name]" placeholder="Supplier"></td>
+                            <td><input type="text" name="rows[{{ $loop->index }}][status]" value="completed"></td>
+                            <td><input type="text" name="rows[{{ $loop->index }}][received_at]" value="{{ $today }}"></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <div class="actions" style="margin-top: 12px;">
+            <button type="submit" class="btn btn-primary">Save to Database</button>
+        </div>
+    </form>
 </body>
 </html>

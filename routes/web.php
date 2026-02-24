@@ -22,5 +22,10 @@ Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->na
 Route::get('/track-redirect', RedirectController::class)->name('track.redirect');
 
 Route::middleware(['auth', 'role:procurement_officer,admin,super_admin'])
-	->get('/admin/procurements/live-template', ProcurementTemplateController::class)
-	->name('procurements.live-template');
+	->group(function (): void {
+		Route::get('/admin/procurements/live-template', [ProcurementTemplateController::class, 'index'])
+			->name('procurements.live-template');
+
+		Route::post('/admin/procurements/live-template', [ProcurementTemplateController::class, 'store'])
+			->name('procurements.live-template.store');
+	});
