@@ -55,6 +55,15 @@ class ProcurementResource extends Resource
                 ->required()
                 ->maxLength(255),
 
+            Forms\Components\Select::make('status')
+                ->required()
+                ->options([
+                    'pending' => 'Pending',
+                    'approved' => 'Approved',
+                    'completed' => 'Completed',
+                ])
+                ->default('completed'),
+
             Forms\Components\FileUpload::make('receipt_attachment')
                 ->label('Receipt (Camera / Upload)')
                 ->disk('public')
@@ -99,6 +108,14 @@ class ProcurementResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                Tables\Columns\BadgeColumn::make('status')
+                    ->colors([
+                        'warning' => 'pending',
+                        'info' => 'approved',
+                        'success' => 'completed',
+                    ])
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('receipt_attachment')
                     ->label('Receipt')
                     ->formatStateUsing(fn (?string $state): string => $state ? 'View Receipt' : 'No Receipt')
@@ -108,6 +125,14 @@ class ProcurementResource extends Resource
                 Tables\Columns\TextColumn::make('received_at')
                     ->dateTime()
                     ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'completed' => 'Completed',
+                    ]),
             ])
             ->actions([])
             ->bulkActions([])
