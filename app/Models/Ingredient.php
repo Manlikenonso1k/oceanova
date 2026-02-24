@@ -16,12 +16,14 @@ class Ingredient extends Model
         'category',
         'sub_category',
         'unit',
+        'weight',
         'current_stock',
         'min_stock_alert_level',
         'price',
     ];
 
     protected $casts = [
+        'weight' => 'decimal:3',
         'current_stock' => 'decimal:3',
         'min_stock_alert_level' => 'decimal:3',
         'price' => 'decimal:2',

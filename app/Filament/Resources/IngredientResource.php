@@ -31,14 +31,14 @@ class IngredientResource extends Resource
                 ->required()
                 ->maxLength(255),
 
-            Forms\Components\Select::make('unit')
+            Forms\Components\TextInput::make('unit')
                 ->required()
-                ->options([
-                    'kg' => 'kg',
-                    'gram' => 'gram',
-                    'pcs' => 'pcs',
-                    'liter' => 'liter',
-                ]),
+                ->maxLength(50),
+
+            Forms\Components\TextInput::make('weight')
+                ->required()
+                ->numeric()
+                ->minValue(0),
 
             Forms\Components\TextInput::make('current_stock')
                 ->required()
@@ -61,6 +61,10 @@ class IngredientResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('unit')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('weight')
+                    ->numeric(decimalPlaces: 3)
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('current_stock')
@@ -144,12 +148,12 @@ class IngredientResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['kitchen_manager', 'procurement_officer', 'admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
     }
 
     public static function canCreate(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['procurement_officer', 'admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
     }
 
     public static function canEdit($record): bool
