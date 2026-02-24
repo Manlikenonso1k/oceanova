@@ -27,7 +27,7 @@ class ListProcurements extends ListRecords
                 ->icon('heroicon-o-document-text')
                 ->color('primary')
                 ->tooltip('Template now uses live ingredients from your database to avoid stale rows (e.g. unrelated items).')
-                ->action(fn (): StreamedResponse => $this->downloadCsvTemplate()),
+                ->url(route('procurements.live-template'), shouldOpenInNewTab: true),
             Actions\Action::make('downloadCsvTemplate')
                 ->label('Download CSV Template')
                 ->icon('heroicon-o-arrow-down-tray')
