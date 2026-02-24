@@ -73,8 +73,7 @@ class SpendAnalysisChart extends ChartWidget
                 [
                     'label' => 'Spend (₦)',
                     'data' => $rows->pluck('total')->map(fn ($value): float => (float) $value)->all(),
-                    'backgroundColor' => '#3b82f6',
-                    'borderRadius' => 8,
+                    'backgroundColor' => $this->buildColorPalette($rows->count()),
                 ],
             ],
         ];
@@ -82,7 +81,20 @@ class SpendAnalysisChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'doughnut';
+    }
+
+    private function buildColorPalette(int $count): array
+    {
+        $base = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'];
+
+        $colors = [];
+
+        for ($index = 0; $index < max(1, $count); $index++) {
+            $colors[] = $base[$index % count($base)];
+        }
+
+        return $colors;
     }
 
     protected function getOptions(): array|RawJs|null

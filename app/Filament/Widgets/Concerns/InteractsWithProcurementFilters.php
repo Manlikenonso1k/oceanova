@@ -12,15 +12,28 @@ trait InteractsWithProcurementFilters
     {
         $startDate = $this->getFilterStartDate();
         $endDate = $this->getFilterEndDate();
+        $specificDate = trim((string) ($this->filters['specific_date'] ?? ''));
+        $datePreset = trim((string) ($this->filters['date_preset'] ?? ''));
         $supplier = trim((string) ($this->filters['supplier'] ?? ''));
         $category = trim((string) ($this->filters['category'] ?? ''));
         $status = trim((string) ($this->filters['status'] ?? ''));
 
-        if ($applyDateRange && $startDate && $endDate) {
-            $query->whereBetween('received_at', [
-                $startDate->copy()->startOfDay(),
-                $endDate->copy()->endOfDay(),
-            ]);
+        if ($applyDateRange) {
+            if ($datePreset !== '') {
+                [$presetStart, $presetEnd] = $this->resolvePresetRange($datePreset);
+
+                $query->whereBetween('received_at', [
+                    $presetStart->copy()->startOfDay(),
+                    $presetEnd->copy()->endOfDay(),
+                ]);
+            } elseif ($specificDate !== '') {
+                $query->whereDate('received_at', Carbon::parse($specificDate)->toDateString());
+            } elseif ($startDate && $endDate) {
+                $query->whereBetween('received_at', [
+                    $startDate->copy()->startOfDay(),
+                    $endDate->copy()->endOfDay(),
+                ]);
+            }
         }
 
         if ($supplier !== '') {
@@ -57,5 +70,15 @@ trait InteractsWithProcurementFilters
         return $this->applyProcurementFilters(
             Procurement::query()->with('ingredient')
         );
+    }
+
+    protected function resolvePresetRange(string $preset): array
+    {
+        return match ($preset) {
+            'today' => [now(), now()],
+            'yesterday' => [now()->subDay(), now()->subDay()],
+            'last_7_days' => [now()->subDays(6), now()],
+            default => [now()->startOfMonth(), now()],
+        };
     }
 }

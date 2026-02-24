@@ -57,6 +57,22 @@ class ProcurementDashboard extends Page
                     ->default(now()->toDateString())
                     ->live(),
 
+                DatePicker::make('specific_date')
+                    ->label('Specific Day')
+                    ->placeholder('Optional: filter one date')
+                    ->native(false)
+                    ->live(),
+
+                Select::make('date_preset')
+                    ->label('Quick Date')
+                    ->options([
+                        'today' => 'Today',
+                        'yesterday' => 'Yesterday',
+                        'last_7_days' => 'Last 7 Days',
+                    ])
+                    ->placeholder('No preset')
+                    ->live(),
+
                 Select::make('supplier')
                     ->label('Supplier')
                     ->options(fn (): array => Procurement::query()
@@ -93,7 +109,7 @@ class ProcurementDashboard extends Page
                     ->placeholder('All statuses')
                     ->live(),
             ])
-            ->columns(5);
+            ->columns(7);
     }
 
     public function getHeaderWidgets(): array
@@ -126,14 +142,27 @@ class ProcurementDashboard extends Page
 
         $startDate = Carbon::parse((string) ($this->filters['start_date'] ?? now()->startOfMonth()->toDateString()));
         $endDate = Carbon::parse((string) ($this->filters['end_date'] ?? now()->toDateString()));
+        $specificDate = trim((string) ($this->filters['specific_date'] ?? ''));
+        $datePreset = trim((string) ($this->filters['date_preset'] ?? ''));
         $supplier = trim((string) ($this->filters['supplier'] ?? ''));
         $category = trim((string) ($this->filters['category'] ?? ''));
         $status = trim((string) ($this->filters['status'] ?? ''));
 
-        $query->whereBetween('received_at', [
-            $startDate->copy()->startOfDay(),
-            $endDate->copy()->endOfDay(),
-        ]);
+        if ($datePreset !== '') {
+            [$presetStart, $presetEnd] = $this->resolvePresetRange($datePreset);
+
+            $query->whereBetween('received_at', [
+                $presetStart->copy()->startOfDay(),
+                $presetEnd->copy()->endOfDay(),
+            ]);
+        } elseif ($specificDate !== '') {
+            $query->whereDate('received_at', Carbon::parse($specificDate)->toDateString());
+        } else {
+            $query->whereBetween('received_at', [
+                $startDate->copy()->startOfDay(),
+                $endDate->copy()->endOfDay(),
+            ]);
+        }
 
         if ($supplier !== '') {
             $query->where('supplier_name', $supplier);
@@ -148,6 +177,16 @@ class ProcurementDashboard extends Page
         }
 
         return $query->orderByDesc('received_at')->get();
+    }
+
+    private function resolvePresetRange(string $preset): array
+    {
+        return match ($preset) {
+            'today' => [now(), now()],
+            'yesterday' => [now()->subDay(), now()->subDay()],
+            'last_7_days' => [now()->subDays(6), now()],
+            default => [now()->startOfMonth(), now()],
+        };
     }
 
     protected function exportCsv(): StreamedResponse
