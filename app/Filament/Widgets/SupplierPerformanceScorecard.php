@@ -65,6 +65,9 @@ class SupplierPerformanceScorecard extends BaseWidget
     private function buildQuery(): Builder
     {
         $query = Procurement::query()
+            ->whereNotNull('supplier_name')
+            ->where('supplier_name', '!=', '')
+            ->selectRaw('MIN(id) as id')
             ->selectRaw('supplier_name')
             ->selectRaw('SUM(quantity_received * unit_cost) as total_spend')
             ->selectRaw('AVG(CASE WHEN status = "completed" THEN 100 ELSE 0 END) as on_time_rate')
