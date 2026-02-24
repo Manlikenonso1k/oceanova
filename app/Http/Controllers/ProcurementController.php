@@ -26,6 +26,7 @@ class ProcurementController extends Controller
             'quantity_received' => ['required', 'numeric', 'gt:0'],
             'unit_cost' => ['required', 'numeric', 'gte:0'],
             'supplier_name' => ['required', 'string', 'max:255'],
+            'status' => ['nullable', 'in:pending,approved,completed'],
             'received_at' => ['required', 'date'],
         ]);
 
@@ -35,6 +36,8 @@ class ProcurementController extends Controller
             (float) $data['unit_cost'],
             (string) $data['supplier_name'],
             (string) $data['received_at'],
+            (string) ($data['status'] ?? 'completed'),
+            null,
             $request->user()?->id,
         );
 

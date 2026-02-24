@@ -103,6 +103,7 @@ class InventoryService
         float $unitCost,
         string $supplierName,
         string $receivedAt,
+        string $status = 'completed',
         ?string $receiptAttachment = null,
         ?int $userId = null
     ): Procurement {
@@ -110,7 +111,7 @@ class InventoryService
             throw new RuntimeException('Quantity received must be greater than zero.');
         }
 
-        return DB::transaction(function () use ($ingredientId, $quantityReceived, $unitCost, $supplierName, $receivedAt, $receiptAttachment, $userId) {
+        return DB::transaction(function () use ($ingredientId, $quantityReceived, $unitCost, $supplierName, $receivedAt, $status, $receiptAttachment, $userId) {
             $ingredient = Ingredient::query()->lockForUpdate()->findOrFail($ingredientId);
 
             $procurement = Procurement::query()->create([
@@ -118,6 +119,7 @@ class InventoryService
                 'quantity_received' => $quantityReceived,
                 'unit_cost' => $unitCost,
                 'supplier_name' => $supplierName,
+                'status' => $status,
                 'receipt_attachment' => $receiptAttachment,
                 'received_at' => $receivedAt,
             ]);
