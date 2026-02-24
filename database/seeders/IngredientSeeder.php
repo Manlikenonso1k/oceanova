@@ -151,6 +151,8 @@ class IngredientSeeder extends Seeder
             'Cauli Flower',
             'Brocolli',
             'Green Bean',
+            'Green Pea',
+            'Red Oil',
             'Green Leaf',
             'Shoko',
             'Assorted Meat',
