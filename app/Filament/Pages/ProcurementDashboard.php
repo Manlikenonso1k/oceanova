@@ -12,7 +12,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Filament\Pages\Concerns\HasFiltersForm;
+use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 use Filament\Pages\Page;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
