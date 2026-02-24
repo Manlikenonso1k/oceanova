@@ -25,7 +25,13 @@ class ListProcurements extends ListRecords
             Actions\Action::make('openTemplate')
                 ->label('Open Live Template')
                 ->icon('heroicon-o-document-text')
-                ->url('https://docs.google.com/spreadsheets/d/1_e9v7GttEANJs4gjgOxjPCm-ytYQQhUFIDy7hHdaXAk/edit?gid=0#gid=0', shouldOpenInNewTab: true),
+                ->action(function (): void {
+                    Notification::make()
+                        ->title('Use Download CSV Template')
+                        ->body('Template now uses live ingredients from your database to avoid stale rows (e.g. unrelated items).')
+                        ->info()
+                        ->send();
+                }),
             Actions\Action::make('downloadCsvTemplate')
                 ->label('Download CSV Template')
                 ->icon('heroicon-o-arrow-down-tray')
@@ -50,7 +56,10 @@ class ListProcurements extends ListRecords
     private function downloadCsvTemplate(): StreamedResponse
     {
         $filename = 'procurement-template-' . now()->format('Ymd-His') . '.csv';
-        $ingredients = Ingredient::query()->orderBy('name')->pluck('name');
+        $ingredients = Ingredient::query()
+            ->select(['id', 'name', 'category', 'unit'])
+            ->orderBy('name')
+            ->get();
 
         return response()->streamDownload(function () use ($ingredients): void {
             $stream = fopen('php://output', 'w');
@@ -59,11 +68,14 @@ class ListProcurements extends ListRecords
                 return;
             }
 
-            fputcsv($stream, ['ingredient_name', 'quantity_received', 'unit_cost', 'supplier_name', 'status', 'received_at']);
+            fputcsv($stream, ['ingredient_id', 'ingredient_name', 'category', 'unit', 'quantity_received', 'unit_cost', 'supplier_name', 'status', 'received_at']);
 
-            foreach ($ingredients as $ingredientName) {
+            foreach ($ingredients as $ingredient) {
                 fputcsv($stream, [
-                    $ingredientName,
+                    $ingredient->id,
+                    $ingredient->name,
+                    $ingredient->category,
+                    $ingredient->unit,
                     '',
                     '',
                     '',
@@ -96,13 +108,19 @@ class ListProcurements extends ListRecords
         $header = fgetcsv($handle) ?: [];
         $header = array_map(fn (?string $value): string => strtolower(trim((string) $value)), $header);
 
-        $required = ['ingredient_name', 'quantity_received', 'unit_cost', 'supplier_name', 'received_at'];
+        $required = ['quantity_received', 'unit_cost', 'supplier_name', 'received_at'];
         foreach ($required as $column) {
             if (!in_array($column, $header, true)) {
                 fclose($handle);
                 Notification::make()->title("Missing required column: {$column}")->danger()->send();
                 return;
             }
+        }
+
+        if (!in_array('ingredient_id', $header, true) && !in_array('ingredient_name', $header, true)) {
+            fclose($handle);
+            Notification::make()->title('Missing ingredient column: ingredient_id or ingredient_name is required')->danger()->send();
+            return;
         }
 
         $index = array_flip($header);
@@ -120,6 +138,7 @@ class ListProcurements extends ListRecords
             $line++;
 
             try {
+                $ingredientIdRaw = trim((string) ($row[$index['ingredient_id']] ?? ''));
                 $ingredientName = trim((string) ($row[$index['ingredient_name']] ?? ''));
                 $quantity = (float) trim((string) ($row[$index['quantity_received']] ?? '0'));
                 $unitCost = (float) trim((string) ($row[$index['unit_cost']] ?? '0'));
@@ -136,7 +155,15 @@ class ListProcurements extends ListRecords
                     throw new \RuntimeException('Invalid required values in row.');
                 }
 
-                $ingredientId = $ingredientMap[mb_strtolower($ingredientName)] ?? null;
+                $ingredientId = null;
+                if ($ingredientIdRaw !== '' && is_numeric($ingredientIdRaw)) {
+                    $ingredientId = (int) $ingredientIdRaw;
+                }
+
+                if (!$ingredientId && $ingredientName !== '') {
+                    $ingredientId = $ingredientMap[mb_strtolower($ingredientName)] ?? null;
+                }
+
                 if (!$ingredientId) {
                     throw new \RuntimeException("Ingredient not found: {$ingredientName}");
                 }
