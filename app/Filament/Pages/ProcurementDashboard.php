@@ -24,6 +24,8 @@ class ProcurementDashboard extends Dashboard
 {
     use HasFiltersForm;
 
+    protected static ?string $slug = 'procurement-dashboard';
+
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
     protected static ?string $navigationLabel = 'Procurement Dashboard';
