@@ -12,17 +12,19 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Filament\Pages\Dashboard;
-use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
+use Filament\Pages\Concerns\HasFiltersForm;
+use Filament\Pages\Page;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class ProcurementDashboard extends Dashboard
+class ProcurementDashboard extends Page
 {
     use HasFiltersForm;
+
+    protected static string $view = 'filament.pages.procurement-dashboard';
 
     protected static ?string $slug = 'procurement-dashboard';
 
