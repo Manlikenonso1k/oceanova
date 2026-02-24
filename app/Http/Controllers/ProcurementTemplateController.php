@@ -33,8 +33,12 @@ class ProcurementTemplateController extends Controller
             return back()->with('error', 'No rows submitted.');
         }
 
-        $ingredientIds = Ingredient::query()->pluck('id')->all();
-        $validIngredientIds = array_map('intval', $ingredientIds);
+        $ingredientLookup = Ingredient::query()
+            ->select(['id', 'name'])
+            ->get()
+            ->mapWithKeys(fn (Ingredient $ingredient): array => [(int) $ingredient->id => (string) $ingredient->name]);
+
+        $validIngredientIds = $ingredientLookup->keys()->all();
 
         $created = 0;
         $skipped = 0;
@@ -50,14 +54,19 @@ class ProcurementTemplateController extends Controller
                 }
 
                 $ingredientId = (int) ($row['ingredient_id'] ?? 0);
-                $quantity = (float) trim((string) ($row['quantity_received'] ?? '0'));
-                $unitCost = (float) trim((string) ($row['unit_cost'] ?? '0'));
+                $ingredientName = (string) ($ingredientLookup[$ingredientId] ?? ('Ingredient #' . $ingredientId));
+
+                $quantityRaw = trim((string) ($row['quantity_received'] ?? ''));
+                $unitCostRaw = trim((string) ($row['unit_cost'] ?? ''));
                 $supplierName = trim((string) ($row['supplier_name'] ?? ''));
                 $status = trim((string) ($row['status'] ?? 'completed'));
                 $receivedAtRaw = trim((string) ($row['received_at'] ?? ''));
 
-                $isBlank = $quantity <= 0
-                    && $unitCost <= 0
+                $quantity = $quantityRaw === '' ? 0.0 : (float) $quantityRaw;
+                $unitCost = $unitCostRaw === '' ? 0.0 : (float) $unitCostRaw;
+
+                $isBlank = $quantityRaw === ''
+                    && $unitCostRaw === ''
                     && $supplierName === ''
                     && $receivedAtRaw === '';
 
@@ -70,8 +79,16 @@ class ProcurementTemplateController extends Controller
                     throw new \RuntimeException('Invalid ingredient selected.');
                 }
 
+                if ($quantityRaw === '') {
+                    throw new \RuntimeException('Quantity is required.');
+                }
+
                 if ($quantity <= 0) {
                     throw new \RuntimeException('Quantity must be greater than zero.');
+                }
+
+                if ($unitCostRaw === '') {
+                    throw new \RuntimeException('Unit cost is required.');
                 }
 
                 if ($unitCost < 0) {
@@ -102,7 +119,10 @@ class ProcurementTemplateController extends Controller
 
                 $created++;
             } catch (Throwable $exception) {
-                $errors[] = 'Row ' . $line . ': ' . $exception->getMessage();
+                $rowIngredientId = (int) ($row['ingredient_id'] ?? 0);
+                $rowIngredientName = (string) ($ingredientLookup[$rowIngredientId] ?? ('Ingredient #' . $rowIngredientId));
+
+                $errors[] = 'Row ' . $line . ' (' . $rowIngredientName . '): ' . $exception->getMessage();
             }
         }
 
