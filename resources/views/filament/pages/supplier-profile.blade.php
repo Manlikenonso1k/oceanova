@@ -1,4 +1,10 @@
 <x-filament-panels::page>
+    @if ((int) ($metrics['purchase_orders'] ?? 0) === 0)
+        <div class="mb-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-800">
+            No procurement records found for this supplier. Check the supplier name format in procurements (spacing/casing) or create a procurement entry first.
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200">
             <p class="text-sm text-gray-500">Supplier</p>

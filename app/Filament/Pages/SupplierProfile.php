@@ -30,9 +30,17 @@ class SupplierProfile extends Page
 
     public function mount(string $supplier): void
     {
-        $this->supplier = urldecode($supplier);
+        $this->supplier = trim(urldecode($supplier));
 
-        $query = Procurement::query()->where('supplier_name', $this->supplier);
+        $normalizedSupplier = mb_strtolower($this->supplier);
+
+        $query = Procurement::query()->whereRaw('LOWER(TRIM(supplier_name)) = ?', [$normalizedSupplier]);
+
+        $resolvedSupplier = (string) ((clone $query)->value('supplier_name') ?? '');
+
+        if ($resolvedSupplier !== '') {
+            $this->supplier = $resolvedSupplier;
+        }
 
         $totalSpend = (float) (clone $query)->selectRaw('COALESCE(SUM(quantity_received * unit_cost), 0) as total')->value('total');
         $purchaseOrders = (int) (clone $query)->count();
