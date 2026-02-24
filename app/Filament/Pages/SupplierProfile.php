@@ -18,6 +18,8 @@ class SupplierProfile extends Page
 
     public array $metrics = [];
 
+    public array $entries = [];
+
     public static function canAccess(): bool
     {
         return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'procurement_officer']);
@@ -35,6 +37,24 @@ class SupplierProfile extends Page
         $normalizedSupplier = mb_strtolower($this->supplier);
 
         $query = Procurement::query()->whereRaw('LOWER(TRIM(supplier_name)) = ?', [$normalizedSupplier]);
+
+        $entryRows = (clone $query)
+            ->with('ingredient:id,name')
+            ->orderByDesc('received_at')
+            ->orderByDesc('id')
+            ->get();
+
+        $this->entries = $entryRows
+            ->map(fn (Procurement $row): array => [
+                'id' => $row->id,
+                'received_at' => optional($row->received_at)->format('Y-m-d H:i'),
+                'ingredient' => (string) ($row->ingredient?->name ?? '-'),
+                'quantity_received' => (float) $row->quantity_received,
+                'unit_cost' => (float) $row->unit_cost,
+                'line_total' => (float) $row->quantity_received * (float) $row->unit_cost,
+                'status' => (string) ($row->status ?? 'completed'),
+            ])
+            ->all();
 
         $resolvedSupplier = (string) ((clone $query)->value('supplier_name') ?? '');
 
