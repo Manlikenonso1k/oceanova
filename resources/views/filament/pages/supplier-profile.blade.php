@@ -5,7 +5,7 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-4 text-black">
         <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200">
             <p class="text-sm text-gray-500">Supplier</p>
             <p class="mt-2 text-lg font-semibold text-gray-900">{{ $supplier }}</p>
