@@ -46,11 +46,12 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('table_label')->label('Table'),
                 Tables\Columns\TextColumn::make('guest_count')->label('Guests'),
                 Tables\Columns\BadgeColumn::make('status')
-                    ->enum([
+                    ->formatStateUsing(fn ($state): string => match ($state) {
                         'pending' => 'Pending',
                         'confirmed' => 'Confirmed',
                         'rejected' => 'Rejected',
-                    ])
+                        default => (string) $state,
+                    })
                     ->colors([
                         'warning' => 'pending',
                         'success' => 'confirmed',
