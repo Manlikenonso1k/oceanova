@@ -7,9 +7,7 @@ use App\Mail\BookingConfirmed;
 use App\Mail\BookingRejected;
 use App\Models\Booking;
 use Filament\Forms;
-use Filament\Resources\Form;
 use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Support\Facades\Mail;
 
@@ -20,7 +18,7 @@ class BookingResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'Reservations';
 
-    public static function form(Form $form): Form
+    public static function form(Forms\Form $form): Forms\Form
     {
         return $form->schema([
             Forms\Components\TextInput::make('name')->required(),
@@ -38,7 +36,7 @@ class BookingResource extends Resource
         ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Tables\Table $table): Tables\Table
     {
         return $table
             ->columns([
