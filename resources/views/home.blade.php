@@ -384,7 +384,7 @@
 								<div><a href="#">August 3, 2020</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+							<h3 class="heading"><a href="#">Get 50% off all orders this Saturday only!Taste the best pizza and seafood in Ajah!!</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
@@ -401,7 +401,7 @@
 								<div><a href="#">August 3, 2020</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+							<h3 class="heading"><a href="#">Join us for our Grand Opening this weekend!</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
@@ -418,7 +418,7 @@
 								<div><a href="#">August 3, 2020</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+							<h3 class="heading"><a href="#">Get 50% off all orders this Saturday only!</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
