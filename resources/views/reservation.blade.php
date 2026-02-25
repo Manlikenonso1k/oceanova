@@ -81,10 +81,10 @@
                       <option value="6" style="background-color:#000; color:#fff;">Table 07 - 2 Guests</option>
                       <option value="7" style="background-color:#000; color:#fff;">Table 08 - 2 Guests</option>
                       <option value="8" style="background-color:#000; color:#fff;">Table 09 - 2 Guests</option>
-                      <option value="9" style="background-color:#000; color:#fff;">Table 10 - 3 Guests</option>
-                      <option value="10" style="background-color:#000; color:#fff;">Table 11 - 3 Guests</option>
-                      <option value="11" style="background-color:#000; color:#fff;">Table 12 - 3 Guests</option>
-                      <option value="12" style="background-color:#000; color:#fff;">Table 13 - 3 Guests</option>
+                      <option value="9" style="background-color:#000; color:#fff;">Table 10 - 3 Guests(outdoor)</option>
+                      <option value="10" style="background-color:#000; color:#fff;">Table 11 - 3 Guests(outdoor)</option>
+                      <option value="11" style="background-color:#000; color:#fff;">Table 12 - 3 Guests(outdoor)</option>
+                      <option value="12" style="background-color:#000; color:#fff;">Table 13 - 3 Guests(outdoor)</option>
                     </select>
                   </div>
                 </div>
