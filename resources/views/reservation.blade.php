@@ -16,7 +16,7 @@
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
   <div class="container">
     <div class="row no-gutters">
-      <div class="col-sm-12 p-4 p-md-5 d-flex align-items-center justify-content-center bg-black">
+      <div class="col-sm-12 p-4 p-md-5 d-flex align-items-center justify-content-center bg-primary">
         <form action="{{ route('booking.store') }}" method="POST" class="appointment-form">
           @csrf
           @if(session('success'))
