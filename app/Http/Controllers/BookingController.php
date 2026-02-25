@@ -61,10 +61,10 @@ class BookingController extends Controller
             '6' => 'Table 07 - 2 Guests',
             '7' => 'Table 08 - 2 Guests',
             '8' => 'Table 09 - 2 Guests',
-            '9' => 'Table 10 - 3 Guests(outdoor)',
-            '10' => 'Table 11 - 3 Guests(outdoor)',
-            '11' => 'Table 12 - 3 Guests(outdoor)',
-            '12' => 'Table 13 - 3 Guests(outdoor)',
+            '9' => 'Table 10 - 4 Guests(outdoor)',
+            '10' => 'Table 11 - 4 Guests(outdoor)',
+            '11' => 'Table 12 - 4 Guests(outdoor)',
+            '12' => 'Table 13 - 4 Guests(outdoor)',
         ];
 
         $tableLabel = $tableMap[$validated['noofv']] ?? null;
