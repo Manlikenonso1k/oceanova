@@ -18,16 +18,17 @@
     <div class="row">
       <div class="col-md-4 ftco-animate">
         <div class="blog-entry">
-          <a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_1.jpg') }}');"></a>
+          <a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_2.jpg') }}');"></a>
           <div class="text px-4 pt-3 pb-4">
             <div class="meta">
-              <div><a href="#">August 3, 2020</a></div>
-              <div><a href="#">Admin</a></div>
+              <div><a href="#">February 28, 2026</a></div>
+              <div><a href="#">Oceanova</a></div>
             </div>
-            <h3 class="heading"><a href="{{ route('blog.single') }}">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+            <h3 class="heading"><a href="{{ route('blog.single') }}">Oceanova Grand Opening: A New Food Landmark in Ajah</a></h3>
+            <p>Join Oceanova Restaurant and Moritho’s Pizza for a one-day 50% DISCOUNT on the entire menu — seafood platters, artisan pizzas, pastries, and ice cream. <a href="{{ route('blog.single') }}">Read more</a></p>
             <p class="clearfix">
               <a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
-              <a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
+              <a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> RSVP: 0708 282 0267</a>
             </p>
           </div>
         </div>
