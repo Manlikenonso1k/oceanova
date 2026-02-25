@@ -24,7 +24,7 @@
         <ul class="mb-3">
           <li><strong>Event:</strong> Official Grand Opening Celebration</li>
           <li><strong>Offer:</strong> 50% DISCOUNT on the entire menu — one day only</li>
-          <li><strong>When:</strong> Saturday, February 28, 2026 — 9:00 AM to 9:00 PM</li>
+          <li><strong>When:</strong> Saturday, February 25, 2026 — 9:00 AM to 9:00 PM</li>
           <li><strong>Where:</strong> 7/8 Okun-Ajah Community Road, Off New Coastal Road, Ajah, Lagos</li>
           <li><strong>RSVP &amp; Menu:</strong> <a href="tel:07082820267">0708 282 0267</a> — <a href="https://bit.ly/3ZVlzGw" target="_blank" rel="noopener">View the menu</a></li>
         </ul>
@@ -189,7 +189,7 @@
           <div class="block-21 mb-4 d-flex">
             <a class="blog-img mr-4" style="background-image: url({{ asset('assets/template/images/image_1.jpg') }});"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+              <h3 class="heading"><a href="#">Get 50% off all orders this Saturday only!</a></h3>
               <div class="meta">
                 <div><a href="#"><span class="icon-calendar"></span> Aug. 3, 2020</a></div>
                 <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
@@ -200,7 +200,7 @@
           <div class="block-21 mb-4 d-flex">
             <a class="blog-img mr-4" style="background-image: url({{ asset('assets/template/images/image_2.jpg') }});"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+              <h3 class="heading"><a href="#">Join us for our Grand Opening this weekend!</a></h3>
               <div class="meta">
                 <div><a href="#"><span class="icon-calendar"></span> Aug. 3, 2020</a></div>
                 <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
@@ -211,7 +211,7 @@
           <div class="block-21 mb-4 d-flex">
             <a class="blog-img mr-4" style="background-image: url({{ asset('assets/template/images/image_3.jpg') }});"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+              <h3 class="heading"><a href="#">Taste the best pizza and seafood in Ajah!!</a></h3>
               <div class="meta">
                 <div><a href="#"><span class="icon-calendar"></span> Aug. 3, 2020</a></div>
                 <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
