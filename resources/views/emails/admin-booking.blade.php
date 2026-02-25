@@ -18,8 +18,12 @@
             <td style="padding:8px 0;color:#111;">{{ $booking['tel'] }}</td>
         </tr>
         <tr>
-            <td style="padding:8px 0;color:#666;">Guests</td>
-            <td style="padding:8px 0;color:#111;">{{ $booking['noofv'] }}</td>
+            <td style="padding:8px 0;color:#666;">Table</td>
+            <td style="padding:8px 0;color:#111;">{{ $booking['table'] ?? $booking['noofv'] }}</td>
+        </tr>
+        <tr>
+            <td style="padding:8px 0;color:#666;">Table Assignment</td>
+            <td style="padding:8px 0;color:#111;">{{ $booking['table_assignment'] ?? 'To be assigned' }}</td>
         </tr>
         <tr>
             <td style="padding:8px 0;color:#666;">Check-In</td>
