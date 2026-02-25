@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -30,21 +31,22 @@ class BookingController extends Controller
             'booking@oceanova.ng'
         ];
 
-        // Normalize and clamp dates, compute table assignment
+        // Normalize and clamp dates
         try {
             $maxDate = Carbon::create(2026, 2, 25)->endOfDay();
             $signin = Carbon::parse($validated['signin']);
             if ($signin->gt($maxDate)) {
                 $signin = $maxDate;
             }
-            $validated['signin'] = $signin->format('F j, Y');
+            $validated['signin'] = $signin->format('Y-m-d');
         } catch (\Exception $e) {
             // leave as provided if parsing fails
         }
 
+
         try {
             $signout = Carbon::parse($validated['signout']);
-            $validated['signout'] = $signout->format('g:ia');
+            $validated['signout'] = $signout->format('H:i:s');
         } catch (\Exception $e) {
             // leave as provided
         }
@@ -65,11 +67,39 @@ class BookingController extends Controller
             '12' => 'Table 13 - 3 Guests(outdoor)',
         ];
 
-        $validated['table'] = $tableMap[$validated['noofv']] ?? 'Table 01 - 4 Guests';
+        $tableLabel = $tableMap[$validated['noofv']] ?? null;
 
-        Mail::to($adminRecipients)->send(new AdminBookingNotification($validated));
-        Mail::to($validated['email'])->send(new UserBookingConfirmation($validated));
+        // Save booking to database before sending initial emails
+        $booking = \App\Models\Booking::create([
+            'name' => $validated['full_name'],
+            'email' => $validated['email'],
+            'whatsapp_number' => $validated['tel'],
+            'guest_count' => is_numeric($validated['noofv']) ? intval($validated['noofv']) : null,
+            'table_id' => $validated['noofv'],
+            'table_label' => $tableLabel,
+            'booking_date' => $validated['signin'] ?? null,
+            'booking_time' => $validated['signout'] ?? null,
+            'status' => 'pending',
+        ]);
+
+        $payload = array_merge($validated, $booking->toArray());
+
+        Mail::to($adminRecipients)->send(new AdminBookingNotification($payload));
+        Mail::to($validated['email'])->send(new UserBookingConfirmation($payload));
 
         return back()->with('success', 'Your booking request has been sent.');
+    }
+
+    public function index()
+    {
+        $user = Auth::user();
+
+        if (! $user || ! $user->hasAnyRole(['admin', 'super_admin', 'general_manager'])) {
+            abort(403);
+        }
+
+        $bookings = \App\Models\Booking::orderBy('created_at', 'desc')->paginate(25);
+
+        return view('bookings.index', compact('bookings'));
     }
 }

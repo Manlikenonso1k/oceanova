@@ -29,3 +29,7 @@ Route::middleware(['auth', 'role:procurement_officer,admin,super_admin'])
 		Route::post('/admin/procurements/live-template', [ProcurementTemplateController::class, 'store'])
 			->name('procurements.live-template.store');
 	});
+
+Route::middleware(['auth'])->group(function (): void {
+    Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
+});

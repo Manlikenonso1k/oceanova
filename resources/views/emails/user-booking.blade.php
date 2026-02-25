@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <td style="padding:8px 0;color:#666;">Table</td>
-            <td style="padding:8px 0;color:#111;">{{ $booking['table'] ?? $booking['noofv'] }}</td>
+            <td style="padding:8px 0;color:#111;">{{ $booking['table_label'] ?? $booking['table'] ?? $booking['noofv'] ?? 'N/A' }}</td>
         </tr>
         <tr>
             <td style="padding:8px 0;color:#666;">Table Assignment</td>
