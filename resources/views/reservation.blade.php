@@ -72,12 +72,19 @@
                   <div class="select-wrap">
                     <div class="icon"><span class="fa fa-chevron-down"></span></div>
                     <select name="noofv" class="form-control text-white" required style="background-color:#000 !important; color:#fff !important;">
-                      <option value="" disabled style="background-color:#000; color:#fff;">Guest</option>
-                      <option value="1" selected style="background-color:#000; color:#fff;">1</option>
-                      <option value="2" style="background-color:#000; color:#fff;">2</option>
-                      <option value="3" style="background-color:#000; color:#fff;">3</option>
-                      <option value="4" style="background-color:#000; color:#fff;">4</option>
-                      <option value="5" style="background-color:#000; color:#fff;">5</option>
+                      <option value="" disabled style="background-color:#000; color:#fff;">>Table 01 - 4 Guests</option>
+                      <option value="1" selected style="background-color:#000; color:#fff;">Table 02 - 4 Guests</option>
+                      <option value="2" style="background-color:#000; color:#fff;">Table 03 - 4 Guests</option>
+                      <option value="3" style="background-color:#000; color:#fff;">Table 04 - 4 Guests</option>
+                      <option value="4" style="background-color:#000; color:#fff;">Table 05 - 4 Guests</option>
+                      <option value="5" style="background-color:#000; color:#fff;">Table 06 - 2 Guests</option>
+                      <option value="6" style="background-color:#000; color:#fff;">Table 07 - 2 Guests</option>
+                      <option value="7" style="background-color:#000; color:#fff;">Table 08 - 2 Guests</option>
+                      <option value="8" style="background-color:#000; color:#fff;">Table 09 - 2 Guests</option>
+                      <option value="9" style="background-color:#000; color:#fff;">Table 10 - 3 Guests</option>
+                      <option value="10" style="background-color:#000; color:#fff;">Table 11 - 3 Guests</option>
+                      <option value="11" style="background-color:#000; color:#fff;">Table 12 - 3 Guests</option>
+                      <option value="12" style="background-color:#000; color:#fff;">Table 13 - 3 Guests</option>
                     </select>
                   </div>
                 </div>
