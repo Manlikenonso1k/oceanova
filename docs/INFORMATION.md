@@ -287,6 +287,50 @@ If needed after deploy:
 
 - `php artisan optimize:clear`
 
+## Procurement Dashboard Production Fix Log (Feb 2026)
+
+### Incident A: Missing Filament page route
+- Symptom:
+  - `Route [filament.admin.pages.procurement-dashboard] not defined`
+  - Triggered when loading `/admin`.
+- Diagnosis:
+  - `route:list` showed dashboard/procurement resources, but no procurement dashboard page route.
+- Fixes:
+  - Registered page in `app/Providers/Filament/AdminPanelProvider.php`.
+  - Set explicit slug in `app/Filament/Pages/ProcurementDashboard.php`:
+    - `protected static ?string $slug = 'procurement-dashboard';`
+  - Added dedicated page blade:
+    - `resources/views/filament/pages/procurement-dashboard.blade.php`.
+- Verification:
+  - `php artisan optimize:clear`
+  - `php artisan route:list | grep -i procurement-dashboard`
+  - Route present:
+    - `admin/procurement-dashboard` (`filament.admin.pages.procurement-dashboard`)
+
+### Incident B: Trait namespace fatal error
+- Symptom:
+  - `Trait "Filament\Pages\Concerns\HasFiltersForm" not found`
+  - Appeared during `php artisan optimize:clear`.
+- Root cause:
+  - Trait namespace mismatch for installed Filament version.
+- Fix:
+  - Updated import in `app/Filament/Pages/ProcurementDashboard.php` to:
+    - `Filament\Pages\Dashboard\Concerns\HasFiltersForm`
+
+### Incident C: Supplier scorecard TableWidget key failure
+- Symptom:
+  - `TableWidget::getTableRecordKey(): Return value must be of type string, null returned`
+  - Triggered on Livewire update while loading supplier performance widget.
+- Root cause:
+  - Grouped query rows had no `id`, so Filament table record key resolved to `null`.
+- Fix in `app/Filament/Widgets/SupplierPerformanceScorecard.php`:
+  - Added `selectRaw('MIN(id) as id')`.
+  - Excluded invalid supplier groups:
+    - `whereNotNull('supplier_name')`
+    - `where('supplier_name', '!=', '')`
+- Result:
+  - Supplier performance widget renders without 500 errors.
+
 ## Frontend (Filament) Role Workflows
 
 ### Goal
@@ -551,3 +595,29 @@ Optional Spatie enablement:
 - Verify receipt link is visible on listing.
 - Verify stock increment and log entry.
 - Confirm procurement scope remains beverage-only for barman.
+
+## Resolved Incident: Procurement User Login Loop
+
+### What happened
+- Procurement user login repeatedly redirected/spun after credential submit.
+
+### What logs showed
+- `Array to string conversion` from `app/Models/User.php` during Filament navigation resolution.
+- Stack trace passed through Spatie HasRoles checks while evaluating resource visibility.
+
+### Why it happened
+- Custom `hasRole` / `hasAnyRole` bridge mixed legacy `users.role` and Spatie checks, but one path passed non-scalar role payloads unsafely.
+
+### Fix delivered
+- Refactored role bridge logic in `app/Models/User.php`:
+  - robust role normalization,
+  - array/traversable-safe flattening,
+  - only valid normalized role names passed to Spatie checks.
+- Retained `canAccessPanel()` role whitelist for operational users including `procurement_officer`.
+
+### Validation completed
+- `php artisan optimize:clear`
+- Tinker check:
+  - procurement account exists and role is `procurement_officer`
+  - `hasAnyRole(['procurement_officer','admin'])` returns `true`
+- Procurement login confirmed working.

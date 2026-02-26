@@ -255,3 +255,34 @@
 - Barman can upload and view procurement receipts.
 - Stock increments and logs are generated correctly.
 - Kitchen inventory remains unaffected by bar-only scoping.
+
+## Procurement Login Loop (Troubleshooting Record)
+
+### Symptom Prompt
+- "only admin can login procurement cannot login"
+- Procurement account credential submission caused repeated login spinning.
+
+### Investigation
+- Confirmed user exists with role `procurement_officer`.
+- Confirmed Spatie backfill command completed successfully.
+- Pulled runtime logs and identified:
+	- `Array to string conversion` at `app/Models/User.php` during Filament post-login navigation.
+
+### Root Cause
+- Custom role-bridge logic in `User` (`hasRole`/`hasAnyRole`) did not safely normalize all array/traversable role payloads used by Filament/Spatie internals.
+
+### Fix
+- Updated `app/Models/User.php` role methods to:
+	- safely flatten role inputs,
+	- normalize supported scalar role names,
+	- avoid unsafe fallback calls with invalid payload types,
+	- keep support for both `users.role` and Spatie role checks.
+
+### Verification
+- `php artisan optimize:clear` completed.
+- Tinker check returned true:
+	- `hasAnyRole(['procurement_officer','admin'])`
+- Procurement login confirmed working.
+
+### Ops Note
+- Tinker expressions must run inside `php artisan tinker`; running them directly in shell causes bash syntax errors.

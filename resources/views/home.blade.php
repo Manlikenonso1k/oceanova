@@ -273,7 +273,7 @@
 			<div class="row">
 				<div class="col-md-6 col-lg-3 ftco-animate">
 					<div class="staff">
-						<div class="img" style="background-image: url({{ asset('assets/template/images/chef-4.jpg') }});"></div>
+						<div class="img" style="background-image: url({{ asset('assets/template/images/chef-man.png') }});"></div>
 						<div class="text px-4 pt-2">
 							<h3>John Gustavo</h3>
 							<span class="position mb-2">CEO, Co Founder</span>
@@ -291,7 +291,7 @@
 				</div>
 				<div class="col-md-6 col-lg-3 ftco-animate">
 					<div class="staff">
-						<div class="img" style="background-image: url({{ asset('assets/template/images/chef-2.jpg') }});"></div>
+						<div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Gold.png') }});"></div>
 						<div class="text px-4 pt-2">
 							<h3>Michelle Fraulen</h3>
 							<span class="position mb-2">Head Chef</span>
@@ -309,7 +309,7 @@
 				</div>
 				<div class="col-md-6 col-lg-3 ftco-animate">
 					<div class="staff">
-						<div class="img" style="background-image: url({{ asset('assets/template/images/chef-3.jpg') }});"></div>
+						<div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Diamond.png') }});"></div>
 						<div class="text px-4 pt-2">
 							<h3>Alfred Smith</h3>
 							<span class="position mb-2">Chef Cook</span>
@@ -327,7 +327,7 @@
 				</div>
 				<div class="col-md-6 col-lg-3 ftco-animate">
 					<div class="staff">
-						<div class="img" style="background-image: url({{ asset('assets/template/images/chef-1.jpg') }});"></div>
+						<div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Bronze.png') }});"></div>
 						<div class="text px-4 pt-2">
 							<h3>Antonio Santibanez</h3>
 							<span class="position mb-2">Chef Cook</span>
@@ -384,7 +384,7 @@
 								<div><a href="#">August 3, 2020</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+							<h3 class="heading"><a href="#">Get 50% off all orders this Saturday only!Taste the best pizza and seafood in Ajah!!</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
@@ -401,7 +401,7 @@
 								<div><a href="#">August 3, 2020</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+							<h3 class="heading"><a href="#">Join us for our Grand Opening this weekend!</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
@@ -418,7 +418,7 @@
 								<div><a href="#">August 3, 2020</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+							<h3 class="heading"><a href="#">Get 50% off all orders this Saturday only!</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>

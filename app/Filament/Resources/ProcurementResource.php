@@ -45,15 +45,32 @@ class ProcurementResource extends Resource
                 ->numeric()
                 ->minValue(0.001),
 
-            Forms\Components\TextInput::make('unit_cost')
-                ->required()
+            Forms\Components\TextInput::make('unit_price')
+                ->label('Unit Price (Optional)')
                 ->numeric()
                 ->prefix('₦')
-                ->minValue(0),
+                ->minValue(0)
+                ->helperText('If provided and Amount is empty, Amount is auto-calculated as quantity × unit price.'),
+
+            Forms\Components\TextInput::make('unit_cost')
+                ->label('Amount (Total)')
+                ->numeric()
+                ->prefix('₦')
+                ->minValue(0)
+                ->helperText('Enter total row amount. Example: 2 chickens for ₦12,000 => Amount = 12000.'),
 
             Forms\Components\TextInput::make('supplier_name')
                 ->required()
                 ->maxLength(255),
+
+            Forms\Components\Select::make('status')
+                ->required()
+                ->options([
+                    'pending' => 'Pending',
+                    'approved' => 'Approved',
+                    'completed' => 'Completed',
+                ])
+                ->default('completed'),
 
             Forms\Components\FileUpload::make('receipt_attachment')
                 ->label('Receipt (Camera / Upload)')
@@ -92,11 +109,20 @@ class ProcurementResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('unit_cost')
+                    ->label('Amount')
                     ->money('NGN')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('supplier_name')
                     ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\BadgeColumn::make('status')
+                    ->colors([
+                        'warning' => 'pending',
+                        'info' => 'approved',
+                        'success' => 'completed',
+                    ])
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('receipt_attachment')
@@ -108,6 +134,14 @@ class ProcurementResource extends Resource
                 Tables\Columns\TextColumn::make('received_at')
                     ->dateTime()
                     ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'completed' => 'Completed',
+                    ]),
             ])
             ->actions([])
             ->bulkActions([])

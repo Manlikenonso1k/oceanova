@@ -3,13 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles {
@@ -57,19 +59,26 @@ class User extends Authenticatable
         return $this->hasMany(InventoryLog::class);
     }
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        $role = strtolower(trim((string) $this->role));
+
+        return in_array($role, [
+            'super_admin',
+            'admin',
+            'procurement_officer',
+            'kitchen_manager',
+            'general_order_person',
+            'barman',
+        ], true);
+    }
+
     public function hasRole($role, ?string $guard = null): bool
     {
-        if (is_array($role)) {
-            return $this->hasAnyRole($role);
-        }
-
-        if ($role instanceof \Traversable) {
-            return $this->hasAnyRole(iterator_to_array($role));
-        }
-
         $normalizedRole = $this->normalizeRoleName($role);
+
         if ($normalizedRole === null) {
-            return $this->spatieHasRole($role, $guard);
+            return false;
         }
 
         $storedRole = strtolower(trim((string) $this->role));
@@ -78,30 +87,49 @@ class User extends Authenticatable
             return true;
         }
 
-        return $this->spatieHasRole($normalizedRole, $guard)
-            || $this->spatieHasRole($role, $guard);
+        return $this->spatieHasRole($normalizedRole, $guard);
     }
 
     public function hasAnyRole(...$roles): bool
     {
-        $normalizedRoles = collect($roles)
-            ->flatten()
-            ->map(fn ($value): ?string => $this->normalizeRoleName($value))
-            ->filter(fn (?string $value): bool => $value !== null)
-            ->values()
-            ->all();
+        $normalizedRoles = $this->extractNormalizedRoles($roles);
 
         if ($normalizedRoles === []) {
-            return $this->spatieHasAnyRole(...$roles);
+            return false;
         }
 
         $storedRole = strtolower(trim((string) $this->role));
+
         if ($storedRole !== '' && in_array($storedRole, $normalizedRoles, true)) {
             return true;
         }
 
-        return $this->spatieHasAnyRole(...$roles)
-            || $this->spatieHasAnyRole(...$normalizedRoles);
+        return $this->spatieHasAnyRole(...$normalizedRoles);
+    }
+
+    private function extractNormalizedRoles(array $roles): array
+    {
+        $normalizedRoles = [];
+
+        foreach ($roles as $role) {
+            if (is_array($role)) {
+                $normalizedRoles = [...$normalizedRoles, ...$this->extractNormalizedRoles($role)];
+                continue;
+            }
+
+            if ($role instanceof \Traversable) {
+                $normalizedRoles = [...$normalizedRoles, ...$this->extractNormalizedRoles(iterator_to_array($role, false))];
+                continue;
+            }
+
+            $normalized = $this->normalizeRoleName($role);
+
+            if ($normalized !== null) {
+                $normalizedRoles[] = $normalized;
+            }
+        }
+
+        return array_values(array_unique($normalizedRoles));
     }
 
     private function normalizeRoleName(mixed $role): ?string

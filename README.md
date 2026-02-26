@@ -200,6 +200,39 @@ Run these after pulling latest changes:
 
 For production ergonomics, add dedicated Filament resources for Ingredient, Procurement, Recipe, and InventoryLog so each role can operate via UI instead of JSON endpoints.
 
+## Procurement Dashboard Incident Notes (Feb 2026)
+
+### 1) RouteNotFoundException on `/admin`
+- Error: `Route [filament.admin.pages.procurement-dashboard] not defined`
+- Root cause: dashboard page class existed, but route was not being generated as expected.
+- Fixes applied:
+	- Registered `ProcurementDashboard` in `app/Providers/Filament/AdminPanelProvider.php` `->pages([...])`.
+	- Set explicit page slug in `app/Filament/Pages/ProcurementDashboard.php`:
+		- `protected static ?string $slug = 'procurement-dashboard';`
+	- Used a dedicated page view: `resources/views/filament/pages/procurement-dashboard.blade.php`.
+
+### 2) Fatal trait error during cache clear
+- Error: `Trait "Filament\Pages\Concerns\HasFiltersForm" not found`
+- Root cause: wrong trait namespace for the project Filament version.
+- Fix applied:
+	- Updated import in `app/Filament/Pages/ProcurementDashboard.php` to:
+		- `Filament\Pages\Dashboard\Concerns\HasFiltersForm`
+
+### 3) TableWidget key TypeError on supplier scorecard
+- Error: `TableWidget::getTableRecordKey(): Return value must be of type string, null returned`
+- Root cause: grouped supplier query had no primary key in result rows.
+- Fix applied in `app/Filament/Widgets/SupplierPerformanceScorecard.php`:
+	- Added `selectRaw('MIN(id) as id')`
+	- Added supplier guards:
+		- `whereNotNull('supplier_name')`
+		- `where('supplier_name', '!=', '')`
+
+### Verification Commands
+- `php artisan optimize:clear`
+- `php artisan route:list | grep -i procurement-dashboard`
+- Expected route:
+	- `GET|HEAD admin/procurement-dashboard filament.admin.pages.procurement-dashboard`
+
 ## Filament Frontend Operations
 
 The admin panel now supports role-based frontend operations for inventory and procurement through Filament resources.
@@ -641,3 +674,35 @@ If enabling Spatie now:
 - No unrelated UI modules were added.
 - Existing inventory and procurement flows remain intact for procurement/admin roles.
 - Bar module remains additive and isolated via category scoping.
+
+## Incident Fix: Procurement Login Loop (Resolved)
+
+### Issue Observed
+- `procurement_officer` account could authenticate but `/admin` kept spinning/redirecting without dashboard load.
+
+### Root Cause
+- Role bridge methods in `app/Models/User.php` (`hasRole`, `hasAnyRole`) were handling some Filament/Spatie role payloads unsafely.
+- During navigation/resource visibility checks, an array payload path triggered:
+	- `Array to string conversion` in `User.php`.
+
+### Code Fix Implemented
+- Hardened role normalization and flattening logic in `User` model:
+	- safe handling for arrays and traversables,
+	- removed unsafe fallback calls that passed invalid payloads to Spatie,
+	- preserved compatibility with both `users.role` and Spatie role checks.
+- Kept explicit panel access mapping in `canAccessPanel()` to allow operational roles.
+
+### Server Validation Done
+- Cleared caches successfully:
+	- `php artisan optimize:clear`
+- Confirmed procurement account exists:
+	- `procurement@oceanova.ng` with role `procurement_officer`
+- Confirmed role bridge check in Tinker:
+	- `hasAnyRole(['procurement_officer','admin'])` returned `true`
+- Confirmed procurement login now works.
+
+### Runbook Note
+- Run PHP expressions in `php artisan tinker`, not bash shell.
+- If role mismatch appears after imports/manual edits:
+	- `php artisan roles:backfill-spatie --dry-run`
+	- `php artisan roles:backfill-spatie`

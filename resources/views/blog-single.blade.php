@@ -6,8 +6,8 @@
   <div class="container">
     <div class="row no-gutters slider-text align-items-end justify-content-center">
       <div class="col-md-9 ftco-animate text-center mb-5">
-        <h1 class="mb-2 bread">Blog Single</h1>
-        <p class="breadcrumbs"><span class="mr-2"><a href="{{ route('home') }}">Home <i class="fa fa-chevron-right"></i></a></span> <span class="mr-2"><a href="{{ route('blog') }}">Blog <i class="fa fa-chevron-right"></i></a></span> <span>Blog Single <i class="fa fa-chevron-right"></i></span></p>
+        <h1 class="mb-2 bread">Oceanova Grand Opening</h1>
+        <p class="breadcrumbs"><span class="mr-2"><a href="{{ route('home') }}">Home <i class="fa fa-chevron-right"></i></a></span> <span class="mr-2"><a href="{{ route('blog') }}">Blog <i class="fa fa-chevron-right"></i></a></span> <span>Oceanova Grand Opening <i class="fa fa-chevron-right"></i></span></p>
       </div>
     </div>
   </div>
@@ -17,15 +17,23 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 ftco-animate">
-        <h2 class="mb-3">#1. Creative WordPress Themes</h2>
-        <p>Temporibus ad error suscipit exercitationem hic molestiae totam obcaecati rerum, eius aut, in. Exercitationem atque quidem tempora maiores ex architecto voluptatum aut officia doloremque. Error dolore voluptas, omnis molestias odio dignissimos culpa ex earum nisi consequatur quos odit quasi repellat qui officiis reiciendis incidunt hic non? Debitis commodi aut, adipisci.</p>
-        <p>
-          <img src="{{ asset('assets/template/images/image_2.jpg') }}" alt="Oceanova blog feature dish" class="img-fluid">
-        </p>
-        <p>Quisquam esse aliquam fuga distinctio, quidem delectus veritatis reiciendis. Nihil explicabo quod, est eos ipsum. Unde aut non tenetur tempore, nisi culpa voluptate maiores officiis quis vel ab consectetur suscipit veritatis nulla quos quia aspernatur perferendis, libero sint. Error, velit, porro. Deserunt minus, quibusdam iste enim veniam, modi rem maiores.</p>
-        <p>Odit voluptatibus, eveniet vel nihil cum ullam dolores laborum, quo velit commodi rerum eum quidem pariatur! Quia fuga iste tenetur, ipsa vel nisi in dolorum consequatur, veritatis porro explicabo soluta commodi libero voluptatem similique id quidem? Blanditiis voluptates aperiam non magni. Reprehenderit nobis odit inventore, quia laboriosam harum excepturi ea.</p>
-        <p>Adipisci vero culpa, eius nobis soluta. Dolore, maxime ullam ipsam quidem, dolor distinctio similique asperiores voluptas enim, exercitationem ratione aut adipisci modi quod quibusdam iusto, voluptates beatae iure nemo itaque laborum. Consequuntur et pariatur totam fuga eligendi vero dolorum provident. Voluptatibus, veritatis. Beatae numquam nam ab voluptatibus culpa, tenetur recusandae!</p>
-        <p>Voluptas dolores dignissimos dolorum temporibus, autem aliquam ducimus at officia adipisci quasi nemo a perspiciatis provident magni laboriosam repudiandae iure iusto commodi debitis est blanditiis alias laborum sint dolore. Dolores, iure, reprehenderit. Error provident, pariatur cupiditate soluta doloremque aut ratione. Harum voluptates mollitia illo minus praesentium, rerum ipsa debitis, inventore?</p>
+        <h1 class="mb-3">Oceanova Grand Opening: A New Food Landmark in Ajah</h1>
+
+        <p class="lead">Ajah just gained a new culinary beacon — Oceanova Restaurant (Fine Dining &amp; Seafood) teams up with neighborhood favorite Moritho’s Pizza for an unforgettable grand opening. Expect refined seafood, artisan pizza craft, and community warmth rolled into one day-long celebration.</p>
+
+        <ul class="mb-3">
+          <li><strong>Event:</strong> Official Grand Opening Celebration</li>
+          <li><strong>Offer:</strong> 50% DISCOUNT on the entire menu — one day only</li>
+          <li><strong>When:</strong> Saturday, February 25, 2026 — 9:00 AM to 9:00 PM</li>
+          <li><strong>Where:</strong> 7/8 Okun-Ajah Community Road, Off New Coastal Road, Ajah, Lagos</li>
+          <li><strong>RSVP &amp; Menu:</strong> <a href="tel:07082820267">0708 282 0267</a> — <a href="https://bit.ly/3ZVlzGw" target="_blank" rel="noopener">View the menu</a></li>
+        </ul>
+
+        <p>Oceanova brings polished, coastal fine dining to Ajah with show-stopping seafood platters and delicate pastries, while Moritho’s Pizza serves artisan hand-stretched pies that many locals call the <em>Best Pizza in Lagos</em>. From rich, buttery lobster to wood-fired Margheritas and creamy house-made ice cream, the menu is built for sharing and celebration.</p>
+
+        <p>This one-day 50% DISCOUNT is a rare chance to taste Oceanova’s elevated seafood alongside Moritho’s community-minded pizza at half the price. It’s perfect for food lovers searching for the best <strong>Restaurant in Ajah</strong> or families planning a special weekend outing. Expect warm hospitality, quick service, and menus that highlight ocean-fresh ingredients and artisanal baking.</p>
+
+        <p>Bring friends and family — there will be something for everyone: Seafood Platters, Artisan Pizzas, Pastries, Ice Cream, and Fine Dining options. Spaces may fill fast — RSVP now at <a href="tel:07082820267">0708 282 0267</a>. Join us at the Oceanova Grand Opening and make Saturday a delicious Ajah memory.</p>
         <div class="tag-widget post-tag-container mb-5 mt-5">
           <div class="tagcloud">
             <a href="#" class="tag-cloud-link">Food</a>
@@ -181,7 +189,7 @@
           <div class="block-21 mb-4 d-flex">
             <a class="blog-img mr-4" style="background-image: url({{ asset('assets/template/images/image_1.jpg') }});"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+              <h3 class="heading"><a href="#">Get 50% off all orders this Saturday only!</a></h3>
               <div class="meta">
                 <div><a href="#"><span class="icon-calendar"></span> Aug. 3, 2020</a></div>
                 <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
@@ -192,7 +200,7 @@
           <div class="block-21 mb-4 d-flex">
             <a class="blog-img mr-4" style="background-image: url({{ asset('assets/template/images/image_2.jpg') }});"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+              <h3 class="heading"><a href="#">Join us for our Grand Opening this weekend!</a></h3>
               <div class="meta">
                 <div><a href="#"><span class="icon-calendar"></span> Aug. 3, 2020</a></div>
                 <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
@@ -203,7 +211,7 @@
           <div class="block-21 mb-4 d-flex">
             <a class="blog-img mr-4" style="background-image: url({{ asset('assets/template/images/image_3.jpg') }});"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
+              <h3 class="heading"><a href="#">Taste the best pizza and seafood in Ajah!!</a></h3>
               <div class="meta">
                 <div><a href="#"><span class="icon-calendar"></span> Aug. 3, 2020</a></div>
                 <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>

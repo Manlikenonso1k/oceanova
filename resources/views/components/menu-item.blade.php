@@ -43,7 +43,7 @@
     }
 @endphp
 
-<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-slate-100 shadow-sm p-3 sm:p-5 flex flex-col gap-3 sm:gap-4']) }} @if($id) id="{{ $id }}" @endif>
+<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-slate-100 shadow-sm p-3 sm:p-5 flex flex-col gap-3 sm:gap-4']) }} @if($id) id="{{ $id }}" @endif style="background-color: #fff !important;">
     <div class="relative w-full overflow-hidden rounded-lg border border-slate-100 aspect-[4/3]">
         <img
             src="{{ $itemImage }}"
@@ -62,7 +62,7 @@
             @endif
         </div>
         @if($itemPrice)
-            <span class="shrink-0 rounded-full bg-slate-900 text-white text-xs font-semibold px-3 py-1">
+            <span class="shrink-0 rounded-full bg-slate-900 text-white text-xs font-semibold px-3 py-1" style="color: #fff !important;">
                 {{ $itemPrice }}
             </span>
         @endif

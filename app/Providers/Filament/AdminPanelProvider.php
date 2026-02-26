@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\ProcurementDashboard;
 use App\Filament\Widgets\ClickTrendChart;
 use App\Filament\Widgets\LowStockAlertsTable;
 use App\Filament\Widgets\MealPopularityChart;
@@ -40,6 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                ProcurementDashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

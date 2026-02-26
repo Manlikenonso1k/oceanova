@@ -103,6 +103,8 @@ class InventoryService
         float $unitCost,
         string $supplierName,
         string $receivedAt,
+        string $status = 'completed',
+        ?float $unitPrice = null,
         ?string $receiptAttachment = null,
         ?int $userId = null
     ): Procurement {
@@ -110,14 +112,24 @@ class InventoryService
             throw new RuntimeException('Quantity received must be greater than zero.');
         }
 
-        return DB::transaction(function () use ($ingredientId, $quantityReceived, $unitCost, $supplierName, $receivedAt, $receiptAttachment, $userId) {
+        if ($unitCost <= 0 && $unitPrice !== null && $unitPrice > 0) {
+            $unitCost = $quantityReceived * $unitPrice;
+        }
+
+        if ($unitCost <= 0) {
+            throw new RuntimeException('Amount (total) must be greater than zero, or provide a valid unit price.');
+        }
+
+        return DB::transaction(function () use ($ingredientId, $quantityReceived, $unitCost, $supplierName, $receivedAt, $status, $unitPrice, $receiptAttachment, $userId) {
             $ingredient = Ingredient::query()->lockForUpdate()->findOrFail($ingredientId);
 
             $procurement = Procurement::query()->create([
                 'ingredient_id' => $ingredient->id,
                 'quantity_received' => $quantityReceived,
+                'unit_price' => $unitPrice,
                 'unit_cost' => $unitCost,
                 'supplier_name' => $supplierName,
+                'status' => $status,
                 'receipt_attachment' => $receiptAttachment,
                 'received_at' => $receivedAt,
             ]);
