@@ -29,7 +29,8 @@
 
     $seed = abs(crc32((string) $itemName));
     $fallback = $fallbackImages[$seed % count($fallbackImages)];
-    $itemImage = asset($fallback);
+    $fallbackImageUrl = asset($fallback);
+    $itemImage = $fallbackImageUrl;
 
     if (!empty($image)) {
         if (Str::startsWith($image, ['http://', 'https://', '/'])) {
@@ -49,6 +50,7 @@
             alt="{{ $itemName }} at Oceanova"
             class="h-full w-full object-cover object-center"
             loading="lazy"
+            onerror="this.onerror=null;this.src='{{ $fallbackImageUrl }}';"
         >
     </div>
 

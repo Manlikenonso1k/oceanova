@@ -271,6 +271,23 @@
         
     ];
     }
+
+    $sections = array_map(function (array $section): array {
+        $sectionSlug = Str::slug((string) ($section['title'] ?? 'menu'));
+
+        $section['items'] = array_map(function (array $item) use ($sectionSlug): array {
+            if (!empty($item['image'])) {
+                return $item;
+            }
+
+            $itemSlug = Str::slug((string) ($item['name'] ?? 'item'));
+            $item['image'] = "images/menu/{$sectionSlug}-{$itemSlug}.jpg";
+
+            return $item;
+        }, $section['items'] ?? []);
+
+        return $section;
+    }, $sections ?? []);
 @endphp
 
 <script>
