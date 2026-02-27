@@ -32,3 +32,7 @@ Route::middleware(['auth', 'role:procurement_officer,admin,super_admin'])
 		Route::post('/admin/supplier/update/{supplier}', [\App\Http\Controllers\SupplierController::class, 'updateName'])
 			->name('admin.supplier.update');
 	});
+
+Route::middleware(['auth'])->group(function (): void {
+    Route::get('/dashboard/bookings', [BookingController::class, 'index'])->name('bookings.index');
+});

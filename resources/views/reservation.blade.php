@@ -16,7 +16,7 @@
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
   <div class="container">
     <div class="row no-gutters">
-      <div class="col-sm-12 p-4 p-md-5 d-flex align-items-center justify-content-center bg-primary">
+      <div class="col-sm-12 p-4 p-md-5 d-flex align-items-center justify-content-center bg-primary text-white" style="background-color:#000 !important;">
         <form action="{{ route('booking.store') }}" method="POST" class="appointment-form">
           @csrf
           @if(session('success'))
@@ -47,7 +47,7 @@
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                <input type="text" name="tel" class="form-control" placeholder="Phone">
+                <input type="text" name="tel" class="form-control" placeholder="Whatsapp Number">
               </div>
             </div>
             <div class="col-md-4">
@@ -71,13 +71,20 @@
                 <div class="form-field">
                   <div class="select-wrap">
                     <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                    <select name="noofv" class="form-control" required>
-                      <option value="" disabled>Guest</option>
-                      <option value="1" selected>1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
+                    <select name="noofv" class="form-control text-white" required style="background-color:#000 !important; color:#fff !important;">
+                      <option value="" disabled style="background-color:#000; color:#fff;">>Table 01 - 4 Guests</option>
+                      <option value="1" selected style="background-color:#000; color:#fff;">Table 02 - 4 Guests</option>
+                      <option value="2" style="background-color:#000; color:#fff;">Table 03 - 4 Guests</option>
+                      <option value="3" style="background-color:#000; color:#fff;">Table 04 - 4 Guests</option>
+                      <option value="4" style="background-color:#000; color:#fff;">Table 05 - 4 Guests</option>
+                      <option value="5" style="background-color:#000; color:#fff;">Table 06 - 2 Guests</option>
+                      <option value="6" style="background-color:#000; color:#fff;">Table 07 - 2 Guests</option>
+                      <option value="7" style="background-color:#000; color:#fff;">Table 08 - 2 Guests</option>
+                      <option value="8" style="background-color:#000; color:#fff;">Table 09 - 2 Guests</option>
+                      <option value="9" style="background-color:#000; color:#fff;">Table 10 - 4 Guests(outdoor)</option>
+                      <option value="10" style="background-color:#000; color:#fff;">Table 11 - 4 Guests(outdoor)</option>
+                      <option value="11" style="background-color:#000; color:#fff;">Table 12 - 4 Guests(outdoor)</option>
+                      <option value="12" style="background-color:#000; color:#fff;">Table 13 - 4 Guests(outdoor)</option>
                     </select>
                   </div>
                 </div>
