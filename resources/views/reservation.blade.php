@@ -72,19 +72,22 @@
                   <div class="select-wrap">
                     <div class="icon"><span class="fa fa-chevron-down"></span></div>
                     <select name="noofv" class="form-control text-white" required style="background-color:#000 !important; color:#fff !important;">
-                      <option value="" disabled style="background-color:#000; color:#fff;">>Table 01 - 4 Guests</option>
-                      <option value="1" selected style="background-color:#000; color:#fff;">Table 02 - 4 Guests</option>
-                      <option value="2" style="background-color:#000; color:#fff;">Table 03 - 4 Guests</option>
-                      <option value="3" style="background-color:#000; color:#fff;">Table 04 - 4 Guests</option>
-                      <option value="4" style="background-color:#000; color:#fff;">Table 05 - 4 Guests</option>
-                      <option value="5" style="background-color:#000; color:#fff;">Table 06 - 2 Guests</option>
-                      <option value="6" style="background-color:#000; color:#fff;">Table 07 - 2 Guests</option>
-                      <option value="7" style="background-color:#000; color:#fff;">Table 08 - 2 Guests</option>
-                      <option value="8" style="background-color:#000; color:#fff;">Table 09 - 2 Guests</option>
-                      <option value="9" style="background-color:#000; color:#fff;">Table 10 - 4 Guests(outdoor)</option>
-                      <option value="10" style="background-color:#000; color:#fff;">Table 11 - 4 Guests(outdoor)</option>
-                      <option value="11" style="background-color:#000; color:#fff;">Table 12 - 4 Guests(outdoor)</option>
-                      <option value="12" style="background-color:#000; color:#fff;">Table 13 - 4 Guests(outdoor)</option>
+                      <option value="Table 06 - 2 Guests" style="background-color:#000; color:#fff;">Table 06 - 2 Guests</option>
+                      <option value="Table 07 - 2 Guests" style="background-color:#000; color:#fff;">Table 07 - 2 Guests</option>
+                      <option value="Table 08 - 2 Guests" style="background-color:#000; color:#fff;">Table 08 - 2 Guests</option>
+                      <option value="Table 09 - 2 Guests" style="background-color:#000; color:#fff;">Table 09 - 2 Guests</option>
+                      <option value="" disabled style="background-color:#000; color:#fff;">Table 01 - 4 Guests</option>
+                      <option value="Table 02 - 4 Guests" selected style="background-color:#000; color:#fff;">Table 02 - 4 Guests</option>
+                      <option value="Table 10 - 3 Guests(outdoor)" style="background-color:#000; color:#fff;">Table 10 - 3 Guests(outdoor)</option>
+                      <option value="Table 11 - 3 Guests(outdoor)" style="background-color:#000; color:#fff;">Table 11 - 3 Guests(outdoor)</option>
+                      <option value="Table 12 - 3 Guests(outdoor)" style="background-color:#000; color:#fff;">Table 12 - 3 Guests(outdoor)</option>
+                      <option value="Table 13 - 3 Guests(outdoor)" style="background-color:#000; color:#fff;">Table 13 - 3 Guests(outdoor)</option>
+                      <option value="Table 14 - 3 Guests(outdoor)" style="background-color:#000; color:#fff;">Table 14 - 3 Guests(outdoor)</option>
+                      <option value="Table 15 - 3 Guests(outdoor)" style="background-color:#000; color:#fff;">Table 15 - 3 Guests(outdoor)</option>
+                      <option value="Table 16 - 6 Guests" style="background-color:#000; color:#fff;">Table 16 - 6 Guests</option>
+                      <option value="Table 17 - 6 Guests" style="background-color:#000; color:#fff;">Table 17 - 6 Guests</option>
+                      <option value="Table 18 - 6 Guests" style="background-color:#000; color:#fff;">Table 18 - 6 Guests</option>
+                      <option value="Table 19 - 6 Guests" style="background-color:#000; color:#fff;">Table 19 - 6 Guests</option>
                     </select>
                   </div>
                 </div>
