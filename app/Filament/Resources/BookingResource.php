@@ -82,6 +82,9 @@ class BookingResource extends Resource
                         Forms\Components\Textarea::make('rejection_reason')->required(),
                     ])
                     ->color('danger'),
+
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn () => auth()->user() && auth()->user()->hasAnyRole(['admin', 'super_admin'])),
             ])
             ->filters([]);
     }
