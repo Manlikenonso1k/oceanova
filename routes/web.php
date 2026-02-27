@@ -28,4 +28,7 @@ Route::middleware(['auth', 'role:procurement_officer,admin,super_admin'])
 
 		Route::post('/admin/procurements/live-template', [ProcurementTemplateController::class, 'store'])
 			->name('procurements.live-template.store');
+
+		Route::post('/admin/supplier/update/{supplier}', [\App\Http\Controllers\SupplierController::class, 'updateName'])
+			->name('admin.supplier.update');
 	});
