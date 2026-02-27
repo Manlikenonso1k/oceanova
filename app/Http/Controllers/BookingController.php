@@ -69,25 +69,32 @@ class BookingController extends Controller
 
         $tableLabel = $tableMap[$validated['noofv']] ?? null;
 
-        // Save booking to database before sending initial emails
-        $booking = \App\Models\Booking::create([
-            'name' => $validated['full_name'],
-            'email' => $validated['email'],
-            'whatsapp_number' => $validated['tel'],
-            'guest_count' => is_numeric($validated['noofv']) ? intval($validated['noofv']) : null,
-            'table_id' => $validated['noofv'],
-            'table_label' => $tableLabel,
-            'booking_date' => $validated['signin'] ?? null,
-            'booking_time' => $validated['signout'] ?? null,
-            'status' => 'pending',
-        ]);
+        try {
+            // Save booking to database before sending initial emails
+            $booking = \App\Models\Booking::create([
+                'name' => $validated['full_name'],
+                'email' => $validated['email'],
+                'whatsapp_number' => $validated['tel'],
+                'guest_count' => is_numeric($validated['noofv']) ? intval($validated['noofv']) : null,
+                'table_id' => $validated['noofv'],
+                'table_label' => $tableLabel,
+                'booking_date' => $validated['signin'] ?? null,
+                'booking_time' => $validated['signout'] ?? null,
+                'status' => 'pending',
+            ]);
 
-        $payload = array_merge($validated, $booking->toArray());
+            $payload = array_merge($validated, $booking->toArray());
 
-        Mail::to($adminRecipients)->send(new AdminBookingNotification($payload));
-        Mail::to($validated['email'])->send(new UserBookingConfirmation($payload));
+            Mail::to($adminRecipients)->send(new AdminBookingNotification($payload));
+            Mail::to($validated['email'])->send(new UserBookingConfirmation($payload));
 
-        return back()->with('success', 'Your booking request has been sent.');
+            return back()->with('success', 'Your booking request has been sent.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() === '23000' && str_contains($e->getMessage(), 'bookings_email_unique')) {
+                return back()->with('error', 'You have already booked with this email address.');
+            }
+            throw $e;
+        }
     }
 
     public function index()
