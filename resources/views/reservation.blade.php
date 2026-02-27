@@ -24,6 +24,16 @@
               {{ session('success') }}
             </div>
           @endif
+          @if(session('error'))
+            <script>
+              window.onload = function() {
+                alert(@json(session('error')));
+              };
+            </script>
+            <div class="alert alert-danger mb-4" role="alert">
+              {{ session('error') }}
+            </div>
+          @endif
           @if($errors->any())
             <div class="alert alert-danger mb-4" role="alert">
               <ul class="mb-0 pl-3">
