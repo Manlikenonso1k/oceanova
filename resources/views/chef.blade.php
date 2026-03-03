@@ -42,7 +42,7 @@
       </div>
       <div class="col-md-6 col-lg-3 ftco-animate">
         <div class="staff">
-          <div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Gold.png') }});"></div>
+          <div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Gold.png') }});</div>
           <div class="text px-4 pt-2">
             <h3>Michelle Fraulen</h3>
             <span class="position mb-2">Head Chef</span>
@@ -60,7 +60,7 @@
       </div>
       <div class="col-md-6 col-lg-3 ftco-animate">
         <div class="staff">
-          <div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Silver.png') }});"></div>
+          <div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Silver.png') }});</div>
           <div class="text px-4 pt-2">
             <h3>Alfred Smith</h3>
             <span class="position mb-2">Chef Cook</span>
@@ -78,7 +78,7 @@
       </div>
       <div class="col-md-6 col-lg-3 ftco-animate">
         <div class="staff">
-          <div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Bronze.png') }});"></div>
+          <div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Bronze.png') }});</div>
           <div class="text px-4 pt-2">
             <h3>Antonio Santibanez</h3>
             <span class="position mb-2">Chef Cook</span>
