@@ -273,7 +273,7 @@
 			<div class="row">
 				<div class="col-md-6 col-lg-3 ftco-animate">
 					<div class="staff">
-						<div class="img" style="background-image: url({{ asset('assets/template/images/chef-1.jpg') }});"></div>
+						<div class="img" style="background-image: url({{ asset('assets/template/images/chef-man.png') }});"></div>
 						<div class="text px-4 pt-2">
 							<h3>John Gustavo</h3>
 							<span class="position mb-2">CEO, Co Founder</span>
@@ -312,7 +312,7 @@
 						<div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Diamond.png') }});</div>
 						<div class="text px-4 pt-2">
 							<h3>Alfred Smith</h3>
-							<span class="position mb-2">Chef Cook</span>
+							<span class="position mb-2">Pastery Cook</span>
 							<div class="faded">
 									<p>Alfred specializes in modern comfort food, bringing classic dishes to life with refined techniques.</p>
 								<ul class="ftco-social d-flex">
@@ -330,7 +330,7 @@
 						<div class="img" style="background-image: url({{ asset('assets/template/images/Chef-Bronze.png') }});</div>
 						<div class="text px-4 pt-2">
 							<h3>Antonio Santibanez</h3>
-							<span class="position mb-2">Chef Cook</span>
+							<span class="position mb-2">International Sushi Cook</span>
 							<div class="faded">
 									<p>Antonio is known for his meticulous plating and house-made sauces that elevate every main course.</p>
 								<ul class="ftco-social d-flex">
