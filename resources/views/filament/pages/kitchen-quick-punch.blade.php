@@ -1,19 +1,5 @@
 <x-filament-panels::page>
     <style>
-        .kqp-menu-row {
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .kqp-menu-row::-webkit-scrollbar {
-            display: none;
-        }
-
-        .kqp-menu-item {
-            flex: 0 0 auto;
-        }
-
         .kqp-scrollbar::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -41,9 +27,9 @@
                     <h2 class="text-2xl font-bold text-[#D4AF37] mb-4">
                         Menu Selection
                     </h2>
-                    <div class="kqp-menu-row flex w-full flex-nowrap gap-2 overflow-x-auto overflow-y-hidden text-sm rounded-xl bg-black/40 p-2 backdrop-blur-md">
+                    <div class="flex flex-wrap gap-2 text-sm rounded-xl bg-black/40 p-2 backdrop-blur-md">
                         @foreach ($this->menuSections as $section)
-                            <a href="#{{ $section['id'] }}" class="kqp-menu-item whitespace-nowrap rounded-full border border-[#D4AF37]/30 bg-zinc-900 px-3 py-1.5 font-medium text-[#E2E8F0] hover:border-[#D4AF37]/70 hover:text-[#D4AF37]">
+                            <a href="#{{ $section['id'] }}" class="whitespace-nowrap rounded-full border border-[#D4AF37]/30 bg-zinc-900 px-3 py-1.5 font-medium text-[#E2E8F0] hover:border-[#D4AF37]/70 hover:text-[#D4AF37]">
                                 {{ $section['title'] }}
                             </a>
                         @endforeach
