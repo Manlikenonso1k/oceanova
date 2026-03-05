@@ -29,7 +29,7 @@ class KitchenView extends ListRecords
         return '15s';
     }
 
-    public static function canAccess(): bool
+    public static function canAccess(array $parameters = []): bool
     {
         return auth()->check() && auth()->user()->hasAnyRole(['kitchen', 'kitchen_manager', 'admin', 'super_admin']);
     }
