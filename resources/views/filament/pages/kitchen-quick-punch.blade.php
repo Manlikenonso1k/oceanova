@@ -23,11 +23,10 @@
     <div class="grid gap-6 lg:grid-cols-3">
         <div class="lg:col-span-2">
             <div class="max-h-[78vh] overflow-y-auto rounded-xl border border-[#D4AF37]/20 bg-black p-3 sm:p-5 shadow-2xl kqp-scrollbar">
-                <h2 class="text-2xl font-bold text-[#D4AF37] mb-6 sticky top-0 bg-black py-2 z-10">
-                    Menu Selection
-                </h2>
-
-                <div class="sticky top-14 z-10 mb-4 border-b border-[#D4AF37]/20 bg-black pb-3">
+                <div class="sticky top-0 z-20 -mx-3 -mt-3 mb-4 border-b border-[#D4AF37]/20 bg-black px-3 pt-3 pb-3 sm:-mx-5 sm:-mt-5 sm:px-5 sm:pt-5">
+                    <h2 class="text-2xl font-bold text-[#D4AF37] mb-4">
+                        Menu Selection
+                    </h2>
                     <div class="flex flex-wrap gap-2 text-sm">
                         @foreach ($this->menuSections as $section)
                             <a href="#{{ $section['id'] }}" class="whitespace-nowrap rounded-full border border-[#D4AF37]/30 bg-zinc-900 px-3 py-1.5 font-medium text-[#E2E8F0] hover:border-[#D4AF37]/70 hover:text-[#D4AF37]">
