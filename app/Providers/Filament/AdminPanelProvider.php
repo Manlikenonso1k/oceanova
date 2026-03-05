@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\ProcurementDashboard;
 use App\Filament\Widgets\ClickTrendChart;
+use App\Filament\Widgets\DepartmentTransferBalanceWidget;
 use App\Filament\Widgets\LowStockAlertsTable;
 use App\Filament\Widgets\MealPopularityChart;
 use App\Filament\Widgets\OrderStatsOverviewWidget;
@@ -55,6 +56,7 @@ class AdminPanelProvider extends PanelProvider
                 SalesPieChartWidget::class,
                 OrderStatusChart::class,
                 ClickTrendChart::class,
+                DepartmentTransferBalanceWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
