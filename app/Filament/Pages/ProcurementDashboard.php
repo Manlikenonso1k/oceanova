@@ -49,7 +49,7 @@ class ProcurementDashboard extends Page
             ->schema([
                 DatePicker::make('start_date')
                     ->label('Start Date')
-                    ->default(now()->startOfMonth()->toDateString())
+                    ->default(fn (): string => (string) (Procurement::query()->min('received_at') ?? now()->subDays(30)->toDateString()))
                     ->live(),
 
                 DatePicker::make('end_date')

@@ -56,14 +56,18 @@ class ProcurementKpiStats extends StatsOverviewWidget
             ->distinct('supplier_name')
             ->count('supplier_name');
 
-        $costSavings = max(0, $previousSpend - $currentSpend);
+        $costSavings = ($currentOrders > 0 || $previousOrders > 0)
+            ? max(0, $previousSpend - $currentSpend)
+            : 0.0;
         $earlierStart = $previousStart->copy()->subDays($days);
         $earlierEnd = $previousStart->copy()->subDay();
         $earlierSpend = (float) $this->applyProcurementFilters(Procurement::query(), false)
             ->whereBetween('received_at', [$earlierStart->startOfDay(), $earlierEnd->endOfDay()])
             ->selectRaw('COALESCE(SUM(CASE WHEN unit_cost > 0 THEN unit_cost WHEN unit_price > 0 AND quantity_received > 0 THEN unit_price * quantity_received ELSE 0 END), 0) as total_spend')
             ->value('total_spend');
-        $costSavingsPrevious = max(0, $previousSpend - $earlierSpend);
+        $costSavingsPrevious = ($previousOrders > 0)
+            ? max(0, $previousSpend - $earlierSpend)
+            : 0.0;
 
         return [
             $this->buildStat(

@@ -53,7 +53,7 @@ trait InteractsWithProcurementFilters
 
     protected function getFilterStartDate(): Carbon
     {
-        $value = $this->filters['start_date'] ?? now()->startOfMonth()->toDateString();
+        $value = $this->filters['start_date'] ?? Procurement::query()->min('received_at') ?? now()->subDays(30)->toDateString();
 
         return Carbon::parse((string) $value);
     }
