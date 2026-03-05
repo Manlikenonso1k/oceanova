@@ -30,11 +30,11 @@
                                     wire:click="addItem({{ $product['id'] }})"
                                     class="bg-white rounded-xl border border-slate-100 shadow-sm flex flex-col text-left hover:border-primary-400 hover:shadow-md transition"
                                 >
-                                    <div class="w-full h-48 overflow-hidden rounded-t-xl">
+                                    <div class="w-full overflow-hidden rounded-t-xl" style="aspect-ratio: 402 / 263.812;">
                                         @if (!empty($product['image_url']))
-                                            <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" class="w-full h-48 object-cover rounded-t-xl" loading="lazy" />
+                                            <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" class="w-full h-full object-cover rounded-t-xl" loading="lazy" />
                                         @else
-                                            <div class="w-full h-48 rounded-t-xl bg-slate-100"></div>
+                                            <div class="w-full h-full rounded-t-xl bg-slate-100"></div>
                                         @endif
                                     </div>
 
