@@ -19,20 +19,34 @@
                             <p class="mb-3 text-xs text-gray-500">{{ $section['subtitle'] }}</p>
                         @endif
 
-                        <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                            @forelse (($section['items'] ?? []) as $meal)
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @php
+                                $products = $section['items'] ?? [];
+                            @endphp
+
+                            @forelse ($products as $product)
                                 <button
                                     type="button"
-                                    wire:click="addItem({{ $meal['id'] }})"
-                                    class="rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm hover:border-primary-400 hover:shadow-md transition"
+                                    wire:click="addItem({{ $product['id'] }})"
+                                    class="bg-white rounded-xl border border-slate-100 shadow-sm flex flex-col text-left hover:border-primary-400 hover:shadow-md transition"
                                 >
-                                    @if (!empty($meal['image_url']))
-                                        <img src="{{ $meal['image_url'] }}" alt="{{ $meal['name'] }}" class="mb-3 h-28 w-full rounded-lg object-cover" loading="lazy" />
-                                    @endif
+                                    <div class="w-full h-48 overflow-hidden rounded-t-xl">
+                                        @if (!empty($product['image_url']))
+                                            <img src="{{ $product['image_url'] }}" alt="{{ $product['name'] }}" class="w-full h-48 object-cover rounded-t-xl" loading="lazy" />
+                                        @else
+                                            <div class="w-full h-48 rounded-t-xl bg-slate-100"></div>
+                                        @endif
+                                    </div>
 
-                                    <p class="text-sm font-semibold text-gray-900">{{ $meal['name'] }}</p>
-                                    <p class="mt-1 text-xs text-gray-500">₦{{ number_format((float) $meal['price'], 2) }}</p>
-                                    <p class="mt-2 text-xs text-gray-600 line-clamp-3">{{ $meal['description'] !== '' ? $meal['description'] : 'No recipe instruction available yet.' }}</p>
+                                    <div class="p-5 flex flex-col flex-grow gap-2">
+                                        <div class="flex justify-between items-start gap-2">
+                                            <h3 class="text-lg font-semibold text-slate-900">{{ $product['name'] }}</h3>
+                                            <span class="bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
+                                                ₦{{ number_format((float) $product['price']) }}
+                                            </span>
+                                        </div>
+                                        <p class="text-sm text-slate-500 line-clamp-2">{{ $product['description'] !== '' ? $product['description'] : 'No recipe instruction available yet.' }}</p>
+                                    </div>
                                 </button>
                             @empty
                                 <p class="col-span-full text-sm text-gray-500">No items found in {{ strtolower($section['title']) }}.</p>
