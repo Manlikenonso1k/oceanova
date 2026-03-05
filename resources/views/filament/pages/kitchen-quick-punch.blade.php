@@ -27,7 +27,7 @@
                     <h2 class="text-2xl font-bold text-[#D4AF37] mb-4">
                         Menu Selection
                     </h2>
-                    <div class="flex w-full flex-nowrap gap-2 overflow-x-auto text-sm rounded-xl border border-[#D4AF37]/20 bg-zinc-950/85 p-2 backdrop-blur-xl kqp-scrollbar">
+                    <div class="flex flex-wrap gap-2 text-sm rounded-xl bg-black/40 p-2 backdrop-blur-md">
                         @foreach ($this->menuSections as $section)
                             <a href="#{{ $section['id'] }}" class="whitespace-nowrap rounded-full border border-[#D4AF37]/30 bg-zinc-900 px-3 py-1.5 font-medium text-[#E2E8F0] hover:border-[#D4AF37]/70 hover:text-[#D4AF37]">
                                 {{ $section['title'] }}
