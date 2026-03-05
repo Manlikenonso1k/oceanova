@@ -204,6 +204,12 @@ class ProcurementDashboard extends Page
             fputcsv($stream, ['PO ID', 'Ingredient', 'Category', 'Supplier', 'Quantity', 'Amount', 'Total', 'Status', 'Received At']);
 
             foreach ($rows as $row) {
+                $lineTotal = (float) ($row->unit_cost ?? 0) > 0
+                    ? (float) $row->unit_cost
+                    : ((float) ($row->unit_price ?? 0) > 0 && (float) ($row->quantity_received ?? 0) > 0
+                        ? (float) $row->unit_price * (float) $row->quantity_received
+                        : 0.0);
+
                 fputcsv($stream, [
                     $row->id,
                     $row->ingredient?->name,
@@ -211,7 +217,7 @@ class ProcurementDashboard extends Page
                     $row->supplier_name,
                     $row->quantity_received,
                     $row->unit_cost,
-                    (float) $row->unit_cost,
+                    $lineTotal,
                     $row->status,
                     optional($row->received_at)->format('Y-m-d H:i:s'),
                 ]);
@@ -231,6 +237,12 @@ class ProcurementDashboard extends Page
             echo '<tr><th>PO ID</th><th>Ingredient</th><th>Category</th><th>Supplier</th><th>Quantity</th><th>Amount</th><th>Total</th><th>Status</th><th>Received At</th></tr>';
 
             foreach ($rows as $row) {
+                $lineTotal = (float) ($row->unit_cost ?? 0) > 0
+                    ? (float) $row->unit_cost
+                    : ((float) ($row->unit_price ?? 0) > 0 && (float) ($row->quantity_received ?? 0) > 0
+                        ? (float) $row->unit_price * (float) $row->quantity_received
+                        : 0.0);
+
                 echo '<tr>';
                 echo '<td>' . e((string) $row->id) . '</td>';
                 echo '<td>' . e((string) ($row->ingredient?->name ?? '')) . '</td>';
@@ -238,7 +250,7 @@ class ProcurementDashboard extends Page
                 echo '<td>' . e((string) $row->supplier_name) . '</td>';
                 echo '<td>' . e((string) $row->quantity_received) . '</td>';
                 echo '<td>' . e((string) $row->unit_cost) . '</td>';
-                echo '<td>' . e((string) ((float) $row->unit_cost)) . '</td>';
+                echo '<td>' . e((string) $lineTotal) . '</td>';
                 echo '<td>' . e((string) ($row->status ?? '')) . '</td>';
                 echo '<td>' . e((string) optional($row->received_at)->format('Y-m-d H:i:s')) . '</td>';
                 echo '</tr>';
