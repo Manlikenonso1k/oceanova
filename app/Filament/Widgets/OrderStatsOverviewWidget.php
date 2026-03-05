@@ -12,7 +12,7 @@ class OrderStatsOverviewWidget extends BaseWidget
 {
     public static function canView(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'steward', 'general_order_person', 'kitchen', 'kitchen_manager']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'kitchen_manager', 'kitchen']);
     }
 
     protected function getStats(): array
