@@ -75,6 +75,8 @@ trait InteractsWithProcurementFilters
     protected function resolvePresetRange(string $preset): array
     {
         return match ($preset) {
+            'this_month' => [now()->startOfMonth(), now()->endOfMonth()],
+            'last_month' => [now()->subMonthNoOverflow()->startOfMonth(), now()->subMonthNoOverflow()->endOfMonth()],
             'today' => [now(), now()],
             'yesterday' => [now()->subDay(), now()->subDay()],
             'last_7_days' => [now()->subDays(6), now()],
