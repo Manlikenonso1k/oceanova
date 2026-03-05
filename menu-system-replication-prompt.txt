@@ -1,0 +1,29 @@
+Prompt for Laravel Menu System Replication
+
+Build a digital restaurant menu page in Laravel with the following features:
+
+- Blade Layout: Uses a Blade template with a dark theme, gold/amber accents, and Tailwind CSS for styling. The layout is mobile-first and responsive.
+- Menu Data Structure: Menu sections are defined as an array of associative arrays, each with a title, optional subtitle, and an array of items. Each item has a name, price, optional description, image, and tags (e.g., Vegetarian, Lactose, Pork, Seafood).
+- Sticky Category Navigation: At the top, a horizontally scrollable (on mobile) or wrapped (on desktop) sticky menu bar lists all section titles as anchor links. Clicking a section scrolls to that part of the menu.
+- Section Display: Each section is rendered with a heading and a grid of menu items. Each item is displayed using a Blade component (e.g., <x-menu-item>), showing name, price, description, tags, and optional image.
+- Tag Legend: At the top, a legend explains the meaning of tags (V, L, P, S) with icons and colors.
+- Background & Branding: The menu page uses a branded background image with opacity and blend for subtle branding.
+- Sticky Behavior: The category navigation bar remains visible at the top as you scroll, with special mobile behavior to hide the old nav and keep the category bar sticky.
+- No Database Required: Menu data can be hardcoded in the controller or Blade file, but can be adapted to use a database or JSON source.
+- Tailwind CSS: Uses Tailwind for all layout and color styling, with custom configuration for important selectors and disabling preflight.
+
+Key Files/Concepts:
+- Blade view for the menu (menu.blade.php)
+- Blade component for menu items (<x-menu-item>)
+- Optional: Controller or service to provide $sections data
+- Tailwind CSS CDN or build
+- Sticky navigation logic and responsive design
+
+Replicate:
+- The sticky, scrollable category bar
+- Sectioned menu with grid layout
+- Tag legend with icons
+- Consistent dark/gold branding
+- Use of Blade components for menu items
+
+You can give this prompt to your agent or developer to reproduce the same menu experience in any Laravel project. If you want a starter code template or more details, just ask!

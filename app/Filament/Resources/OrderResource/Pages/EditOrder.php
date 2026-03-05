@@ -28,6 +28,7 @@ class EditOrder extends EditRecord
 
         $data['items'] = $normalizedItems;
         $data['total'] = $total;
+        $data['total_price'] = $total;
 
         return $data;
     }
@@ -59,20 +60,28 @@ class EditOrder extends EditRecord
         $total = 0;
 
         foreach ($items as $item) {
-            $name = trim((string) ($item['meal_name'] ?? ''));
-            if ($name === '') {
+            $mealId = (int) ($item['meal_id'] ?? 0);
+            $meal = $mealId > 0 ? Meal::query()->find($mealId) : null;
+
+            if (!$meal) {
+                $name = trim((string) ($item['meal_name'] ?? ''));
+
+                if ($name !== '') {
+                    $meal = Meal::query()->firstOrCreate(
+                        ['name' => $name],
+                        [
+                            'price' => (float) ($item['unit_price'] ?? 0),
+                            'category' => 'Uncategorized',
+                        ]
+                    );
+                }
+            }
+
+            if (!$meal) {
                 continue;
             }
 
             $quantity = max(1, (int) ($item['quantity'] ?? 1));
-
-            $meal = Meal::query()->firstOrCreate(
-                ['name' => $name],
-                [
-                    'price' => (float) ($item['unit_price'] ?? 0),
-                    'category' => 'Uncategorized',
-                ]
-            );
 
             $unitPrice = (float) ($item['unit_price'] ?? $meal->price ?? 0);
             if ($unitPrice <= 0) {
@@ -86,6 +95,7 @@ class EditOrder extends EditRecord
                 'meal_name' => $meal->name,
                 'quantity' => $quantity,
                 'unit_price' => $unitPrice,
+                'subtotal' => $lineTotal,
                 'total' => $lineTotal,
             ];
 
@@ -105,6 +115,7 @@ class EditOrder extends EditRecord
                 'meal_name' => $item['meal_name'] ?? '',
                 'quantity' => (int) ($item['quantity'] ?? 1),
                 'unit_price' => (float) ($item['unit_price'] ?? 0),
+                'subtotal' => (float) ($item['subtotal'] ?? $item['total'] ?? 0),
                 'total' => (float) ($item['total'] ?? 0),
             ])
             ->filter(fn (array $item): bool => $item['meal_name'] !== '')
