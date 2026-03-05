@@ -76,6 +76,12 @@ class User extends Authenticatable implements FilamentUser
             'kitchen',
             'general_order_person',
             'steward',
+            'general_manager',
+            'store_keeper',
+            'bar_manager',
+            'morithos_manager',
+            'oceanova_manager',
+            'cleaning_lead',
             'barman',
         ], true);
     }

@@ -22,8 +22,8 @@
 
     <div class="grid gap-6 lg:grid-cols-3">
         <div class="lg:col-span-2">
-            <div class="max-h-[78vh] overflow-y-auto rounded-xl border border-[#D4AF37]/20 bg-black p-3 sm:p-5 shadow-2xl kqp-scrollbar">
-                <div class="sticky top-0 z-20 -mx-3 -mt-3 mb-4 border-b border-[#D4AF37]/20 bg-black px-3 pt-3 pb-3 sm:-mx-5 sm:-mt-5 sm:px-5 sm:pt-5">
+            <div class="rounded-xl border border-[#D4AF37]/20 bg-black shadow-2xl">
+                <div class="sticky top-0 z-30 border-b border-[#D4AF37]/20 bg-black px-3 pt-3 pb-3 sm:px-5 sm:pt-5">
                     <h2 class="text-2xl font-bold text-[#D4AF37] mb-4">
                         Menu Selection
                     </h2>
@@ -35,6 +35,8 @@
                         @endforeach
                     </div>
                 </div>
+
+                <div class="max-h-[70vh] overflow-y-auto px-3 pb-3 pt-3 sm:px-5 sm:pb-5 kqp-scrollbar">
 
                 @foreach ($this->menuSections as $section)
                     <section id="{{ $section['id'] }}" class="scroll-mt-20 mb-6">
@@ -78,6 +80,7 @@
                         </div>
                     </section>
                 @endforeach
+                </div>
             </div>
         </div>
 
