@@ -7,9 +7,10 @@ use App\Models\Order;
 use App\Services\InventoryService;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class KitchenQuickPunch extends Page
 {
@@ -172,10 +173,49 @@ class KitchenQuickPunch extends Page
                 'id' => (int) $meal->id,
                 'name' => (string) $meal->name,
                 'price' => (float) $meal->price,
+                'image_url' => $meal->image ? Storage::disk('public')->url((string) $meal->image) : null,
+                'description' => (string) ($meal->description ?? ''),
             ];
         }
 
         return $groups;
+    }
+
+    public function getMenuSectionsProperty(): array
+    {
+        $meals = Meal::query()
+            ->with('menuSection:id,title,subtitle,sort_order')
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        $sections = [];
+
+        foreach ($meals as $meal) {
+            $title = trim((string) ($meal->menuSection?->title ?? 'Other'));
+            $subtitle = trim((string) ($meal->menuSection?->subtitle ?? ''));
+            $slug = Str::slug($title);
+
+            if (!isset($sections[$slug])) {
+                $sections[$slug] = [
+                    'id' => $slug,
+                    'title' => $title,
+                    'subtitle' => $subtitle,
+                    'items' => [],
+                ];
+            }
+
+            $sections[$slug]['items'][] = [
+                'id' => (int) $meal->id,
+                'name' => (string) $meal->name,
+                'price' => (float) $meal->price,
+                'image_url' => $meal->image ? Storage::disk('public')->url((string) $meal->image) : null,
+                'description' => (string) ($meal->description ?? ''),
+            ];
+        }
+
+        return array_values($sections);
     }
 
     public function getCartTotal(): float

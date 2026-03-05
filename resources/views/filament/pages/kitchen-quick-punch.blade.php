@@ -1,22 +1,44 @@
 <x-filament-panels::page>
     <div class="grid gap-6 lg:grid-cols-3">
-        <div class="lg:col-span-2 space-y-4">
-            <div class="flex flex-wrap gap-2">
-                <x-filament::button color="gray" wire:click="setCategory('main')" size="sm">Main Meals</x-filament::button>
-                <x-filament::button color="info" wire:click="setCategory('drinks')" size="sm">Drinks</x-filament::button>
-                <x-filament::button color="warning" wire:click="setCategory('sides')" size="sm">Sides</x-filament::button>
-            </div>
+        <div class="lg:col-span-2">
+            <div class="max-h-[78vh] overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-3">
+                <div class="sticky top-0 z-10 mb-4 border-b border-gray-200 bg-gray-50 pb-3">
+                    <div class="flex flex-wrap gap-2 text-sm">
+                        @foreach ($this->menuSections as $section)
+                            <a href="#{{ $section['id'] }}" class="whitespace-nowrap rounded-full border border-gray-300 bg-white px-3 py-1.5 font-medium text-gray-700 hover:border-primary-400 hover:text-primary-600">
+                                {{ $section['title'] }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
 
-            <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                @foreach (($this->groupedMeals[$activeCategory] ?? []) as $meal)
-                    <button
-                        type="button"
-                        wire:click="addItem({{ $meal['id'] }})"
-                        class="rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm hover:border-primary-400 hover:shadow-md transition"
-                    >
-                        <p class="text-sm font-semibold text-gray-900">{{ $meal['name'] }}</p>
-                        <p class="mt-1 text-xs text-gray-500">₦{{ number_format((float) $meal['price'], 2) }}</p>
-                    </button>
+                @foreach ($this->menuSections as $section)
+                    <section id="{{ $section['id'] }}" class="scroll-mt-20 mb-6">
+                        <h3 class="mb-1 text-sm font-semibold uppercase tracking-wide text-gray-700">{{ $section['title'] }}</h3>
+                        @if (!empty($section['subtitle']))
+                            <p class="mb-3 text-xs text-gray-500">{{ $section['subtitle'] }}</p>
+                        @endif
+
+                        <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                            @forelse (($section['items'] ?? []) as $meal)
+                                <button
+                                    type="button"
+                                    wire:click="addItem({{ $meal['id'] }})"
+                                    class="rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm hover:border-primary-400 hover:shadow-md transition"
+                                >
+                                    @if (!empty($meal['image_url']))
+                                        <img src="{{ $meal['image_url'] }}" alt="{{ $meal['name'] }}" class="mb-3 h-28 w-full rounded-lg object-cover" loading="lazy" />
+                                    @endif
+
+                                    <p class="text-sm font-semibold text-gray-900">{{ $meal['name'] }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">₦{{ number_format((float) $meal['price'], 2) }}</p>
+                                    <p class="mt-2 text-xs text-gray-600 line-clamp-3">{{ $meal['description'] !== '' ? $meal['description'] : 'No recipe instruction available yet.' }}</p>
+                                </button>
+                            @empty
+                                <p class="col-span-full text-sm text-gray-500">No items found in {{ strtolower($section['title']) }}.</p>
+                            @endforelse
+                        </div>
+                    </section>
                 @endforeach
             </div>
         </div>
