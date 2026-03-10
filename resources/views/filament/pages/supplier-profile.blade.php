@@ -8,7 +8,13 @@
     <div class="grid grid-cols-1 gap-4 md:grid-cols-4 text-black">
         <div class="rounded-xl bg-black p-4 shadow-sm ring-1 ring-gray-200">
             <p class="text-sm text-gray-500">Supplier</p>
-            <p class="mt-2 text-lg font-semibold text-gray-900">{{ $supplier }}</p>
+            <form method="POST" action="{{ route('admin.supplier.update', ['supplier' => $supplier]) }}" class="mt-2 flex items-center gap-2">
+                @csrf
+                @method('POST')
+                <input type="text" name="new_supplier_name" value="{{ $supplier }}" class="text-lg font-semibold text-gray-900 bg-transparent border-b border-gray-400 focus:border-blue-500 outline-none w-48" />
+                <button type="submit" class="ml-2 px-3 py-1 rounded bg-blue-600 text-white text-sm font-medium hover:bg-blue-700">Update</button>
+            </form>
+            <p class="text-xs text-gray-400 mt-1">Editing will update all records for this supplier.</p>
         </div>
         <div class="rounded-xl bg-black p-4 shadow-sm ring-1 ring-gray-200">
             <p class="text-sm text-gray-500">Total Spend</p>

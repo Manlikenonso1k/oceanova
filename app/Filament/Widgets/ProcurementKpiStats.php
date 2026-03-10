@@ -38,30 +38,36 @@ class ProcurementKpiStats extends StatsOverviewWidget
         $currentQuery = $this->baseProcurementQuery();
 
         $currentSpend = (float) (clone $currentQuery)
-            ->selectRaw('COALESCE(SUM(unit_cost), 0) as total_spend')
+            ->selectRaw('COALESCE(SUM(CASE WHEN unit_cost > 0 THEN unit_cost WHEN unit_price > 0 AND quantity_received > 0 THEN unit_price * quantity_received ELSE 0 END), 0) as total_spend')
             ->value('total_spend');
 
-        $previousSpend = (float) Procurement::query()
-            ->whereBetween('received_at', [$previousStart->startOfDay(), $previousEnd->endOfDay()])
-            ->selectRaw('COALESCE(SUM(unit_cost), 0) as total_spend')
+        $previousBaseQuery = $this->applyProcurementFilters(Procurement::query(), false)
+            ->whereBetween('received_at', [$previousStart->copy()->startOfDay(), $previousEnd->copy()->endOfDay()]);
+
+        $previousSpend = (float) (clone $previousBaseQuery)
+            ->selectRaw('COALESCE(SUM(CASE WHEN unit_cost > 0 THEN unit_cost WHEN unit_price > 0 AND quantity_received > 0 THEN unit_price * quantity_received ELSE 0 END), 0) as total_spend')
             ->value('total_spend');
 
         $currentOrders = (int) (clone $currentQuery)->count();
-        $previousOrders = (int) Procurement::query()
-            ->whereBetween('received_at', [$previousStart->startOfDay(), $previousEnd->endOfDay()])
-            ->count();
+        $previousOrders = (int) (clone $previousBaseQuery)->count();
 
         $activeSuppliers = (int) (clone $currentQuery)->distinct('supplier_name')->count('supplier_name');
-        $previousActiveSuppliers = (int) Procurement::query()
-            ->whereBetween('received_at', [$previousStart->startOfDay(), $previousEnd->endOfDay()])
+        $previousActiveSuppliers = (int) (clone $previousBaseQuery)
             ->distinct('supplier_name')
             ->count('supplier_name');
 
-        $costSavings = max(0, $previousSpend - $currentSpend);
-        $costSavingsPrevious = max(0, $previousSpend - ((float) Procurement::query()
-            ->whereBetween('received_at', [$previousStart->copy()->subDays($days)->startOfDay(), $previousStart->copy()->subDay()->endOfDay()])
-            ->selectRaw('COALESCE(SUM(unit_cost), 0) as total_spend')
-            ->value('total_spend')));
+        $costSavings = ($currentOrders > 0 || $previousOrders > 0)
+            ? max(0, $previousSpend - $currentSpend)
+            : 0.0;
+        $earlierStart = $previousStart->copy()->subDays($days);
+        $earlierEnd = $previousStart->copy()->subDay();
+        $earlierSpend = (float) $this->applyProcurementFilters(Procurement::query(), false)
+            ->whereBetween('received_at', [$earlierStart->startOfDay(), $earlierEnd->endOfDay()])
+            ->selectRaw('COALESCE(SUM(CASE WHEN unit_cost > 0 THEN unit_cost WHEN unit_price > 0 AND quantity_received > 0 THEN unit_price * quantity_received ELSE 0 END), 0) as total_spend')
+            ->value('total_spend');
+        $costSavingsPrevious = ($previousOrders > 0)
+            ? max(0, $previousSpend - $earlierSpend)
+            : 0.0;
 
         return [
             $this->buildStat(

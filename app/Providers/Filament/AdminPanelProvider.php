@@ -4,9 +4,12 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\ProcurementDashboard;
 use App\Filament\Widgets\ClickTrendChart;
+use App\Filament\Widgets\DepartmentTransferBalanceWidget;
 use App\Filament\Widgets\LowStockAlertsTable;
 use App\Filament\Widgets\MealPopularityChart;
+use App\Filament\Widgets\OrderStatsOverviewWidget;
 use App\Filament\Widgets\OrderStatusChart;
+use App\Filament\Widgets\SalesPieChartWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -47,10 +50,13 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                OrderStatsOverviewWidget::class,
                 LowStockAlertsTable::class,
                 MealPopularityChart::class,
+                SalesPieChartWidget::class,
                 OrderStatusChart::class,
                 ClickTrendChart::class,
+                DepartmentTransferBalanceWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

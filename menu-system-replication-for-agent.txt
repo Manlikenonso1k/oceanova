@@ -1,0 +1,77 @@
+Prompt for Laravel Menu System Replication
+
+Build a digital restaurant menu page in Laravel with the following features:
+
+- Blade Layout: Uses a Blade template with a dark theme, gold/amber accents, and Tailwind CSS for styling. The layout is mobile-first and responsive.
+- Menu Data Structure: Menu sections are defined as an array of associative arrays, each with a title, optional subtitle, and an array of items. Each item has a name, price, optional description, image, and tags (e.g., Vegetarian, Lactose, Pork, Seafood).
+- Sticky Category Navigation: At the top, a horizontally scrollable (on mobile) or wrapped (on desktop) sticky menu bar lists all section titles as anchor links. Clicking a section scrolls to that part of the menu.
+- Section Display: Each section is rendered with a heading and a grid of menu items. Each item is displayed using a Blade component (e.g., <x-menu-item>), showing name, price, description, tags, and optional image.
+- Tag Legend: At the top, a legend explains the meaning of tags (V, L, P, S) with icons and colors.
+- Background & Branding: The menu page uses a branded background image with opacity and blend for subtle branding.
+- Sticky Behavior: The category navigation bar remains visible at the top as you scroll, with special mobile behavior to hide the old nav and keep the category bar sticky.
+- No Database Required: Menu data can be hardcoded in the controller or Blade file, but can be adapted to use a database or JSON source.
+- Tailwind CSS: Uses Tailwind for all layout and color styling, with custom configuration for important selectors and disabling preflight.
+
+Key Files/Concepts:
+- Blade view for the menu (menu.blade.php)
+- Blade component for menu items (<x-menu-item>)
+- Optional: Controller or service to provide $sections data
+- Tailwind CSS CDN or build
+- Sticky navigation logic and responsive design
+
+Replicate:
+- The sticky, scrollable category bar
+- Sectioned menu with grid layout
+- Tag legend with icons
+- Consistent dark/gold branding
+- Use of Blade components for menu items
+
+---
+
+Repository-specific notes for your other agent (what to add/edit so the site is editable and images reflect on the menu page):
+
+1) Models:
+- `Meal` (fields used in this repo): menu_section_id, name, slug, price, description, category, image, tags, sort_order, is_active. (See app/Models/Meal.php)
+- `MenuSection` (fields): title, slug, subtitle, sort_order, is_active. Relation: MenuSection hasMany Meals. (See app/Models/MenuSection.php)
+
+2) Filament (admin UI):
+- `MealResource` exists and provides CRUD with image upload configured like:
+  Forms\Components\FileUpload::make('image')->image()->disk('public')->directory('meals')->visibility('public')
+  (See app/Filament/Resources/MealResource.php)
+- Create a `MenuSectionResource` (Filament Resource) so admins can add/edit/delete categories and set ordering and is_active.
+
+3) Public menu rendering:
+- Controller: `MenuController@index` loads active `MenuSection` with active `meals`, maps data to $sections and returns view `menu`.
+  (See app/Http/Controllers/MenuController.php)
+- View: `resources/views/menu.blade.php` renders the sections array, sticky nav, legend and uses component `x-menu-item`.
+- Component: `resources/views/components/menu-item.blade.php` handles image URLs using either absolute URLs, asset paths, or Storage::disk('public')->url($image).
+
+4) Storage and serving images:
+- Ensure `config/filesystems.php` has a `public` disk and run:
+
+  php artisan storage:link
+
+  so uploaded images (storage/app/public/meals/...) are accessible at `/storage/meals/...`.
+
+5) Routes:
+- Ensure a public route exists: `Route::get('/menu', [MenuController::class, 'index'])->name('menu');` (routes/web.php)
+
+6) Database:
+- Run migrations for `menu_sections` and `meals` and seed initial data if needed.
+
+7) Quick implementation checklist for the other project:
+- Install and configure Filament + authentication for admin.
+- Copy `Meal` and `MenuSection` models (or adapt existing models).
+- Add `MealResource` (or copy the one shown) with a `FileUpload` field configured to `disk('public')`.
+- Add `MenuSectionResource` (title, subtitle, sort_order, is_active) and relationship selection for meals in `MealResource`.
+- Ensure `php artisan storage:link` is run and `public/storage` is served.
+- Add the `menu.blade.php` view and `x-menu-item` component. Use Tailwind CDN or build for styling.
+
+8) Notes on behavior and UX:
+- The sticky category bar is a horizontally scrollable flex container on small screens, wrapped on larger screens, anchored to section IDs via slugged titles.
+- The `x-menu-item` component uses fallback asset images if no image is provided and resolves uploaded images via Storage::disk('public')->url($path).
+- Tags are short codes (V, L, P, S) with color-coded badges; the legend explains them.
+
+---
+
+Use this file as the instruction bundle for your other agent (ChatGPT-5-mini). If you want, I can also auto-generate a `MenuSectionResource.php` Filament resource file next and patch it into this repo.

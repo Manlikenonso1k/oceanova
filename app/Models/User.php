@@ -59,6 +59,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(InventoryLog::class);
     }
 
+    public function waiterOrders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'waiter_id');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         $role = strtolower(trim((string) $this->role));
@@ -68,7 +73,15 @@ class User extends Authenticatable implements FilamentUser
             'admin',
             'procurement_officer',
             'kitchen_manager',
+            'kitchen',
             'general_order_person',
+            'steward',
+            'general_manager',
+            'store_keeper',
+            'bar_manager',
+            'morithos_manager',
+            'oceanova_manager',
+            'cleaning_lead',
             'barman',
         ], true);
     }

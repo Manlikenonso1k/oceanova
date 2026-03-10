@@ -19,7 +19,10 @@ class CreateOrder extends CreateRecord
         [$normalizedItems, $total] = $this->normalizeItems($data['items'] ?? []);
 
         $data['items'] = $normalizedItems;
+        $data['waiter_id'] = $data['waiter_id'] ?? auth()->id();
+        $data['table_number'] = (string) ($data['table_number'] ?? '');
         $data['total'] = $total;
+        $data['total_price'] = $total;
 
         return $data;
     }
@@ -44,20 +47,28 @@ class CreateOrder extends CreateRecord
         $total = 0;
 
         foreach ($items as $item) {
-            $name = trim((string) ($item['meal_name'] ?? ''));
-            if ($name === '') {
+            $mealId = (int) ($item['meal_id'] ?? 0);
+            $meal = $mealId > 0 ? Meal::query()->find($mealId) : null;
+
+            if (!$meal) {
+                $name = trim((string) ($item['meal_name'] ?? ''));
+
+                if ($name !== '') {
+                    $meal = Meal::query()->firstOrCreate(
+                        ['name' => $name],
+                        [
+                            'price' => (float) ($item['unit_price'] ?? 0),
+                            'category' => 'Uncategorized',
+                        ]
+                    );
+                }
+            }
+
+            if (!$meal) {
                 continue;
             }
 
             $quantity = max(1, (int) ($item['quantity'] ?? 1));
-
-            $meal = Meal::query()->firstOrCreate(
-                ['name' => $name],
-                [
-                    'price' => (float) ($item['unit_price'] ?? 0),
-                    'category' => 'Uncategorized',
-                ]
-            );
 
             $unitPrice = (float) ($item['unit_price'] ?? $meal->price ?? 0);
             if ($unitPrice <= 0) {
@@ -71,6 +82,7 @@ class CreateOrder extends CreateRecord
                 'meal_name' => $meal->name,
                 'quantity' => $quantity,
                 'unit_price' => $unitPrice,
+                'subtotal' => $lineTotal,
                 'total' => $lineTotal,
             ];
 
@@ -90,6 +102,7 @@ class CreateOrder extends CreateRecord
                 'meal_name' => $item['meal_name'] ?? '',
                 'quantity' => (int) ($item['quantity'] ?? 1),
                 'unit_price' => (float) ($item['unit_price'] ?? 0),
+                'subtotal' => (float) ($item['subtotal'] ?? $item['total'] ?? 0),
                 'total' => (float) ($item['total'] ?? 0),
             ])
             ->filter(fn (array $item): bool => $item['meal_name'] !== '')

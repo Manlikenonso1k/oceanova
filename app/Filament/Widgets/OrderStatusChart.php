@@ -23,6 +23,11 @@ class OrderStatusChart extends ChartWidget
             ->orderBy('status')
             ->get();
 
+        $labels = $rows
+            ->pluck('status')
+            ->map(fn ($status): string => ucfirst(strtolower((string) $status)))
+            ->all();
+
         return [
             'datasets' => [
                 [
@@ -30,12 +35,12 @@ class OrderStatusChart extends ChartWidget
                     'backgroundColor' => ['#f59e0b', '#3b82f6', '#10b981', '#ef4444'],
                 ],
             ],
-            'labels' => $rows->pluck('status')->all(),
+            'labels' => $labels,
         ];
     }
 
     protected function getType(): string
     {
-        return 'pie';
+        return 'doughnut';
     }
 }

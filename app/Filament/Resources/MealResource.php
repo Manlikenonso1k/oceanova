@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class MealResource extends Resource
 {
@@ -120,5 +121,25 @@ class MealResource extends Resource
             'create' => Pages\CreateMeal::route('/create'),
             'edit' => Pages\EditMeal::route('/{record}/edit'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+    }
+
+    public static function canCreate(): bool
+    {
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+    }
+
+    public static function canEdit($record): bool
+    {
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+    }
+
+    public static function canDelete($record): bool
+    {
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
     }
 }

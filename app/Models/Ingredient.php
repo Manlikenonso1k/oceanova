@@ -49,6 +49,21 @@ class Ingredient extends Model
         return $this->hasMany(BarStockSheet::class);
     }
 
+    public function departmentStocks(): HasMany
+    {
+        return $this->hasMany(DepartmentStock::class);
+    }
+
+    public function transferRequests(): HasMany
+    {
+        return $this->hasMany(TransferRequest::class);
+    }
+
+    public function stockTransferLogs(): HasMany
+    {
+        return $this->hasMany(StockTransferLog::class);
+    }
+
     public function scopeLowStock(Builder $query): Builder
     {
         return $query->whereColumn('current_stock', '<=', 'min_stock_alert_level');

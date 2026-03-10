@@ -24,6 +24,16 @@
               {{ session('success') }}
             </div>
           @endif
+          @if(session('error'))
+            <script>
+              window.onload = function() {
+                alert(@json(session('error')));
+              };
+            </script>
+            <div class="alert alert-danger mb-4" role="alert">
+              {{ session('error') }}
+            </div>
+          @endif
           @if($errors->any())
             <div class="alert alert-danger mb-4" role="alert">
               <ul class="mb-0 pl-3">
@@ -72,19 +82,30 @@
                   <div class="select-wrap">
                     <div class="icon"><span class="fa fa-chevron-down"></span></div>
                     <select name="noofv" class="form-control text-white" required style="background-color:#000 !important; color:#fff !important;">
-                      <option value="" disabled style="background-color:#000; color:#fff;">>Table 01 - 4 Guests</option>
-                      <option value="1" selected style="background-color:#000; color:#fff;">Table 02 - 4 Guests</option>
-                      <option value="2" style="background-color:#000; color:#fff;">Table 03 - 4 Guests</option>
-                      <option value="3" style="background-color:#000; color:#fff;">Table 04 - 4 Guests</option>
-                      <option value="4" style="background-color:#000; color:#fff;">Table 05 - 4 Guests</option>
-                      <option value="5" style="background-color:#000; color:#fff;">Table 06 - 2 Guests</option>
-                      <option value="6" style="background-color:#000; color:#fff;">Table 07 - 2 Guests</option>
-                      <option value="7" style="background-color:#000; color:#fff;">Table 08 - 2 Guests</option>
-                      <option value="8" style="background-color:#000; color:#fff;">Table 09 - 2 Guests</option>
-                      <option value="9" style="background-color:#000; color:#fff;">Table 10 - 4 Guests(outdoor)</option>
-                      <option value="10" style="background-color:#000; color:#fff;">Table 11 - 4 Guests(outdoor)</option>
-                      <option value="11" style="background-color:#000; color:#fff;">Table 12 - 4 Guests(outdoor)</option>
-                      <option value="12" style="background-color:#000; color:#fff;">Table 13 - 4 Guests(outdoor)</option>
+                      <!-- 2 tables for 4 persons -->
+                      <option value="Table 01 - 4 Guests" style="background-color:#000; color:#fff;">1. Table 01 - 4 Guests</option>
+                      <option value="Table 02 - 4 Guests" style="background-color:#000; color:#fff;">2. Table 02 - 4 Guests</option>
+                      <!-- 3 tables for 2 persons -->
+                      <option value="Table 03 - 2 Guests" style="background-color:#000; color:#fff;">3. Table 03 - 2 Guests</option>
+                      <option value="Table 04 - 2 Guests" style="background-color:#000; color:#fff;">4. Table 04 - 2 Guests</option>
+                      <option value="Table 05 - 2 Guests" style="background-color:#000; color:#fff;">5. Table 05 - 2 Guests</option>
+                      <!-- 4 tables for 3 persons (inside) -->
+                      <option value="Table 06 - 3 Guests (inside)" style="background-color:#000; color:#fff;">6. Table 06 - 3 Guests (inside)</option>
+                      <option value="Table 07 - 3 Guests (inside)" style="background-color:#000; color:#fff;">7. Table 07 - 3 Guests (inside)</option>
+                      <option value="Table 08 - 3 Guests (inside)" style="background-color:#000; color:#fff;">8. Table 08 - 3 Guests (inside)</option>
+                      <option value="Table 09 - 3 Guests (inside)" style="background-color:#000; color:#fff;">9. Table 09 - 3 Guests (inside)</option>
+                      <!-- 6 tables for 3 persons (outside) -->
+                      <option value="Table 10 - 3 Guests (outside)" style="background-color:#000; color:#fff;">10. Table 10 - 3 Guests (outside)</option>
+                      <option value="Table 11 - 3 Guests (outside)" style="background-color:#000; color:#fff;">11. Table 11 - 3 Guests (outside)</option>
+                      <option value="Table 12 - 3 Guests (outside)" style="background-color:#000; color:#fff;">12. Table 12 - 3 Guests (outside)</option>
+                      <option value="Table 13 - 3 Guests (outside)" style="background-color:#000; color:#fff;">13. Table 13 - 3 Guests (outside)</option>
+                      <option value="Table 14 - 3 Guests (outside)" style="background-color:#000; color:#fff;">14. Table 14 - 3 Guests (outside)</option>
+                      <option value="Table 15 - 3 Guests (outside)" style="background-color:#000; color:#fff;">15. Table 15 - 3 Guests (outside)</option>
+                      <!-- 4 tables for 6 persons -->
+                      <option value="Table 16 - 6 Guests" style="background-color:#000; color:#fff;">16. Table 16 - 6 Guests</option>
+                      <option value="Table 17 - 6 Guests" style="background-color:#000; color:#fff;">17. Table 17 - 6 Guests</option>
+                      <option value="Table 18 - 6 Guests" style="background-color:#000; color:#fff;">18. Table 18 - 6 Guests</option>
+                      <option value="Table 19 - 6 Guests" style="background-color:#000; color:#fff;">19. Table 19 - 6 Guests</option>
                     </select>
                   </div>
                 </div>

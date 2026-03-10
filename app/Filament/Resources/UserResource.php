@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class UserResource extends Resource
 {
@@ -34,14 +35,7 @@ class UserResource extends Resource
 
             Forms\Components\Select::make('role')
                 ->required()
-                ->options([
-                    'admin' => 'Admin',
-                    'super_admin' => 'Super Admin',
-                    'barman' => 'Barman',
-                    'procurement_officer' => 'Procurement Officer',
-                    'kitchen_manager' => 'Kitchen Manager',
-                    'general_order_person' => 'General Order Person',
-                ])
+                ->options(self::roleOptions())
                 ->default('general_order_person'),
 
             Forms\Components\TextInput::make('password')
@@ -67,6 +61,7 @@ class UserResource extends Resource
 
                 Tables\Columns\TextColumn::make('role')
                     ->badge()
+                    ->formatStateUsing(fn (?string $state): string => self::roleOptions()[$state] ?? Str::headline((string) $state))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
@@ -115,5 +110,25 @@ class UserResource extends Resource
     public static function canDelete($record): bool
     {
         return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+    }
+
+    protected static function roleOptions(): array
+    {
+        return [
+            'admin' => 'Admin',
+            'super_admin' => 'Super Admin',
+            'general_manager' => 'General Manager',
+            'store_keeper' => 'Store Keeper',
+            'procurement_officer' => 'Procurement Officer',
+            'general_order_person' => 'General Order Person',
+            'steward' => 'Steward',
+            'kitchen' => 'Kitchen',
+            'kitchen_manager' => 'Kitchen Manager',
+            'bar_manager' => 'Bar Manager',
+            'barman' => 'Barman',
+            'morithos_manager' => 'Morithos Manager',
+            'oceanova_manager' => 'Oceanova Manager',
+            'cleaning_lead' => 'Cleaning Lead',
+        ];
     }
 }

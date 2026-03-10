@@ -51,43 +51,42 @@ class BookingController extends Controller
             // leave as provided
         }
 
-        // Map the select value to the human-readable table label (matches form options)
-        $tableMap = [
-            '1' => 'Table 02 - 4 Guests',
-            '2' => 'Table 03 - 4 Guests',
-            '3' => 'Table 04 - 4 Guests',
-            '4' => 'Table 05 - 4 Guests',
-            '5' => 'Table 06 - 2 Guests',
-            '6' => 'Table 07 - 2 Guests',
-            '7' => 'Table 08 - 2 Guests',
-            '8' => 'Table 09 - 2 Guests',
-            '9' => 'Table 10 - 4 Guests(outdoor)',
-            '10' => 'Table 11 - 4 Guests(outdoor)',
-            '11' => 'Table 12 - 4 Guests(outdoor)',
-            '12' => 'Table 13 - 4 Guests(outdoor)',
-        ];
 
-        $tableLabel = $tableMap[$validated['noofv']] ?? null;
+        // Use the submitted value directly for table_label
+        $tableLabel = $validated['noofv'];
 
-        // Save booking to database before sending initial emails
-        $booking = \App\Models\Booking::create([
-            'name' => $validated['full_name'],
-            'email' => $validated['email'],
-            'whatsapp_number' => $validated['tel'],
-            'guest_count' => is_numeric($validated['noofv']) ? intval($validated['noofv']) : null,
-            'table_id' => $validated['noofv'],
-            'table_label' => $tableLabel,
-            'booking_date' => $validated['signin'] ?? null,
-            'booking_time' => $validated['signout'] ?? null,
-            'status' => 'pending',
-        ]);
+        // Extract guest count from the label (e.g., 'Table 01 - 4 Guests' => 4)
+        $guestCount = null;
+        if (preg_match('/(\d+)\s*Guests?/', $tableLabel, $matches)) {
+            $guestCount = (int) $matches[1];
+        }
 
-        $payload = array_merge($validated, $booking->toArray());
+        try {
+            // Save booking to database before sending initial emails
+            $booking = \App\Models\Booking::create([
+                'name' => $validated['full_name'],
+                'email' => $validated['email'],
+                'whatsapp_number' => $validated['tel'],
+                'guest_count' => $guestCount,
+                'table_id' => $tableLabel,
+                'table_label' => $tableLabel,
+                'booking_date' => $validated['signin'] ?? null,
+                'booking_time' => $validated['signout'] ?? null,
+                'status' => 'pending',
+            ]);
 
-        Mail::to($adminRecipients)->send(new AdminBookingNotification($payload));
-        Mail::to($validated['email'])->send(new UserBookingConfirmation($payload));
+            $payload = array_merge($validated, $booking->toArray());
 
-        return back()->with('success', 'Your booking request has been sent.');
+            Mail::to($adminRecipients)->send(new AdminBookingNotification($payload));
+            Mail::to($validated['email'])->send(new UserBookingConfirmation($payload));
+
+            return back()->with('success', 'Your booking request has been sent.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() === '23000' && str_contains($e->getMessage(), 'bookings_email_unique')) {
+                return back()->with('error', 'You have already booked with this email address.');
+            }
+            throw $e;
+        }
     }
 
     public function index()

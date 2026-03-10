@@ -69,7 +69,7 @@ class SupplierPerformanceScorecard extends BaseWidget
             ->where('supplier_name', '!=', '')
             ->selectRaw('MIN(id) as id')
             ->selectRaw('supplier_name')
-            ->selectRaw('SUM(unit_cost) as total_spend')
+            ->selectRaw('SUM(CASE WHEN unit_cost > 0 THEN unit_cost WHEN unit_price > 0 AND quantity_received > 0 THEN unit_price * quantity_received ELSE 0 END) as total_spend')
             ->selectRaw('AVG(CASE WHEN status = "completed" THEN 100 ELSE 0 END) as on_time_rate')
             ->selectRaw('AVG(TIMESTAMPDIFF(DAY, created_at, received_at)) as avg_lead_time')
             ->selectRaw('GREATEST(0, LEAST(100, (AVG(CASE WHEN status = "completed" THEN 100 ELSE 0 END) * 0.7) + ((30 - AVG(TIMESTAMPDIFF(DAY, created_at, received_at))) * 1.0))) as quality_rating')
