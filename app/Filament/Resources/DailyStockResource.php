@@ -40,9 +40,22 @@ class DailyStockResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Forms\Components\TextInput::make('item_name')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('item_name')
+                    ->label('Item Name')
+                    ->options(function () {
+                        $user = \Illuminate\Support\Facades\Auth::user();
+                        $query = \App\Models\Ingredient::query();
+                        if ($user && method_exists($user, 'hasAnyRole')) {
+                            if ($user->hasAnyRole(['barman', 'bar_manager'])) {
+                                $query->where('category', 'Bar');
+                            } elseif ($user->hasAnyRole(['chef', 'kitchen', 'kitchen_manager'])) {
+                                $query->where('category', 'Kitchen');
+                            }
+                        }
+                        return $query->orderBy('name')->pluck('name', 'name');
+                    })
+                    ->searchable()
+                    ->required(),
 
                 Forms\Components\Select::make('category')
                     ->options([
