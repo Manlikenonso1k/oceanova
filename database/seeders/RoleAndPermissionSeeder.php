@@ -17,8 +17,12 @@ class RoleAndPermissionSeeder extends Seeder
         foreach ([
             'super_admin',
             'admin',
+            'manager',
             'procurement_officer',
             'kitchen_manager',
+            'chef',
+            'bar_manager',
+            'general_manager',
             'general_order_person',
             'barman',
         ] as $role) {
