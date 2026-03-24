@@ -34,16 +34,29 @@ class StockRequestResource extends Resource
                     ->label('Item')
                     ->options(function () {
                         $user = \Illuminate\Support\Facades\Auth::user();
-                        $query = \App\Models\Ingredient::query();
+                        $ingredientQuery = \App\Models\Ingredient::query();
+
                         if ($user && method_exists($user, 'hasAnyRole')) {
                             if ($user->hasAnyRole(['barman', 'bar_manager'])) {
-                                $query->where('category', 'Bar');
+                                // Prefer ingredients explicitly marked as Bar, or those present in BarStockSheet
+                                $ingredientQuery->where(function ($q) {
+                                    $q->where('category', 'Bar')
+                                      ->orWhereHas('barStockSheets');
+                                });
                             } elseif ($user->hasAnyRole(['chef', 'kitchen', 'kitchen_manager'])) {
-                                $query->where('category', 'Kitchen');
+                                // Prefer ingredients explicitly marked as Kitchen, or those present in DepartmentStock for Kitchen
+                                $ingredientQuery->where(function ($q) {
+                                    $q->where('category', 'Kitchen')
+                                      ->orWhereHas('departmentStocks', function ($qs) {
+                                          $qs->whereHas('department', function ($qd) {
+                                              $qd->where('name', 'like', '%kitchen%');
+                                          });
+                                      });
+                                });
                             }
                         }
 
-                        return $query->orderBy('name')->pluck('name', 'name');
+                        return $ingredientQuery->orderBy('name')->pluck('name', 'name');
                     })
                     ->searchable()
                     ->required(),
