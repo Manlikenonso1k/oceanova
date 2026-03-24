@@ -148,8 +148,8 @@ class StockRequestResource extends Resource
                             }
 
                             if ($ingredient) {
-                                $ingredient->current_stock = (float) $ingredient->current_stock + (float) $record->quantity;
-                                $ingredient->save();
+                                // Use atomic increment to avoid race conditions
+                                $ingredient->increment('current_stock', (float) $record->quantity);
                             }
 
                             $record->update([
@@ -256,26 +256,7 @@ class StockRequestResource extends Resource
 
     public static function canDelete($record): bool
     {
-        if (!Auth::check() || !static::isManagerUser()) {
-            return false;
-        }
-
-        $user = Auth::user();
-
-        if (!$user) {
-            return false;
-        }
-
-        if (!method_exists($user, 'hasPermissionTo')) {
-            return true;
-        }
-
-        try {
-            return (bool) call_user_func([$user, 'hasPermissionTo'], 'delete stock_request')
-                || (bool) call_user_func([$user, 'hasAnyRole'], ['admin', 'super_admin', 'general_manager']);
-        } catch (\Throwable) {
-            return true;
-        }
+        return Auth::check() && method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin');
     }
 
     public static function notifyManagersAboutRequest(StockRequest $request): void

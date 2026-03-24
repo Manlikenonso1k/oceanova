@@ -1,38 +1,38 @@
-Role: Expert Laravel & Filament 3 Developer.
-Task: Fix the Inventory Logic for a Departmental Stock System (Bar & Kitchen).
+Role: Senior Laravel & Filament 3 Architect.
+Task: Resolve "Vanishing Stock" logic in a Departmental Inventory System.
 
-1. The "Approval" Trigger (Stock Addition):
+The Problem: When a stock request is approved, the inventory is not incrementing correctly, or the Daily Stock record is overwriting the master inventory with zero.
 
-In the StockRequest resource, create a Filament Action for "Approve".
+1. The "Source of Truth" Rule:
 
-Logic: When clicked, it must find the product_id (or ingredient_id) and increment the current_stock in the Products table by the requested quantity.
+The Products (or Ingredients) table is the Master Source of Truth.
 
-Only after this database update should the request status change to "Approved".
+The DailyStock table is just a Log.
 
-2. The "Daily Count" Sync (Stock Reduction):
+2. Fix the Approval Action (StockRequestResource):
 
-In the DailyStock model, create a saved Eloquent Observer or use the afterSave hook in Filament.
+In the "Approve" Action, use the increment() method specifically.
 
-Logic: Every time a Barman/Chef saves a daily count, the system must update the master Products table.
+Code Logic: $product = Product::find($record->product_id); $product->increment('current_stock', $record->quantity);
 
-Formula: The new current_stock in the Products table should be updated to match the closing_stock entered by the user.
+Crucial: Do NOT manually set $product->current_stock = $new_val. Using increment() prevents "race conditions" where two people saving at once causes a 0.
 
-If closing_stock is 0, the system must reflect that the item is officially out of stock in that department.
+3. Fix the Daily Stock Flow (DailyStockResource):
 
-3. Testing Phase Permissions (The Admin Override):
+Opening Stock: When a Barman/Chef creates a new Daily Stock record, the opening_stock field must default to the current_stock value from the Products table.
 
-Configure the DailyStockResource and StockRequestResource to check roles.
+Added Stock: This field should automatically pull any "Approved" requests for that item that happened since the last daily report.
 
-Barman/Chef: Keep the DeleteAction hidden.
+The Update Logic: Only when a Daily Stock record is saved, should it update the Master Product table.
 
-Admin/Manager: Explicitly enable the DeleteAction in both the Table and the Form so I can clear testing data.
+Formula: Product::where('id', $product_id)->update(['current_stock' => $closing_stock]);
 
-4. Technical Constraints:
+4. Testing/Admin Permissions:
 
-Ensure all database transactions are wrapped in DB::transaction() to prevent data mismatch if a crash occurs during a save.
+Ensure the DeleteAction is only visible if auth()->user()->hasRole('admin'). This allows me to wipe the "0" values while I'm fixing the logic.
 
-Use weight('bold') for the "Current Stock" column in the table so it’s easy to see.
+5. Prevent Null Errors:
 
-Ensure the ingredient_id is used as the primary foreign key for all tracking.
+In the Migration and Models, ensure opening, added, closing, and sales all have a default(0). If a field is empty, the math must treat it as 0, not null.
 
-Instructions: Write the code for the StockRequest Approve Action and the DailyStock Observer that handles the math.
+Instructions: Rewrite the Approve action in StockRequestResource and the afterCreate hook in DailyStockResource to follow this logic exactly.

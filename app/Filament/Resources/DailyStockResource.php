@@ -83,14 +83,42 @@ class DailyStockResource extends Resource
 
                 Forms\Components\TextInput::make('opening_stock')
                     ->numeric()
-                    ->default(0)
+                    ->default(fn (\Filament\Forms\Get $get) => (float) (\App\Models\Ingredient::find($get('ingredient_id'))->current_stock ?? 0))
                     ->live(onBlur: true)
                     ->afterStateUpdated($recalculate)
                     ->required(),
 
                 Forms\Components\TextInput::make('added_stock')
                     ->numeric()
-                    ->default(0)
+                    ->default(fn (\Filament\Forms\Get $get) => (float) (function () use ($get) {
+                        $ingredientId = $get('ingredient_id');
+                        if (! $ingredientId) {
+                            return 0;
+                        }
+
+                        $ingredient = \App\Models\Ingredient::find($ingredientId);
+                        if (! $ingredient) {
+                            return 0;
+                        }
+
+                        // Find last daily stock for this ingredient
+                        $last = \App\Models\DailyStock::query()
+                            ->where('ingredient_id', $ingredientId)
+                            ->orderBy('stock_date', 'desc')
+                            ->first();
+
+                        $since = $last ? $last->stock_date->toDateString() : null;
+
+                        $query = \App\Models\StockRequest::query()
+                            ->where('status', 'approved')
+                            ->where('item_name', $ingredient->name);
+
+                        if ($since) {
+                            $query->where('processed_at', '>', $since);
+                        }
+
+                        return (float) $query->sum('quantity');
+                    })())
                     ->live(onBlur: true)
                     ->afterStateUpdated($recalculate)
                     ->required(),
@@ -237,26 +265,7 @@ class DailyStockResource extends Resource
 
     public static function canDelete($record): bool
     {
-        if (!Auth::check() || !static::isPrivilegedUser()) {
-            return false;
-        }
-
-        $user = Auth::user();
-
-        if (!$user) {
-            return false;
-        }
-
-        if (!method_exists($user, 'hasPermissionTo')) {
-            return true;
-        }
-
-        try {
-            return (bool) call_user_func([$user, 'hasPermissionTo'], 'delete daily_stock')
-                || (bool) call_user_func([$user, 'hasAnyRole'], ['admin', 'super_admin', 'general_manager']);
-        } catch (\Throwable) {
-            return true;
-        }
+        return Auth::check() && method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin');
     }
 
     private static function isPrivilegedUser(): bool
