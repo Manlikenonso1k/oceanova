@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
@@ -162,6 +163,14 @@ class DailyStockResource extends Resource
                 Tables\Columns\TextColumn::make('recorder.name')
                     ->label('Recorded By')
                     ->placeholder('System'),
+            ])
+            ->filters([
+                SelectFilter::make('category')
+                    ->label('Department')
+                    ->options([
+                        'Bar' => 'Bar',
+                        'Kitchen' => 'Kitchen',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
