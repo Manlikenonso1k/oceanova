@@ -163,13 +163,25 @@ class TransferRequestResource extends Resource
     public static function approveRequest(TransferRequest $record): void
     {
         DB::transaction(function () use ($record): void {
+            // Ensure we have a sensible source department (prefer MAIN_STORE / is_main)
+            $fromDeptId = $record->from_department_id ?: static::getMainStoreDepartmentId();
+
+            // If source equals destination (or still null), try fallback to main store
+            if (! $fromDeptId || $fromDeptId === $record->to_department_id) {
+                $fromDeptId = static::getMainStoreDepartmentId();
+            }
+
+            if (! $fromDeptId) {
+                throw new \RuntimeException('No valid source department found for this transfer. Please configure a Main Store department.');
+            }
+
             /** @var DepartmentStock $source */
             $source = DepartmentStock::query()
                 ->lockForUpdate()
                 ->firstOrCreate(
                     [
                         'ingredient_id' => $record->ingredient_id,
-                        'department_id' => $record->from_department_id,
+                        'department_id' => $fromDeptId,
                     ],
                     ['quantity' => 0]
                 );
@@ -292,7 +304,14 @@ class TransferRequestResource extends Resource
 
     private static function getMainStoreDepartmentId(): ?int
     {
-        return Department::query()->where('code', 'MAIN_STORE')->value('id');
+        $id = Department::query()->where('code', 'MAIN_STORE')->value('id');
+
+        if ($id) {
+            return $id;
+        }
+
+        // Fallback: use department flagged as main
+        return Department::query()->where('is_main', true)->value('id');
     }
 
     private static function resolveDepartmentIdForUser(): ?int
