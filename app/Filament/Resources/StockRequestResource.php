@@ -38,15 +38,15 @@ class StockRequestResource extends Resource
 
                         if ($user && method_exists($user, 'hasAnyRole')) {
                             if ($user->hasAnyRole(['barman', 'bar_manager'])) {
-                                // Prefer ingredients explicitly marked as Bar, or those present in BarStockSheet
+                                // Prefer ingredients explicitly marked as Beverage, or those present in BarStockSheet
                                 $ingredientQuery->where(function ($q) {
-                                    $q->where('category', 'Bar')
+                                    $q->where('category', 'Beverage')
                                       ->orWhereHas('barStockSheets');
                                 });
                             } elseif ($user->hasAnyRole(['chef', 'kitchen', 'kitchen_manager'])) {
-                                // Prefer ingredients explicitly marked as Kitchen, or those present in DepartmentStock for Kitchen
+                                // Prefer ingredients explicitly marked as Ingredient, or those present in DepartmentStock for Kitchen
                                 $ingredientQuery->where(function ($q) {
-                                    $q->where('category', 'Kitchen')
+                                    $q->where('category', 'Ingredient')
                                       ->orWhereHas('departmentStocks', function ($qs) {
                                           $qs->whereHas('department', function ($qd) {
                                               $qd->where('name', 'like', '%kitchen%');
