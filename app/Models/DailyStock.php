@@ -12,6 +12,7 @@ class DailyStock extends Model
 
     protected $fillable = [
         'item_name',
+        'ingredient_id',
         'price_ngn',
         'opening_stock',
         'added_stock',
@@ -41,6 +42,11 @@ class DailyStock extends Model
     public function recorder(): BelongsTo
     {
         return $this->belongsTo(User::class, 'recorded_by');
+    }
+
+    public function ingredient(): BelongsTo
+    {
+        return $this->belongsTo(Ingredient::class);
     }
 
     public static function calculateTotals(float $opening, float $added, float $in, float $out, float $closing): array

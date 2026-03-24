@@ -4,6 +4,7 @@ namespace App\Filament\Resources\DailyStockResource\Pages;
 
 use App\Filament\Resources\DailyStockResource;
 use App\Models\DailyStock;
+use App\Models\Ingredient;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateDailyStock extends CreateRecord
@@ -12,6 +13,13 @@ class CreateDailyStock extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        if (!empty($data['ingredient_id'])) {
+            $ingredient = Ingredient::find($data['ingredient_id']);
+            if ($ingredient) {
+                $data['item_name'] = $ingredient->name;
+            }
+        }
+
         $opening = (float) ($data['opening_stock'] ?? 0);
         $added = (float) ($data['added_stock'] ?? 0);
         $in = (float) ($data['trans_in'] ?? 0);

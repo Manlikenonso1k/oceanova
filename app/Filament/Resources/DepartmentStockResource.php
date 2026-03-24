@@ -31,7 +31,12 @@ class DepartmentStockResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')->since()->label('Updated'),
             ])
             ->filters([])
-            ->actions([])
+            ->actions([
+                Tables\Actions\EditAction::make()
+                    ->visible(fn (): bool => Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager', 'store_keeper'])),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn (): bool => Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager'])),
+            ])
             ->bulkActions([])
             ->defaultSort('ingredient.name');
     }
@@ -80,6 +85,8 @@ class DepartmentStockResource extends Resource
     {
         return [
             'index' => Pages\ListDepartmentStocks::route('/'),
+            'create' => Pages\CreateDepartmentStock::route('/create'),
+            'edit' => Pages\EditDepartmentStock::route('/{record}/edit'),
         ];
     }
 
@@ -93,16 +100,16 @@ class DepartmentStockResource extends Resource
 
     public static function canCreate(): bool
     {
-        return false;
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager', 'store_keeper']);
     }
 
     public static function canEdit($record): bool
     {
-        return false;
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager', 'store_keeper']);
     }
 
     public static function canDelete($record): bool
     {
-        return false;
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager']);
     }
 }

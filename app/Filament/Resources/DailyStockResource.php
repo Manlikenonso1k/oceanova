@@ -41,22 +41,23 @@ class DailyStockResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Forms\Components\Select::make('item_name')
-                    ->label('Item Name')
+                Forms\Components\Select::make('ingredient_id')
+                    ->label('Item')
                     ->options(function () {
                         $user = \Illuminate\Support\Facades\Auth::user();
                         $query = \App\Models\Ingredient::query();
                         if ($user && method_exists($user, 'hasAnyRole')) {
                             if ($user->hasAnyRole(['barman', 'bar_manager'])) {
-                                $query->where('category', 'Bar');
+                                $query->where('category', 'Beverage');
                             } elseif ($user->hasAnyRole(['chef', 'kitchen', 'kitchen_manager'])) {
-                                $query->where('category', 'Kitchen');
+                                $query->where('category', 'Ingredient');
                             }
                         }
-                        return $query->orderBy('name')->pluck('name', 'name');
+                        return $query->orderBy('name')->pluck('name', 'id');
                     })
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->reactive(),
 
                 Forms\Components\Select::make('category')
                     ->options([
@@ -133,6 +134,7 @@ class DailyStockResource extends Resource
 
                 Forms\Components\Hidden::make('recorded_by')
                     ->default(fn (): ?int => Auth::id()),
+                Forms\Components\Hidden::make('item_name'),
             ]);
     }
 
@@ -143,7 +145,8 @@ class DailyStockResource extends Resource
                 Tables\Columns\TextColumn::make('stock_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('item_name')
+                Tables\Columns\TextColumn::make('ingredient.name')
+                    ->label('Item')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category')
