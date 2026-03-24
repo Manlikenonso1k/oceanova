@@ -1,0 +1,42 @@
+Role: Senior Laravel & Filament 3 Developer.
+Task: Build a departmental Inventory and Procurement system for a resort (Bar & Kitchen).
+
+1. Data Structure:
+
+Product Model: name, category (Beverage/Ingredient), price_ngn (₦), current_stock, low_stock_threshold.
+
+DailyStock Model: >     - Fields: product_id, opening, added, trans_in, trans_out, closing, remarks.
+
+Calculated Fields (Virtual/Livewire): >         - total_stock = (opening + added + trans_in - trans_out).
+
+sales = (total_stock - closing).
+
+StockRequest Model: product_id, quantity, status (Pending, Approved, Declined), department, manager_notes.
+
+2. Role-Based Access (Filament Shield):
+
+Barman Role: >     - Can only see/manage DailyStock and Requests where category is 'Beverage'.
+
+Can Create/View but NOT delete.
+
+Kitchen Chef Role: >     - Can only see/manage DailyStock and Requests where category is 'Ingredient'.
+
+Can Create/View but NOT delete.
+
+General Manager Role: >     - Full access to both departments. Ability to Approve/Decline requests via Filament Actions.
+
+3. Logic & Automation:
+
+Auto-Update: When a Manager clicks "Approve" on a StockRequest, automatically create/update the added column in the next DailyStock entry for that product.
+
+Calculations: In the DailyStockResource form, use reactive() or afterStateUpdated() so that when the Barman enters the closing amount, the sales field calculates instantly.
+
+4. Reporting & Dashboard:
+
+PDF Export: Use Filament-Actions to allow Barman, Chef, and GM to download a PDF of the Daily Stock table. Include filters for "Date Range" and "Department."
+
+Low Stock Widget: Create a Dashboard Widget that lists items where current_stock is less than low_stock_threshold.
+
+Consumptions Widget: A chart showing top-selling items based on the sales column.
+
+Instructions: Use the Naira (₦) symbol for all pricing. Ensure all tables are sortable and searchable. Lock the 'Delete' button for staff roles using Spatie permissions.

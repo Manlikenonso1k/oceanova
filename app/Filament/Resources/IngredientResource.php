@@ -45,6 +45,20 @@ class IngredientResource extends Resource
                 ->numeric()
                 ->minValue(0),
 
+            Forms\Components\TextInput::make('price')
+                ->label('Price (₦)')
+                ->numeric()
+                ->minValue(0)
+                ->default(0)
+                ->disabled(fn (): bool => !(Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager']))),
+
+            Forms\Components\FileUpload::make('image')
+                ->image()
+                ->directory('ingredients')
+                ->preserveFilenames()
+                ->visibility('public')
+                ->disabled(fn (): bool => !(Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager']))),
+
             Forms\Components\TextInput::make('min_stock_alert_level')
                 ->required()
                 ->numeric()
@@ -122,7 +136,7 @@ class IngredientResource extends Resource
                         }
                     }),
                 Tables\Actions\EditAction::make()
-                    ->visible(fn (): bool => Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin'])),
+                    ->visible(fn (): bool => Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager'])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -148,7 +162,7 @@ class IngredientResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager']);
     }
 
     public static function canCreate(): bool
@@ -158,7 +172,7 @@ class IngredientResource extends Resource
 
     public static function canEdit($record): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager']);
     }
 
     public static function canDelete($record): bool
