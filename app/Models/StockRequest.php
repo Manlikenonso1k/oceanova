@@ -12,6 +12,7 @@ class StockRequest extends Model
 
     protected $fillable = [
         'item_name',
+        'ingredient_id',
         'quantity',
         'status',
         'manager_notes',
@@ -34,5 +35,10 @@ class StockRequest extends Model
     public function processor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'processed_by');
+    }
+
+    public function ingredient(): BelongsTo
+    {
+        return $this->belongsTo(Ingredient::class, 'ingredient_id');
     }
 }

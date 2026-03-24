@@ -71,7 +71,7 @@ class CreateDailyStock extends CreateRecord
 
             $query = StockRequest::query()
                 ->where('status', 'approved')
-                ->where('item_name', $ingredient->name);
+                ->where('ingredient_id', $record->ingredient_id);
 
             if ($since) {
                 $query->where('processed_at', '>', $since);

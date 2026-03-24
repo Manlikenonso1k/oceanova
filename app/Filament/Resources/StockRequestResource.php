@@ -30,7 +30,7 @@ class StockRequestResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Forms\Components\Select::make('item_name')
+                Forms\Components\Select::make('ingredient_id')
                     ->label('Item')
                     ->options(function () {
                         $user = \Illuminate\Support\Facades\Auth::user();
@@ -38,13 +38,11 @@ class StockRequestResource extends Resource
 
                         if ($user && method_exists($user, 'hasAnyRole')) {
                             if ($user->hasAnyRole(['barman', 'bar_manager'])) {
-                                // Prefer ingredients explicitly marked as Beverage, or those present in BarStockSheet
                                 $ingredientQuery->where(function ($q) {
                                     $q->where('category', 'Beverage')
                                       ->orWhereHas('barStockSheets');
                                 });
                             } elseif ($user->hasAnyRole(['chef', 'kitchen', 'kitchen_manager'])) {
-                                // Prefer ingredients explicitly marked as Ingredient, or those present in DepartmentStock for Kitchen
                                 $ingredientQuery->where(function ($q) {
                                     $q->where('category', 'Ingredient')
                                       ->orWhereHas('departmentStocks', function ($qs) {
@@ -56,7 +54,7 @@ class StockRequestResource extends Resource
                             }
                         }
 
-                        return $ingredientQuery->orderBy('name')->pluck('name', 'name');
+                        return $ingredientQuery->orderBy('name')->pluck('name', 'id');
                     })
                     ->searchable()
                     ->required(),
@@ -99,7 +97,10 @@ class StockRequestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('item_name')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('ingredient.name')
+                    ->label('Item')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('category')->badge()->sortable(),
                 Tables\Columns\TextColumn::make('quantity')->numeric(decimalPlaces: 3)->sortable(),
                 Tables\Columns\BadgeColumn::make('status')
@@ -269,9 +270,11 @@ class StockRequestResource extends Resource
             return;
         }
 
+        $name = $request->ingredient?->name ?? $request->item_name;
+
         Notification::make()
             ->title('New stock request submitted')
-            ->body("{$request->category}: {$request->item_name} x {$request->quantity}")
+            ->body("{$request->category}: {$name} x {$request->quantity}")
             ->sendToDatabase($managers);
     }
 
@@ -284,9 +287,13 @@ class StockRequestResource extends Resource
     {
         $stockDate = now()->addDay()->toDateString();
 
+        $ingredientId = $request->ingredient_id ?? null;
+        $itemName = $request->ingredient?->name ?? $request->item_name;
+
         $dailyStock = DailyStock::query()->firstOrCreate(
             [
-                'item_name' => $request->item_name,
+                'ingredient_id' => $ingredientId,
+                'item_name' => $itemName,
                 'category' => $request->category,
                 'stock_date' => $stockDate,
             ],

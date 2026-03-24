@@ -111,7 +111,7 @@ class DailyStockResource extends Resource
 
                         $query = \App\Models\StockRequest::query()
                             ->where('status', 'approved')
-                            ->where('item_name', $ingredient->name);
+                            ->where('ingredient_id', $ingredientId);
 
                         if ($since) {
                             $query->where('processed_at', '>', $since);
