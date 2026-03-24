@@ -83,6 +83,7 @@ class IngredientResource extends Resource
 
                 Tables\Columns\TextColumn::make('current_stock')
                     ->numeric(decimalPlaces: 3)
+                    ->weight('bold')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('min_stock_alert_level')

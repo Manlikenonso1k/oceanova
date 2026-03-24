@@ -1,0 +1,38 @@
+Role: Expert Laravel & Filament 3 Developer.
+Task: Fix the Inventory Logic for a Departmental Stock System (Bar & Kitchen).
+
+1. The "Approval" Trigger (Stock Addition):
+
+In the StockRequest resource, create a Filament Action for "Approve".
+
+Logic: When clicked, it must find the product_id (or ingredient_id) and increment the current_stock in the Products table by the requested quantity.
+
+Only after this database update should the request status change to "Approved".
+
+2. The "Daily Count" Sync (Stock Reduction):
+
+In the DailyStock model, create a saved Eloquent Observer or use the afterSave hook in Filament.
+
+Logic: Every time a Barman/Chef saves a daily count, the system must update the master Products table.
+
+Formula: The new current_stock in the Products table should be updated to match the closing_stock entered by the user.
+
+If closing_stock is 0, the system must reflect that the item is officially out of stock in that department.
+
+3. Testing Phase Permissions (The Admin Override):
+
+Configure the DailyStockResource and StockRequestResource to check roles.
+
+Barman/Chef: Keep the DeleteAction hidden.
+
+Admin/Manager: Explicitly enable the DeleteAction in both the Table and the Form so I can clear testing data.
+
+4. Technical Constraints:
+
+Ensure all database transactions are wrapped in DB::transaction() to prevent data mismatch if a crash occurs during a save.
+
+Use weight('bold') for the "Current Stock" column in the table so it’s easy to see.
+
+Ensure the ingredient_id is used as the primary foreign key for all tracking.
+
+Instructions: Write the code for the StockRequest Approve Action and the DailyStock Observer that handles the math.

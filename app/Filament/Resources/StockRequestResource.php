@@ -132,13 +132,35 @@ class StockRequestResource extends Resource
                             ->rows(3),
                     ])
                     ->action(function (StockRequest $record, array $data): void {
-                        $record->update([
-                            'status' => 'approved',
-                            'manager_notes' => (string) ($data['manager_notes'] ?? ''),
-                            'processed_by' => Auth::id(),
-                            'processed_at' => now(),
-                        ]);
+                        // Wrap update and ingredient stock increment in a transaction
+                        \Illuminate\Support\Facades\DB::transaction(function () use ($record, $data): void {
+                            // try to resolve ingredient by id or name
+                            $ingredient = null;
 
+                            if (isset($record->ingredient_id) && $record->ingredient_id) {
+                                $ingredient = \App\Models\Ingredient::find($record->ingredient_id);
+                            }
+
+                            if (! $ingredient) {
+                                $ingredient = \App\Models\Ingredient::query()
+                                    ->whereRaw('LOWER(name) = ?', [strtolower($record->item_name)])
+                                    ->first();
+                            }
+
+                            if ($ingredient) {
+                                $ingredient->current_stock = (float) $ingredient->current_stock + (float) $record->quantity;
+                                $ingredient->save();
+                            }
+
+                            $record->update([
+                                'status' => 'approved',
+                                'manager_notes' => (string) ($data['manager_notes'] ?? ''),
+                                'processed_by' => Auth::id(),
+                                'processed_at' => now(),
+                            ]);
+                        });
+
+                        // After successful transaction, update next day added_stock as before
                         static::applyApprovedQuantityToNextDay($record);
 
                         Notification::make()
