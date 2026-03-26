@@ -120,7 +120,8 @@ class DailyStockResource extends Resource
                         $deptCode = $get('category') === 'Bar' ? 'BAR' : 'KITCHEN';
                         $deptId = \App\Models\Department::query()->where('code', $deptCode)->value('id');
                         if (! $deptId) {
-                            $deptId = \App\Models\Department::query()->where('name', 'like', "%{$get('category')}%')->value('id');
+                            $cat = $get('category');
+                            $deptId = \App\Models\Department::query()->where('name', 'like', "%{$cat}%")->value('id');
                         }
 
                         $opening = 0;
