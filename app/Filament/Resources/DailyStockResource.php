@@ -57,7 +57,46 @@ class DailyStockResource extends Resource
                     })
                     ->searchable()
                     ->required()
-                    ->reactive(),
+                    ->reactive()
+                    ->afterStateUpdated(function (\Filament\Forms\Get $get, \Filament\Forms\Set $set) use ($recalculate): void {
+                        $ingredientId = $get('ingredient_id');
+                        $category = $get('category') ?? (\App\Filament\Resources\DailyStockResource::defaultCategoryForCurrentUser());
+
+                        if (! $ingredientId) {
+                            $set('opening_stock', 0);
+                            ($recalculate)($get, $set);
+                            return;
+                        }
+
+                        // Resolve department id for this category (Bar/Kitchen)
+                        $deptCode = $category === 'Bar' ? 'BAR' : 'KITCHEN';
+                        $deptId = \App\Models\Department::query()->where('code', $deptCode)->value('id');
+                        if (! $deptId) {
+                            $deptId = \App\Models\Department::query()->where('name', 'like', "%{$category}%")->value('id');
+                        }
+
+                        // Try department stock first
+                        $opening = 0;
+                        if ($deptId) {
+                            $deptStock = \App\Models\DepartmentStock::query()
+                                ->where('department_id', $deptId)
+                                ->where('ingredient_id', $ingredientId)
+                                ->value('quantity');
+
+                            if ($deptStock !== null) {
+                                $opening = (float) $deptStock;
+                            }
+                        }
+
+                        // Fallback to master ingredient current_stock
+                        if ($opening === 0) {
+                            $ingredient = \App\Models\Ingredient::find($ingredientId);
+                            $opening = (float) ($ingredient->current_stock ?? 0);
+                        }
+
+                        $set('opening_stock', $opening);
+                        ($recalculate)($get, $set);
+                    }),
 
                 Forms\Components\Select::make('category')
                     ->options([
@@ -68,6 +107,42 @@ class DailyStockResource extends Resource
                     ->disabled(fn (): bool => !static::isPrivilegedUser())
                     ->dehydrated()
                     ->required(),
+                    ->reactive()
+                    ->afterStateUpdated(function (\Filament\Forms\Get $get, \Filament\Forms\Set $set) use ($recalculate): void {
+                        // when category changes, refresh opening stock for selected ingredient
+                        $ingredientId = $get('ingredient_id');
+                        if (! $ingredientId) {
+                            $set('opening_stock', 0);
+                            ($recalculate)($get, $set);
+                            return;
+                        }
+
+                        $deptCode = $get('category') === 'Bar' ? 'BAR' : 'KITCHEN';
+                        $deptId = \App\Models\Department::query()->where('code', $deptCode)->value('id');
+                        if (! $deptId) {
+                            $deptId = \App\Models\Department::query()->where('name', 'like', "%{$get('category')}%')->value('id');
+                        }
+
+                        $opening = 0;
+                        if ($deptId) {
+                            $deptStock = \App\Models\DepartmentStock::query()
+                                ->where('department_id', $deptId)
+                                ->where('ingredient_id', $ingredientId)
+                                ->value('quantity');
+
+                            if ($deptStock !== null) {
+                                $opening = (float) $deptStock;
+                            }
+                        }
+
+                        if ($opening === 0) {
+                            $ingredient = \App\Models\Ingredient::find($ingredientId);
+                            $opening = (float) ($ingredient->current_stock ?? 0);
+                        }
+
+                        $set('opening_stock', $opening);
+                        ($recalculate)($get, $set);
+                    }),
 
                 Forms\Components\DatePicker::make('stock_date')
                     ->default(now())
