@@ -57,21 +57,28 @@ class CreateDailyStock extends CreateRecord
                 return;
             }
 
-            // Opening stock should reflect master current_stock at creation
-            $record->opening_stock = (float) $ingredient->current_stock;
-
-            // Added stock: sum of approved requests since last daily stock
+            // Prefer previous day's closing_stock for the same ingredient and category
             $last = DailyStock::query()
                 ->where('ingredient_id', $record->ingredient_id)
+                ->where('category', $record->category)
                 ->where('id', '<>', $record->id)
                 ->orderBy('stock_date', 'desc')
                 ->first();
 
+            if ($last) {
+                $record->opening_stock = (float) $last->closing_stock;
+            } else {
+                // Fallback: use master ingredient current_stock
+                $record->opening_stock = (float) $ingredient->current_stock;
+            }
+
+            // Added stock: sum of approved requests since last daily stock
             $since = $last ? $last->stock_date->toDateString() : null;
 
             $query = StockRequest::query()
                 ->where('status', 'approved')
-                ->where('ingredient_id', $record->ingredient_id);
+                ->where('ingredient_id', $record->ingredient_id)
+                ->where('category', $record->category);
 
             if ($since) {
                 $query->where('processed_at', '>', $since);

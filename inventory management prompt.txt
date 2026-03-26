@@ -1,42 +1,40 @@
-Role: Senior Laravel & Filament 3 Developer.
-Task: Build a departmental Inventory and Procurement system for a resort (Bar & Kitchen).
+Role: Expert Laravel 11, Filament PHP, and Database Architect.
+Project: Multi-department Inventory System for a Restaurant (Oceanova).
 
-1. Data Structure:
+System Context:
 
-Product Model: name, category (Beverage/Ingredient), price_ngn (₦), current_stock, low_stock_threshold.
+Central Store: Managed by Admin. Holds all master stock.
 
-DailyStock Model: >     - Fields: product_id, opening, added, trans_in, trans_out, closing, remarks.
+Departments: Kitchen (Ingredients) and Bar (Beverages).
 
-Calculated Fields (Virtual/Livewire): >         - total_stock = (opening + added + trans_in - trans_out).
+Roles: Barman, Chef, Manager, Admin.
 
-sales = (total_stock - closing).
+Current Setup: Departments make "Stock Requests" to the Admin. When a Manager accepts, the stock should move from the Main Store to the Department.
 
-StockRequest Model: product_id, quantity, status (Pending, Approved, Declined), department, manager_notes.
+The Task: Fix 2 Critical Logic Issues
 
-2. Role-Based Access (Filament Shield):
+Task 1: Persistent Opening Stock for Daily Records
+Currently, when a Barman starts a "New Daily Stock" record, the opening stock starts at 0.
 
-Barman Role: >     - Can only see/manage DailyStock and Requests where category is 'Beverage'.
+Requirement: The "Opening Stock" for Today must automatically pull from the "Closing Stock" of the previous record (Yesterday).
 
-Can Create/View but NOT delete.
+Database Logic: Write a service or a Model observer that finds the last() record for that specific department/item and injects the closing_balance into the opening_balance of the new record.
 
-Kitchen Chef Role: >     - Can only see/manage DailyStock and Requests where category is 'Ingredient'.
+Task 2: Fix Stock Request Addition Logic
+Currently, when a Manager accepts a request, it is incorrectly subtracting or failing to update the Department Stock correctly.
 
-Can Create/View but NOT delete.
+Requirement: When RequestStatus == 'Accepted', the system must:
 
-General Manager Role: >     - Full access to both departments. Ability to Approve/Decline requests via Filament Actions.
+Subtract the quantity from the MainStore.
 
-3. Logic & Automation:
+Add (Increment) the quantity to the DepartmentStock for that specific item.
 
-Auto-Update: When a Manager clicks "Approve" on a StockRequest, automatically create/update the added column in the next DailyStock entry for that product.
+The ID Conflict: Ensure the IngredientID or ItemID correctly maps between the MainStore and the DepartmentStock table. If the item doesn't exist in the Department's stock table yet, it should be created (upsert).
 
-Calculations: In the DailyStockResource form, use reactive() or afterStateUpdated() so that when the Barman enters the closing amount, the sales field calculates instantly.
+Deliverables:
 
-4. Reporting & Dashboard:
+Optimized Migration suggestions if the table structure needs a parent_id or last_closing column.
 
-PDF Export: Use Filament-Actions to allow Barman, Chef, and GM to download a PDF of the Daily Stock table. Include filters for "Date Range" and "Department."
+The Filament Form logic (using afterStateHydrated or default()) to pull the previous day's stock.
 
-Low Stock Widget: Create a Dashboard Widget that lists items where current_stock is less than low_stock_threshold.
-
-Consumptions Widget: A chart showing top-selling items based on the sales column.
-
-Instructions: Use the Naira (₦) symbol for all pricing. Ensure all tables are sortable and searchable. Lock the 'Delete' button for staff roles using Spatie permissions.
+The Controller/Action logic for the "Accept Request" button that handles the +/- math between stores.

@@ -6,6 +6,10 @@ use App\Filament\Resources\StockRequestResource\Pages;
 use App\Models\DailyStock;
 use App\Models\StockRequest;
 use App\Models\User;
+use App\Models\Department;
+use App\Models\DepartmentStock;
+use App\Models\Ingredient;
+use Illuminate\Support\Facades\DB;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -133,26 +137,74 @@ class StockRequestResource extends Resource
                             ->rows(3),
                     ])
                     ->action(function (StockRequest $record, array $data): void {
-                        // Wrap update and ingredient stock increment in a transaction
-                        \Illuminate\Support\Facades\DB::transaction(function () use ($record, $data): void {
-                            // try to resolve ingredient by id or name
-                            $ingredient = null;
-
-                            if (isset($record->ingredient_id) && $record->ingredient_id) {
-                                $ingredient = \App\Models\Ingredient::find($record->ingredient_id);
-                            }
-
-                            if (! $ingredient) {
-                                $ingredient = \App\Models\Ingredient::query()
+                        DB::transaction(function () use ($record, $data): void {
+                            // Resolve ingredient id
+                            $ingredientId = $record->ingredient_id ?? null;
+                            if (! $ingredientId && ! empty($record->item_name)) {
+                                $ingredient = Ingredient::query()
                                     ->whereRaw('LOWER(name) = ?', [strtolower($record->item_name)])
                                     ->first();
+                                $ingredientId = $ingredient?->id ?? null;
                             }
 
-                            if ($ingredient) {
-                                // Use atomic increment to avoid race conditions
-                                $ingredient->increment('current_stock', (float) $record->quantity);
+                            // Find Main Store department
+                            $mainDeptId = Department::query()->where('is_main', true)->value('id');
+                            if (! $mainDeptId) {
+                                throw new \RuntimeException('Main Store department not configured.');
                             }
 
+                            // Ensure source exists and lock it
+                            $source = DepartmentStock::query()
+                                ->where('department_id', $mainDeptId)
+                                ->where('ingredient_id', $ingredientId)
+                                ->lockForUpdate()
+                                ->first();
+
+                            if (! $source) {
+                                $source = DepartmentStock::query()->create([
+                                    'department_id' => $mainDeptId,
+                                    'ingredient_id' => $ingredientId,
+                                    'quantity' => 0,
+                                ]);
+                            }
+
+                            if ((float) $source->quantity < (float) $record->quantity) {
+                                throw new \RuntimeException('Insufficient Main Store stock to approve this request.');
+                            }
+
+                            // Subtract from main store
+                            $source->decrement('quantity', (float) $record->quantity);
+
+                            // Also decrement master Ingredient current_stock if present
+                            if ($ingredientId) {
+                                Ingredient::query()->where('id', $ingredientId)->decrement('current_stock', (float) $record->quantity);
+                            }
+
+                            // Determine destination department based on category
+                            $toDeptCode = $record->category === 'Bar' ? 'BAR' : 'KITCHEN';
+                            $toDeptId = Department::query()->where('code', $toDeptCode)->value('id');
+                            if (! $toDeptId) {
+                                $toDeptId = Department::query()->where('name', 'like', '%'.$record->category.'%')->value('id') ?: $mainDeptId;
+                            }
+
+                            // Upsert destination department stock and increment
+                            $dest = DepartmentStock::query()
+                                ->where('department_id', $toDeptId)
+                                ->where('ingredient_id', $ingredientId)
+                                ->lockForUpdate()
+                                ->first();
+
+                            if (! $dest) {
+                                $dest = DepartmentStock::query()->create([
+                                    'department_id' => $toDeptId,
+                                    'ingredient_id' => $ingredientId,
+                                    'quantity' => 0,
+                                ]);
+                            }
+
+                            $dest->increment('quantity', (float) $record->quantity);
+
+                            // Finally mark the request as approved
                             $record->update([
                                 'status' => 'approved',
                                 'manager_notes' => (string) ($data['manager_notes'] ?? ''),
@@ -165,7 +217,7 @@ class StockRequestResource extends Resource
                         static::applyApprovedQuantityToNextDay($record);
 
                         Notification::make()
-                            ->title('Stock request approved.')
+                            ->title('Stock request approved and moved from Main Store.')
                             ->success()
                             ->send();
                     }),
