@@ -125,12 +125,12 @@ class MealResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_order_person']);
     }
 
     public static function canCreate(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_order_person']);
     }
 
     public static function canEdit($record): bool
