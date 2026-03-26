@@ -106,7 +106,7 @@ class DailyStockResource extends Resource
                     ->default(fn (): string => static::defaultCategoryForCurrentUser())
                     ->disabled(fn (): bool => !static::isPrivilegedUser())
                     ->dehydrated()
-                    ->required(),
+                    ->required()
                     ->reactive()
                     ->afterStateUpdated(function (\Filament\Forms\Get $get, \Filament\Forms\Set $set) use ($recalculate): void {
                         // when category changes, refresh opening stock for selected ingredient
