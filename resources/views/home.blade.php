@@ -275,8 +275,8 @@
 					<div class="staff">
 						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-man.png') }}');"></div>
 						<div class="text px-4 pt-2">
-							<h3>John Gustavo</h3>
-							<span class="position mb-2">CEO, Co Founder</span>
+							<h3>Chef Femi</h3>
+							<span class="position mb-2">Head Chef</span>
 							<div class="faded">
 									<p>Passionate about hospitality, John oversees the dining experience and ensures every guest feels welcomed and cared for.</p>
 								<ul class="ftco-social d-flex">
@@ -293,8 +293,8 @@
 					<div class="staff">
 						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-Gold.png') }}');"></div>
 						<div class="text px-4 pt-2">
-							<h3>Michelle Fraulen</h3>
-							<span class="position mb-2">Head Chef</span>
+							<h3>Chef Victoria</h3>
+							<span class="position mb-2">Local Dish Chef</span>
 							<div class="faded">
 									<p>Michelle leads the kitchen with a focus on seasonal ingredients and bold flavors inspired by coastal cuisines.</p>
 								<ul class="ftco-social d-flex">
@@ -311,10 +311,10 @@
 					<div class="staff">
 						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-Diamond.png') }}');"></div>
 						<div class="text px-4 pt-2">
-							<h3>Alfred Smith</h3>
-							<span class="position mb-2">Pastery Cook</span>
+							<h3>Chef Sam</h3>
+							<span class="position mb-2">International Cook</span>
 							<div class="faded">
-									<p>Alfred specializes in modern comfort food, bringing classic dishes to life with refined techniques.</p>
+									<p>Chef Sam brings a global perspective to the kitchen, creating dishes that blend flavors from around the world.</p>
 								<ul class="ftco-social d-flex">
 									<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 									<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -329,10 +329,10 @@
 					<div class="staff">
 						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-Bronze.png') }}');"></div>
 						<div class="text px-4 pt-2">
-							<h3>Antonio Santibanez</h3>
-							<span class="position mb-2">International Sushi Cook</span>
+							<h3>Opeyemi Akinwande</h3>
+							<span class="position mb-2">Pastry Chef</span>
 							<div class="faded">
-									<p>Antonio is known for his meticulous plating and house-made sauces that elevate every main course.</p>
+									<p>Opeyemi Akinwande is a pastry chef who crafts delicate desserts and rich cakes for every occasion.</p>
 								<ul class="ftco-social d-flex">
 									<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
 									<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
