@@ -99,7 +99,7 @@
 						</div>
 					</form>
 				</div>
-				<div class="col-sm-8 wrap-about py-5 ftco-animate img" style="background-image: url({{ asset('assets/template/images/chef-silver.png') }});">
+				<div class="col-sm-8 wrap-about py-5 ftco-animate img" style="background-image: url({{ asset('assets/template/images/chef-femi1.png') }});">
 					<div class="row pb-5 pb-md-0">
 						<div class="col-md-12 col-lg-7">
 							<div class="heading-section mt-5 mb-4">
@@ -327,7 +327,7 @@
 				</div>
 				<div class="col-md-6 col-lg-3 ftco-animate">
 					<div class="staff">
-						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-Bronze.png') }}');"></div>
+						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/chef-opeyemi.png') }}');"></div>
 						<div class="text px-4 pt-2">
 							<h3>Chef Akinwande</h3>
 							<span class="position mb-2">Pastry Chef</span>
@@ -351,7 +351,7 @@
 		<div class="container">
 			<div class="row d-flex">
 				<div class="col-md-6 d-flex">
-					<div class="img img-2 w-100 mr-md-2" style="background-image: url({{ asset('assets/template/images/bg_6.jpg') }});"></div>
+					<div class="img img-2 w-100 mr-md-2" style="background-image: url({{ asset('assets/template/images/chef-f.png') }});"></div>
 					<div class="img img-2 w-100 ml-md-2" style="background-image: url({{ asset('assets/template/images/bg_4.jpg') }});"></div>
 				</div>
 				<div class="col-md-6 ftco-animate makereservation p-4 p-md-5">

@@ -127,7 +127,7 @@
   <div class="container">
     <div class="row d-flex">
       <div class="col-md-6 d-flex">
-        <div class="img img-2 w-100 mr-md-2" style="background-image: url({{ asset('assets/template/images/bg_6.jpg') }});"></div>
+        <div class="img img-2 w-100 mr-md-2" style="background-image: url({{ asset('assets/template/images/chef-f.png') }});"></div>
         <div class="img img-2 w-100 ml-md-2" style="background-image: url({{ asset('assets/template/images/bg_4.jpg') }});"></div>
       </div>
       <div class="col-md-6 ftco-animate makereservation p-4 p-md-5">
