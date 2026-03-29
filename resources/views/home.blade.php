@@ -275,7 +275,7 @@
 					<div class="staff">
 						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-man.png') }}');"></div>
 						<div class="text px-4 pt-2">
-							<h3>Chef Femi</h3>
+							<h3>Chef Asogba Oluwafemi</h3>
 							<span class="position mb-2">Head Chef</span>
 							<div class="faded">
 									<p>Passionate about hospitality, John oversees the dining experience and ensures every guest feels welcomed and cared for.</p>
@@ -329,7 +329,7 @@
 					<div class="staff">
 						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-Bronze.png') }}');"></div>
 						<div class="text px-4 pt-2">
-							<h3>Opeyemi Akinwande</h3>
+							<h3>Chef Akinwande</h3>
 							<span class="position mb-2">Pastry Chef</span>
 							<div class="faded">
 									<p>Opeyemi Akinwande is a pastry chef who crafts delicate desserts and rich cakes for every occasion.</p>
