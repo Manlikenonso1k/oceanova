@@ -273,7 +273,7 @@
 			<div class="row">
 				<div class="col-md-6 col-lg-3 ftco-animate">
 					<div class="staff">
-						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/Chef-man.png') }}');"></div>
+						<div class="chef-img" style="background-image: url('{{ asset('assets/template/images/chef-femi.png') }}');"></div>
 						<div class="text px-4 pt-2">
 							<h3>Chef Asogba Oluwafemi</h3>
 							<span class="position mb-2">Head Chef</span>
