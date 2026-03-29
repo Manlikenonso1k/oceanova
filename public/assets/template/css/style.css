@@ -9130,9 +9130,13 @@ h1, h2, h3, h4, h5,
     -webkit-transform: skewY(-20deg);
     -ms-transform: skewY(-20deg);
     transform: skewY(-20deg); }
-  .staff .img {
+  .staff .img,
+  .staff .chef-img {
     height: 350px;
-    background-position: top center; }
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat; }
   .staff .text {
     background: #fff;
     -moz-transition: all 0.3s ease;

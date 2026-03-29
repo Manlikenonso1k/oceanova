@@ -57,6 +57,7 @@ class AdminPanelProvider extends PanelProvider
                 OrderStatusChart::class,
                 ClickTrendChart::class,
                 DepartmentTransferBalanceWidget::class,
+                \App\Filament\Widgets\TopConsumedWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

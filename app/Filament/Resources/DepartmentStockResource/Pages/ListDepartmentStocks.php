@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\DepartmentStockResource\Pages;
 
 use App\Filament\Resources\DepartmentStockResource;
+use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListDepartmentStocks extends ListRecords
@@ -11,6 +12,8 @@ class ListDepartmentStocks extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [];
+        return [
+            Actions\CreateAction::make(),
+        ];
     }
 }

@@ -1,0 +1,40 @@
+Role: Expert Laravel 11, Filament PHP, and Database Architect.
+Project: Multi-department Inventory System for a Restaurant (Oceanova).
+
+System Context:
+
+Central Store: Managed by Admin. Holds all master stock.
+
+Departments: Kitchen (Ingredients) and Bar (Beverages).
+
+Roles: Barman, Chef, Manager, Admin.
+
+Current Setup: Departments make "Stock Requests" to the Admin. When a Manager accepts, the stock should move from the Main Store to the Department.
+
+The Task: Fix 2 Critical Logic Issues
+
+Task 1: Persistent Opening Stock for Daily Records
+Currently, when a Barman starts a "New Daily Stock" record, the opening stock starts at 0.
+
+Requirement: The "Opening Stock" for Today must automatically pull from the "Closing Stock" of the previous record (Yesterday).
+
+Database Logic: Write a service or a Model observer that finds the last() record for that specific department/item and injects the closing_balance into the opening_balance of the new record.
+
+Task 2: Fix Stock Request Addition Logic
+Currently, when a Manager accepts a request, it is incorrectly subtracting or failing to update the Department Stock correctly.
+
+Requirement: When RequestStatus == 'Accepted', the system must:
+
+Subtract the quantity from the MainStore.
+
+Add (Increment) the quantity to the DepartmentStock for that specific item.
+
+The ID Conflict: Ensure the IngredientID or ItemID correctly maps between the MainStore and the DepartmentStock table. If the item doesn't exist in the Department's stock table yet, it should be created (upsert).
+
+Deliverables:
+
+Optimized Migration suggestions if the table structure needs a parent_id or last_closing column.
+
+The Filament Form logic (using afterStateHydrated or default()) to pull the previous day's stock.
+
+The Controller/Action logic for the "Accept Request" button that handles the +/- math between stores.
