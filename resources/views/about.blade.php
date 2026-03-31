@@ -32,7 +32,7 @@
   </div>
 </section>
 
-<section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url({{ asset('assets/template/images/bg_4.jpg') }});" data-stellar-background-ratio="0.5">
+<section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url({{ asset('assets/template/images/oceanova-bq.png') }});" data-stellar-background-ratio="0.5">
   <div class="container">
     <div class="row d-md-flex align-items-center justify-content-center">
       <div class="col-lg-10">
