@@ -86,7 +86,7 @@
   </div>
 </section>
 
-<section class="ftco-section testimony-section" style="background-image: url({{ asset('assets/template/images/bg_5.jpg') }});">
+<section class="ftco-section testimony-section" style="background-image: url({{ asset('assets/template/images/oceanova-bq.png') }});">
   <div class="overlay"></div>
   <div class="container">
     <div class="row justify-content-center mb-3 pb-2">
