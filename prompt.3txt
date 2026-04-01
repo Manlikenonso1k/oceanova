@@ -1,0 +1,65 @@
+You are an expert full-stack web developer specializing in Laravel, Tailwind CSS, and responsive design.
+
+TASK:
+Fix the "About" section on the Oceanova restaurant website where white text merges with a white chef background image at tablet size (1024px).
+
+CURRENT SETUP:
+- Black background with chef image (chef wearing white)
+- White text color
+- Problem: At 1024px (tablet), the white chef uniform merges with white text, making it unreadable
+
+SOLUTION REQUIRED:
+Implement a backdrop blur effect on the text container at tablet breakpoint (1024px) to separate text from background.
+
+SPECIFIC REQUIREMENTS:
+
+1. RESPONSIVE DESIGN:
+   - Desktop (>1024px): Current design works fine
+   - Tablet (≤1024px): Add blur effect behind text
+   - Mobile (<768px): Ensure blur adapts properly
+
+2. VISUAL REQUIREMENTS:
+   - Add semi-transparent dark background to text container
+   - Apply backdrop-filter blur (10-15px)
+   - Maintain text readability
+   - Keep the elegant, refined aesthetic
+   - Preserve the black background theme
+
+3. TECHNICAL SPECIFICATIONS:
+   - Use Tailwind CSS classes (preferred)
+   - Include fallback for browsers that don't support backdrop-filter
+   - Add subtle border or shadow for depth
+   - Ensure text remains white and legible
+   - Add appropriate padding and border-radius
+
+4. TEXT CONTENT (keep as is):
+   "Welcome to Oceanova
+   Located in Okun Ajah, Oceanova brings you a refined fine‑dining experience you have never seen before. From our international dishes crafted by professional chefs to our warm, attentive service, every visit is designed to feel special. Whether you are celebrating a milestone or enjoying a quiet evening, Oceanova blends flavor, comfort, and elegance to create an unforgettable culinary moment."
+
+5. ADDITIONAL ENHANCEMENTS:
+   - Add smooth transition effects
+   - Ensure cross-browser compatibility (Chrome, Safari, Firefox, Edge)
+   - Optimize for performance
+   - Test responsiveness at common breakpoints: 1024px, 768px, 640px
+
+DELIVERABLES:
+1. Complete HTML structure for the About section
+2. Tailwind CSS classes OR custom CSS
+3. Responsive breakpoints (@media queries if using custom CSS)
+4. Browser compatibility notes
+5. Alternative fallback solution for older browsers
+
+DESIGN PREFERENCES:
+- Modern, elegant aesthetic
+- Subtle animations/transitions
+- Professional restaurant branding
+- Clean, readable typography
+- Maintain existing color scheme (black background, white text)
+
+CONSTRAINTS:
+- Must work on all modern browsers
+- Must be mobile-friendly
+- Must not affect page load performance
+- Must maintain accessibility standards
+
+Please provide clean, production-ready code with comments explaining the approach.

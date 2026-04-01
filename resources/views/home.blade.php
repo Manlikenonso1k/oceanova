@@ -1,6 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
+	<style>
+		/* Scoped About-section readability layer for tablet/mobile over chef background */
+		.oceanova-about-panel {
+			color: #fff;
+			transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+		}
+
+		@media (max-width: 1024px) {
+			.oceanova-about-panel {
+				padding: 1.5rem;
+				border-radius: 14px;
+				background: rgba(0, 0, 0, 0.46);
+				border: 1px solid rgba(255, 255, 255, 0.16);
+				box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+				-webkit-backdrop-filter: blur(12px);
+				backdrop-filter: blur(12px);
+			}
+
+			.oceanova-about-panel .subheading,
+			.oceanova-about-panel .oceanova-about-title,
+			.oceanova-about-panel .oceanova-about-copy {
+				color: #fff;
+			}
+		}
+
+		@media (max-width: 767.98px) {
+			.oceanova-about-panel {
+				padding: 1.1rem;
+				border-radius: 12px;
+				background: rgba(0, 0, 0, 0.56);
+			}
+		}
+
+		@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+			@media (max-width: 1024px) {
+				.oceanova-about-panel {
+					background: rgba(0, 0, 0, 0.72);
+				}
+			}
+		}
+	</style>
+
 	<section class="hero-wrap">
 		<div class="home-slider owl-carousel js-fullheight">
 			<div class="slider-item js-fullheight" style="background-image:url({{ asset('assets/template/images/bg_1.jpg') }});">
@@ -103,13 +145,11 @@
 					<div class="row pb-5 pb-md-0">
 						<div class="col-md-12 col-lg-7">
 							<div class="heading-section mt-5 mb-4">
-								<div class="pl-lg-3 ml-md-5">
+								<div class="pl-lg-3 ml-md-5 oceanova-about-panel">
 									<span class="subheading">About</span>
 									<h1 class="mb-4 oceanova-about-title">Welcome to Oceanova</h1>
+									<p class="oceanova-about-copy mb-0">Located in Okun Ajah, Oceanova brings you a refined fine‑dining experience you have never seen before. From our international dishes crafted by professional chefs to our warm, attentive service, every visit is designed to feel special. Whether you are celebrating a milestone or enjoying a quiet evening, Oceanova blends flavor, comfort, and elegance to create an unforgettable culinary moment.</p>
 								</div>
-							</div>
-							<div class="pl-lg-3 ml-md-5">
-								<p class="oceanova-about-copy">Located in Okun Ajah, Oceanova brings you a refined fine‑dining experience you have never seen before. From our international dishes crafted by professional chefs to our warm, attentive service, every visit is designed to feel special. Whether you are celebrating a milestone or enjoying a quiet evening, Oceanova blends flavor, comfort, and elegance to create an unforgettable culinary moment.</p>
 							</div>
 						</div>
 					</div>
