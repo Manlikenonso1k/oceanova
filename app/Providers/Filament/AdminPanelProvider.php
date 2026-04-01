@@ -37,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('')
             ->brandLogo(asset('images/oceanova.png'))
             ->darkModeBrandLogo(asset('images/oceanova.png'))
+            ->favicon(asset('oceanova-fav-icon.png'))
             ->brandLogoHeight('2.5rem')
             ->topbar(true)
             ->sidebarCollapsibleOnDesktop()

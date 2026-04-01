@@ -10,6 +10,9 @@
 	<meta property="og:image:alt" content="Oceanova fine dining restaurant">
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:image" content="{{ asset('images/oceanova-restaurant.jpeg') }}">
+	<link rel="icon" type="image/png" href="{{ asset('oceanova-fav-icon.png') }}">
+	<link rel="shortcut icon" href="{{ asset('oceanova-fav-icon.png') }}">
+	<link rel="apple-touch-icon" href="{{ asset('oceanova-fav-icon.png') }}">
 
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
