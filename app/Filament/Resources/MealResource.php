@@ -125,17 +125,17 @@ class MealResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_order_person']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager', 'general_order_person', 'procurement_officer']);
     }
 
     public static function canCreate(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_order_person']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager', 'general_order_person', 'procurement_officer']);
     }
 
     public static function canEdit($record): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_order_person']);
+        return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin', 'general_manager', 'general_order_person', 'procurement_officer']);
     }
 
     public static function canDelete($record): bool
