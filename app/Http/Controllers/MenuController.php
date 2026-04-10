@@ -32,14 +32,20 @@ class MenuController extends Controller
             }])
             ->get()
             ->map(function (MenuSection $section) {
+                $fallbackNumber = 1;
+
                 return [
                     'title' => $section->title,
                     'subtitle' => $section->subtitle,
-                    'items' => $section->meals->map(function ($meal) {
+                    'items' => $section->meals->map(function ($meal) use (&$fallbackNumber) {
+                        $fallback = $fallbackNumber;
+                        $fallbackNumber++;
+
                         $price = (float) $meal->price;
                         $decimals = abs($price - floor($price)) < 0.00001 ? 0 : 2;
 
                         return [
+                            'number' => $meal->sort_order > 0 ? (int) $meal->sort_order : $fallback,
                             'name' => $meal->name,
                             'price' => '₦'.number_format($price, $decimals),
                             'description' => $meal->description,

@@ -368,7 +368,6 @@
 
         <div class="relative z-10">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-                @php($mealNumber = 1)
                 @foreach($sections as $section)
                     <div id="{{ Str::slug($section['title']) }}" class="menu-pdf-section mb-10 scroll-mt-24">
                         <h3 class="text-xl font-semibold text-amber-300 mb-1">{{ $section['title'] }}</h3>
@@ -379,14 +378,13 @@
                             @foreach($section['items'] as $item)
                                 <x-menu-item
                                     class="menu-pdf-card"
-                                    :number="$mealNumber"
+                                    :number="$item['number'] ?? ($loop->iteration)"
                                     :name="$item['name']"
                                     :price="$item['price'] ?? null"
                                     :description="$item['description'] ?? null"
                                     :image="$item['image'] ?? null"
                                     :tags="$item['tags'] ?? []"
                                 />
-                                @php($mealNumber++)
                             @endforeach
                         </div>
                     </div>

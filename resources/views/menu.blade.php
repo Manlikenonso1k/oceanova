@@ -420,6 +420,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($section['items'] as $item)
                         <x-menu-item
+                            :number="$item['number'] ?? ($loop->iteration)"
                             :name="$item['name']"
                             :price="$item['price'] ?? null"
                             :description="$item['description'] ?? null"

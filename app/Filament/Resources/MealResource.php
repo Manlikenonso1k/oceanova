@@ -48,8 +48,10 @@ class MealResource extends Resource
                 ->maxLength(255),
 
             Forms\Components\TextInput::make('sort_order')
+                ->label('Menu Number')
                 ->numeric()
-                ->default(0),
+                ->default(0)
+                ->helperText('Used as item numbering on menu/PDF. Set to 1, 2, 3...'),
 
             Forms\Components\Toggle::make('is_active')
                 ->default(true),
@@ -81,6 +83,10 @@ class MealResource extends Resource
 
                 Tables\Columns\TextColumn::make('category')
                     ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('sort_order')
+                    ->label('Menu Number')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')
