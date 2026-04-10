@@ -1,4 +1,5 @@
 @props([
+    'number' => null,
     'name' => null,
     'price' => null,
     'description' => null,
@@ -38,7 +39,7 @@
         } elseif (Str::startsWith($image, ['assets/', 'images/', 'storage/'])) {
             $itemImage = asset($image);
         } else {
-            $itemImage = Storage::disk('public')->url($image);
+            $itemImage = Storage::url($image);
         }
     }
 @endphp
@@ -56,7 +57,12 @@
 
     <div class="flex items-start justify-between gap-3">
         <div>
-            <h3 class="text-lg font-semibold text-slate-900">{{ $itemName }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900">
+                @if(!is_null($number))
+                    <span class="mr-1 text-slate-500">{{ $number }}.</span>
+                @endif
+                {{ $itemName }}
+            </h3>
             @if($itemDescription)
                 <p class="text-sm text-slate-500">{{ $itemDescription }}</p>
             @endif

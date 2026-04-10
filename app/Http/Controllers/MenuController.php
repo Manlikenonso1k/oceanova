@@ -8,6 +8,20 @@ class MenuController extends Controller
 {
     public function index()
     {
+        $sections = $this->menuSections();
+
+        return view('menu', compact('sections'));
+    }
+
+    public function pdfView()
+    {
+        $sections = $this->menuSections();
+
+        return view('menu-pdf', compact('sections'));
+    }
+
+    private function menuSections(): array
+    {
         $sections = MenuSection::query()
             ->where('is_active', true)
             ->orderBy('sort_order')
@@ -37,6 +51,6 @@ class MenuController extends Controller
             })
             ->toArray();
 
-        return view('menu', compact('sections'));
+        return $sections;
     }
 }

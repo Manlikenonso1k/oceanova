@@ -12,6 +12,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/about', 'about')->name('about');
 Route::view('/chef', 'chef')->name('chef');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+Route::get('/menu/pdf-view', [MenuController::class, 'pdfView'])->name('menu.pdf-view');
 Route::view('/reservation', 'reservation')->name('reservation');
 Route::view('/blog', 'blog')->name('blog');
 Route::view('/blog-single', 'blog-single')->name('blog.single');
