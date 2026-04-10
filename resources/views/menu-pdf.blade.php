@@ -1,6 +1,9 @@
-@extends('layouts.app')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Oceanova Menu PDF</title>
 @php
     use Illuminate\Support\Str;
 
@@ -357,10 +360,40 @@
         }
     }
 </style>
-
+</head>
+<body class="bg-black">
 <div id="tw-menu">
+    <section class="min-h-screen bg-black relative">
+        <div class="menu-pdf-bg absolute inset-0 pointer-events-none opacity-20 mix-blend-screen" style="background-image: url('{{ asset('images/oceanova.png') }}'); background-repeat: repeat; background-size: 260px auto; background-position: center top;"></div>
 
-
+        <div class="relative z-10">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+                @php($mealNumber = 1)
+                @foreach($sections as $section)
+                    <div id="{{ Str::slug($section['title']) }}" class="menu-pdf-section mb-10 scroll-mt-24">
+                        <h3 class="text-xl font-semibold text-amber-300 mb-1">{{ $section['title'] }}</h3>
+                        @if(!empty($section['subtitle']))
+                            <p class="text-sm text-amber-100 mb-4">{{ $section['subtitle'] }}</p>
+                        @endif
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @foreach($section['items'] as $item)
+                                <x-menu-item
+                                    class="menu-pdf-card"
+                                    :number="$mealNumber"
+                                    :name="$item['name']"
+                                    :price="$item['price'] ?? null"
+                                    :description="$item['description'] ?? null"
+                                    :image="$item['image'] ?? null"
+                                    :tags="$item['tags'] ?? []"
+                                />
+                                @php($mealNumber++)
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
 </div>
 
 <script>
@@ -457,4 +490,5 @@
         });
     })();
 </script>
-@endsection
+</body>
+</html>
