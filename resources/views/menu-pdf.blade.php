@@ -291,6 +291,57 @@
 
         return $section;
     }, $sections ?? []);
+
+    // PDF page only: prioritize specific categories, then keep the rest in their original order.
+    $sectionsWithIndex = array_map(
+        fn (array $section, int $index): array => $section + ['__order_index' => $index],
+        $sections,
+        array_keys($sections)
+    );
+
+    $rankForSection = function (array $section): int {
+        $title = Str::of((string) ($section['title'] ?? ''))->lower()->trim()->value();
+        $subtitle = Str::of((string) ($section['subtitle'] ?? ''))->lower()->trim()->value();
+
+        if ($title === 'shared platters & sides') {
+            return 1;
+        }
+
+        if ($title === 'the grill' || $title === 'main courses' || $subtitle === 'grill') {
+            return 2;
+        }
+
+        if ($title === 'national dishes') {
+            return 3;
+        }
+
+        if ($title === 'rice dishes') {
+            return 4;
+        }
+
+        if ($title === 'national pepper soups' || $title === 'national soups') {
+            return 5;
+        }
+
+        return 999;
+    };
+
+    usort($sectionsWithIndex, function (array $a, array $b) use ($rankForSection): int {
+        $rankA = $rankForSection($a);
+        $rankB = $rankForSection($b);
+
+        if ($rankA === $rankB) {
+            return ($a['__order_index'] ?? 0) <=> ($b['__order_index'] ?? 0);
+        }
+
+        return $rankA <=> $rankB;
+    });
+
+    $sections = array_map(function (array $section): array {
+        unset($section['__order_index']);
+
+        return $section;
+    }, $sectionsWithIndex);
 @endphp
 
 <script>
