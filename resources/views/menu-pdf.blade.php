@@ -323,6 +323,10 @@
             return 5;
         }
 
+        if ($title === 'pasta & noodles') {
+            return 6;
+        }
+
         return 999;
     };
 
