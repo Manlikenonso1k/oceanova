@@ -346,6 +346,23 @@
 
         return $section;
     }, $sectionsWithIndex);
+
+    $hiddenTitles = [
+        'sides & extras',
+        'salads & add-ons',
+        'continental soups',
+        'healthy breakfast options',
+        'pancakes & waffles',
+        'chinese breakfast',
+        'nigerian breakfast',
+        'full english breakfast',
+    ];
+
+    $sections = array_values(array_filter($sections, function (array $section) use ($hiddenTitles): bool {
+        $title = Str::of((string) ($section['title'] ?? ''))->lower()->trim()->value();
+
+        return !in_array($title, $hiddenTitles, true);
+    }));
 @endphp
 
 <script>
