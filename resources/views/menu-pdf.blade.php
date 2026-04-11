@@ -454,7 +454,7 @@
                                     :name="$item['name']"
                                     :price="$item['price'] ?? null"
                                     :description="$item['description'] ?? null"
-                                    :image="$item['image'] ?? null"
+                                    :image="$item['pdf_image'] ?? $item['image'] ?? null"
                                     :tags="$item['tags'] ?? []"
                                 />
                             @endforeach
@@ -466,99 +466,5 @@
     </section>
 </div>
 
-<script>
-    (function () {
-        var prepared = false;
-
-        function toJpegDataUrl(img, maxWidth, quality) {
-            try {
-                var naturalWidth = img.naturalWidth || img.width;
-                var naturalHeight = img.naturalHeight || img.height;
-
-                if (!naturalWidth || !naturalHeight) {
-                    return null;
-                }
-
-                var targetWidth = Math.min(maxWidth, naturalWidth);
-                var targetHeight = Math.round((targetWidth / naturalWidth) * naturalHeight);
-
-                var canvas = document.createElement('canvas');
-                canvas.width = targetWidth;
-                canvas.height = targetHeight;
-
-                var ctx = canvas.getContext('2d', { alpha: false });
-                if (!ctx) {
-                    return null;
-                }
-
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, targetWidth, targetHeight);
-                ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-
-                return canvas.toDataURL('image/jpeg', quality);
-            } catch (error) {
-                return null;
-            }
-        }
-
-        async function prepareImagesForPrint() {
-            if (prepared) {
-                return;
-            }
-
-            var images = Array.prototype.slice.call(document.querySelectorAll('#tw-menu .menu-pdf-card img'));
-            if (!images.length) {
-                prepared = true;
-                return;
-            }
-
-            await Promise.all(images.map(function (img) {
-                if (img.complete) {
-                    return Promise.resolve();
-                }
-
-                return new Promise(function (resolve) {
-                    img.addEventListener('load', function onLoad() {
-                        img.removeEventListener('load', onLoad);
-                        resolve();
-                    });
-                    img.addEventListener('error', function onError() {
-                        img.removeEventListener('error', onError);
-                        resolve();
-                    });
-                });
-            }));
-
-            images.forEach(function (img) {
-                if (!img.dataset.originalSrc) {
-                    img.dataset.originalSrc = img.currentSrc || img.src;
-                }
-
-                var dataUrl = toJpegDataUrl(img, 480, 0.58);
-                if (dataUrl) {
-                    img.src = dataUrl;
-                }
-            });
-
-            prepared = true;
-        }
-
-        function restoreImagesAfterPrint() {
-            var images = document.querySelectorAll('#tw-menu .menu-pdf-card img[data-original-src]');
-            images.forEach(function (img) {
-                img.src = img.dataset.originalSrc;
-            });
-            prepared = false;
-        }
-
-        window.addEventListener('beforeprint', function () {
-            prepareImagesForPrint();
-        });
-
-        window.addEventListener('afterprint', function () {
-            restoreImagesAfterPrint();
-        });
-    })();
-</script>
 </body>
 </html>
