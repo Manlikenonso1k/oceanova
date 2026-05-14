@@ -1,0 +1,5 @@
+# Security: Archive folder for development notes, prompts, and temporary documentation
+# These files are excluded from Git for security and housekeeping purposes
+
+*
+!.gitignore
