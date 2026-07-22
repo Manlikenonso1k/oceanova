@@ -149,22 +149,22 @@
 				<div class="col-md-6 col-lg-3">
 					<div class="ftco-footer-widget mb-4">
 						<h2 class="ftco-heading-2">Instagram</h2>
-						<div class="thumb d-sm-flex">
-							<a href="#" class="thumb-menu img" style="background-image: url('{{ asset('assets/template/images/insta-1.jpg') }}');">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url('{{ asset('assets/template/images/insta-2.jpg') }}');">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url('{{ asset('assets/template/images/insta-3.jpg') }}');">
-							</a>
-						</div>
-						<div class="thumb d-flex">
-							<a href="#" class="thumb-menu img" style="background-image: url('{{ asset('assets/template/images/insta-4.jpg') }}');">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url('{{ asset('assets/template/images/insta-5.jpg') }}');">
-							</a>
-							<a href="#" class="thumb-menu img" style="background-image: url('{{ asset('assets/template/images/insta-6.jpg') }}');">
-							</a>
-						</div>
+					<div class="thumb d-sm-flex">
+						<a href="https://www.instagram.com/oceanovalagos" target="_blank" rel="noopener" class="thumb-menu img" style="background-image: url('{{ asset('images/instagram 1.jpeg') }}');">
+						</a>
+						<a href="https://www.instagram.com/oceanovalagos" target="_blank" rel="noopener" class="thumb-menu img" style="background-image: url('{{ asset('images/instagram 2.jpeg') }}');">
+						</a>
+						<a href="https://www.instagram.com/oceanovalagos" target="_blank" rel="noopener" class="thumb-menu img" style="background-image: url('{{ asset('images/instagram 3.jpeg') }}');">
+						</a>
+					</div>
+					<div class="thumb d-flex">
+						<a href="https://www.instagram.com/oceanovalagos" target="_blank" rel="noopener" class="thumb-menu img" style="background-image: url('{{ asset('images/instagram 4.jpeg') }}');">
+						</a>
+						<a href="https://www.instagram.com/oceanovalagos" target="_blank" rel="noopener" class="thumb-menu img" style="background-image: url('{{ asset('images/instagram 5.jpeg') }}');">
+						</a>
+						<a href="https://www.instagram.com/oceanovalagos" target="_blank" rel="noopener" class="thumb-menu img" style="background-image: url('{{ asset('images/instagram 6.jpeg') }}');">
+						</a>
+					</div>
 					</div>
 				</div>
 				<div class="col-md-6 col-lg-3">
