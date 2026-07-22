@@ -22,12 +22,14 @@ class Meal extends Model
         'tags',
         'sort_order',
         'is_active',
+        'is_hidden',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
         'tags' => 'array',
         'is_active' => 'boolean',
+        'is_hidden' => 'boolean',
     ];
 
     public function menuSection(): BelongsTo

@@ -39,6 +39,7 @@ class MenuController extends Controller
             ->orderBy('sort_order')
             ->with(['meals' => function ($query) {
                 $query->where('is_active', true)
+                    ->where('is_hidden', false)
                     ->orderBy('sort_order')
                     ->orderBy('id');
             }])

@@ -13,6 +13,7 @@ class HomeController extends Controller
         $featuredMeals = Meal::query()
             ->with('menuSection')
             ->where('is_active', true)
+            ->where('is_hidden', false)
             ->orderBy('sort_order')
             ->orderBy('id')
             ->limit(12)

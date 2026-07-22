@@ -470,6 +470,32 @@
 		</div>
 	</section>
 
+	<section class="ftco-section ftco-no-pt ftco-no-pb" id="find-us">
+		<div class="container-fluid px-0">
+			<div class="row justify-content-center mb-5 pt-5">
+				<div class="col-md-7 text-center heading-section ftco-animate">
+					<span class="subheading">Location</span>
+					<h2 class="mb-2">Find Us</h2>
+					<p class="text-muted">Plot 7, 8 Okun-Ajah Community Rd, Eti-Osa, Lekki 105102, Lagos</p>
+				</div>
+			</div>
+			<div class="row no-gutters">
+				<div class="col-12">
+					<iframe
+						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d990.7!2d3.592447!3d6.427556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf9f5cced5d09%3A0x7357e78e27164837!2sOceanova%20restaurant!5e0!3m2!1sen!2sng!4v1"
+						width="100%"
+						height="450"
+						style="border:0; display:block;"
+						allowfullscreen=""
+						loading="lazy"
+						referrerpolicy="no-referrer-when-downgrade"
+						title="Oceanova Restaurant Location">
+					</iframe>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<section class="ftco-section ftco-no-pt ftco-no-pb ftco-intro bg-primary">
 		<div class="container py-5">
 			<div class="row py-2">

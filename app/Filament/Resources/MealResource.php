@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class MealResource extends Resource
@@ -56,6 +58,11 @@ class MealResource extends Resource
             Forms\Components\Toggle::make('is_active')
                 ->default(true),
 
+            Forms\Components\Toggle::make('is_hidden')
+                ->label('Hide from Menu')
+                ->helperText('When enabled, this meal will not appear on the public menu or home page.')
+                ->default(false),
+
             Forms\Components\FileUpload::make('image')
                 ->image()
                 ->disk('public')
@@ -93,9 +100,20 @@ class MealResource extends Resource
                     ->money('NGN')
                     ->sortable(),
 
+                Tables\Columns\ToggleColumn::make('is_hidden')
+                    ->label('Hidden')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\TernaryFilter::make('is_hidden')
+                    ->label('Menu Visibility')
+                    ->placeholder('All Meals')
+                    ->trueLabel('Hidden Only')
+                    ->falseLabel('Visible Only'),
             ])
             ->actions([
                 Tables\Actions\Action::make('trackPublicLink')
@@ -110,6 +128,36 @@ class MealResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('hideFromMenu')
+                        ->label('Hide from Menu')
+                        ->icon('heroicon-o-eye-slash')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion()
+                        ->action(function (Collection $records): void {
+                            $records->each(fn (Meal $meal) => $meal->update(['is_hidden' => true]));
+
+                            Notification::make()
+                                ->title($records->count().' meal(s) hidden from menu')
+                                ->success()
+                                ->send();
+                        }),
+
+                    Tables\Actions\BulkAction::make('showOnMenu')
+                        ->label('Show on Menu')
+                        ->icon('heroicon-o-eye')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->deselectRecordsAfterCompletion()
+                        ->action(function (Collection $records): void {
+                            $records->each(fn (Meal $meal) => $meal->update(['is_hidden' => false]));
+
+                            Notification::make()
+                                ->title($records->count().' meal(s) shown on menu')
+                                ->success()
+                                ->send();
+                        }),
+
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -149,3 +197,4 @@ class MealResource extends Resource
         return Auth::check() && Auth::user()->hasAnyRole(['admin', 'super_admin']);
     }
 }
+
