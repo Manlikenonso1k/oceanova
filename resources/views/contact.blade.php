@@ -22,12 +22,12 @@
       <div class="w-100"></div>
       <div class="col-md-3 d-flex">
         <div class="dbox">
-          <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+          <p><span>Address:</span> Plot 7, 8 Okun-Ajah Community Rd, Eti-Osa, Lekki 105102, Lagos</p>
         </div>
       </div>
       <div class="col-md-3 d-flex">
         <div class="dbox">
-          <p><span>Phone:</span> <a href="tel://+2347046546467">+23470-46-546-467</a></p>
+          <p><span>Phone:</span> <a href="https://wa.me/2347082820267" target="_blank" rel="noopener noreferrer">+2347082820267</a></p>
         </div>
       </div>
       <div class="col-md-3 d-flex">

@@ -106,6 +106,7 @@
 					<li class="nav-item {{ request()->routeIs('menu') ? 'active' : '' }}"><a href="{{ route('menu') }}" class="nav-link">Menu</a></li>
 					<li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}" class="nav-link">About</a></li>
 					<li class="nav-item {{ request()->routeIs('reservation') ? 'active' : '' }}"><a href="{{ route('reservation') }}" class="nav-link">Reservation</a></li>
+					<li class="nav-item {{ request()->routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
 				</ul>
 			</div>
 		</div>
