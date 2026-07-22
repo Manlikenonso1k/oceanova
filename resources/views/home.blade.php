@@ -424,7 +424,7 @@
 								<div><a href="#">August 3, 2020</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Get 50% off all orders this Saturday only!Taste the best pizza and seafood in Ajah!!</a></h3>
+							<h3 class="heading"><a href="#">Taste the best pizza and seafood in Ajah!!</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
@@ -438,10 +438,10 @@
 						</a>
 						<div class="text px-4 pt-3 pb-4">
 							<div class="meta">
-								<div><a href="#">August 3, 2020</a></div>
+								<div><a href="#">July 29, 2026</a></div>
 								<div><a href="#">Admin</a></div>
 							</div>
-							<h3 class="heading"><a href="#">Join us for our Grand Opening this weekend!</a></h3>
+							<h3 class="heading"><a href="#">Join us for our Special Independence Day</a></h3>
 							<p class="clearfix">
 								<a href="{{ route('blog.single') }}" class="float-left read btn btn-primary">Read more</a>
 								<a href="#" class="float-right meta-chat"><span class="fa fa-comment"></span> 3</a>
