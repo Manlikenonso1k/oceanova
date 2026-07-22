@@ -417,7 +417,7 @@
 			<div class="row">
 				<div class="col-md-4 ftco-animate">
 					<div class="blog-entry">
-						<a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_1.jpg') }}');">
+						<a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_1.png') }}');">
 						</a>
 						<div class="text px-4 pt-3 pb-4">
 							<div class="meta">
@@ -434,7 +434,7 @@
 				</div>
 				<div class="col-md-4 ftco-animate">
 					<div class="blog-entry">
-						<a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_2.jpg') }}');">
+						<a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_2.png') }}');">
 						</a>
 						<div class="text px-4 pt-3 pb-4">
 							<div class="meta">
@@ -451,7 +451,7 @@
 				</div>
 				<div class="col-md-4 ftco-animate">
 					<div class="blog-entry">
-						<a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_3.jpg') }}');">
+						<a href="{{ route('blog.single') }}" class="block-20" style="background-image: url('{{ asset('assets/template/images/image_3.png') }}');">
 						</a>
 						<div class="text px-4 pt-3 pb-4">
 							<div class="meta">
