@@ -70,6 +70,11 @@ class MenuController extends Controller
             })
             ->toArray();
 
+        // Remove sections that have no visible meals
+        $sections = array_values(array_filter($sections, function ($section) {
+            return !empty($section['items']);
+        }));
+
         return $sections;
     }
 
